@@ -478,6 +478,27 @@
 
     <!-- Core Interactive & Advanced Logic -->
     <script>
+        function openAdminModal() {
+    playSynthSFX(650, 0.04);
+    const modal = document.getElementById('adminModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('adminUser').focus();
+    }
+}
+
+function closeAdminModal() {
+    const modal = document.getElementById('adminModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function closeAdminModalOnOutside(e) {
+    if (e.target.id === 'adminModal') {
+        closeAdminModal();
+    }
+}
         let bikeSpeed = 2;
         let sfxEnabled = true;
 
