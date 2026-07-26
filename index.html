@@ -5,119 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zee - About Me</title>
     <style>
-    /* 1. Base Variables & Theme Defaults */
-    :root {
-        --bg-color: #121824;
-        --card-bg: #1e2638;
-        --text-primary: #ffffff;
-        --text-secondary: #a0aec0;
-        --accent-color: #00ffaa;
-    }
-
-    /* Light Theme Class (Toggled by JS) */
-    body.light-theme {
-        --bg-color: #f4f6f9;
-        --card-bg: #ffffff;
-        --text-primary: #1a202c;
-        --text-secondary: #4a5568;
-        --accent-color: #00aa70;
-    }
-
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-secondary);
-        font-family: system-ui, -apple-system, sans-serif;
-        margin: 0;
-        padding: 0;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* Typography Colors */
-    h1, h2, h3 {
-        color: var(--accent-color);
-    }
-
-    p {
-        color: var(--text-secondary);
-    }
-
-    /* 2. Desktop Art Grid (4 Columns) */
-    .art-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.25rem;
-        margin-top: 1.5rem;
-    }
-
-    .art-item {
-        background-color: var(--card-bg);
-        border: 1px solid var(--accent-color);
-        border-radius: 12px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .art-img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .art-placeholder {
-        height: 180px;
-        background-color: var(--accent-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-    }
-
-    .art-info {
-        padding: 1rem;
-    }
-
-    .art-info h4 {
-        color: var(--accent-color);
-        margin: 0 0 0.5rem 0;
-    }
-
-    /* 3. Theme Toggle Button Styling */
-    .theme-toggle-btn, 
-    #theme-toggle {
-        background: transparent;
-        border: 1px solid var(--accent-color);
-        color: var(--text-primary);
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    /* 4. Mobile Responsiveness ONLY (max-width: 768px) */
-    @media (max-width: 768px) {
-        .art-grid {
-            grid-template-columns: 1fr; /* Switch to 1 column on phone screens */
-            gap: 1.5rem;
-        }
-
-        .art-img, 
-        .art-placeholder {
-            height: 240px;
-        }
-
-        .theme-toggle-btn, 
-        #theme-toggle {
-            display: inline-flex !important;
-            z-index: 999;
-            margin-left: auto;
-        }
-    }
-</style>
-</head>
-<body>
-    <style>
+        /* 1. Global Reset & CSS Variables */
         * {
             margin: 0;
             padding: 0;
@@ -125,106 +13,44 @@
         }
 
         :root {
-            --primary: #00ff00;
-            --secondary: #00ffaa;
-            --text-dark: #0d1117;
-            --text-light: #1f2937;
-            --bg-light: #f3f4f6;
-            --bg-white: #ffffff;
-            --shadow: 0 10px 40px rgba(0, 255, 170, 0.15);
+            --primary: #00ffaa;
+            --secondary: #00aa70;
+            --bg-main: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #1a202c;
+            --text-sub: #4a5568;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --border-color: rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode {
-            --primary: #00ff88;
-            --secondary: #00ffcc;
-            --text-dark: #ffffff;
-            --text-light: #ffffff;
-            --bg-light: #374151;
-            --bg-white: #1f2937;
-            --shadow: 0 10px 40px rgba(0, 255, 170, 0.25);
-        }
-
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, #ffd700 0%, #ffed4e 20%, transparent 70%),
-                        linear-gradient(135deg, #fff9e6 0%, #fffacd 100%);
-            animation: sunPulse 4s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        body.dark-mode::before {
-            background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 30%),
-                        linear-gradient(135deg, #0a0015 0%, #1a0033 100%);
-            animation: blackholeSpin 8s linear infinite;
-        }
-
-        /* Sun animation for light mode */
-        @keyframes sunPulse {
-            0%, 100% {
-                filter: brightness(1) saturate(1);
-            }
-            50% {
-                filter: brightness(1.1) saturate(1.1);
-            }
-        }
-
-        /* Blackhole animation for dark mode */
-        @keyframes blackholeSpin {
-            from {
-                background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 30%),
-                            conic-gradient(from 0deg, #1a0033, #4d0099, #1a0033);
-            }
-            to {
-                background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 40%),
-                            conic-gradient(from 360deg, #1a0033, #4d0099, #1a0033);
-            }
-        }
-
-        /* Stars for blackhole effect */
-        body.dark-mode::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(2px 2px at 20px 30px, #00ff88, rgba(0, 255, 170, 0)) 0 0/200px 200px,
-                        radial-gradient(2px 2px at 60px 70px, #00ffcc, rgba(0, 255, 204, 0)) 50px 50px/200px 200px;
-            background-size: 200px 200px;
-            animation: starFlow 15s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes starFlow {
-            from {
-                background-position: 0 0, 50px 50px;
-            }
-            to {
-                background-position: 200px 200px, 250px 250px;
-            }
+            --primary: #00ffaa;
+            --secondary: #00ff88;
+            --bg-main: #121824;
+            --card-bg: #1e2638;
+            --text-main: #ffffff;
+            --text-sub: #a0aec0;
+            --nav-bg: rgba(30, 38, 56, 0.95);
+            --shadow: 0 10px 40px rgba(0, 255, 170, 0.15);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-sub);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--bg-white);
             min-height: 100vh;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Navigation */
+        /* 2. Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             display: flex;
@@ -232,39 +58,30 @@
             align-items: center;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark-mode nav {
-            background: rgba(31, 41, 55, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 255, 170, 0.2);
+            transition: background 0.3s;
         }
 
         nav .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--primary);
             text-decoration: none;
+            flex-shrink: 0;
         }
 
         nav .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             list-style: none;
+            align-items: center;
         }
 
         nav a {
-            color: var(--text-dark);
+            color: var(--text-main);
             text-decoration: none;
-            transition: opacity 0.3s;
+            transition: color 0.3s;
             cursor: pointer;
             font-weight: 500;
-        }
-
-        body.dark-mode nav a {
-            color: #ffffff;
         }
 
         nav a:hover {
@@ -272,51 +89,40 @@
         }
 
         .theme-toggle {
-            background: var(--bg-light);
-            border: 2px solid var(--primary);
-            color: var(--text-dark);
-            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+            padding: 0.4rem 0.8rem;
             border-radius: 20px;
             cursor: pointer;
             transition: 0.3s;
-            font-weight: bold;
-        }
-
-        body.dark-mode .theme-toggle {
-            background: var(--bg-light);
-            color: #ffffff;
+            font-size: 1rem;
+            flex-shrink: 0;
         }
 
         .theme-toggle:hover {
             background: var(--primary);
-            color: white;
+            color: #121824;
         }
 
-        /* Header */
+        /* 3. Header */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: #0d1117;
             padding: 8rem 2rem 4rem;
             text-align: center;
             margin-top: 60px;
-            animation: fadeInDown 0.8s ease;
-            position: relative;
-            z-index: 10;
         }
 
         header h1 {
             font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-            animation: slideInUp 0.8s ease 0.2s both;
             color: #0d1117;
             font-weight: 900;
         }
 
         header p {
             font-size: 1.3rem;
-            opacity: 0.9;
-            animation: slideInUp 0.8s ease 0.4s both;
             color: #0d1117;
             font-weight: 600;
         }
@@ -327,49 +133,38 @@
             padding: 0.8rem 2rem;
             background: #0d1117;
             color: var(--primary);
-            border: 2px solid var(--primary);
+            border: 2px solid #0d1117;
             border-radius: 30px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
-            animation: slideInUp 0.8s ease 0.6s both;
         }
 
         .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 255, 170, 0.3);
-            background: var(--primary);
+            background: transparent;
             color: #0d1117;
         }
 
-        /* Container */
+        /* 4. Layout & Cards */
         .container {
             max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1rem;
-            position: relative;
-            z-index: 10;
         }
 
         main {
-            background: var(--bg-white);
+            background: var(--card-bg);
             border-radius: 12px;
             box-shadow: var(--shadow);
             overflow: hidden;
+            transition: background 0.3s;
         }
 
         section {
             padding: 3rem 2rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            animation: fadeInUp 0.8s ease;
-            background: var(--bg-white);
-        }
-
-        body.dark-mode section {
-            background: var(--bg-white);
-            border-bottom-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
         }
 
         section:last-child {
@@ -380,176 +175,59 @@
             color: var(--primary);
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            padding-bottom: 0.5rem;
             border-bottom: 3px solid var(--primary);
         }
 
         h3 {
-            color: var(--secondary);
+            color: var(--text-main);
             font-size: 1.3rem;
             margin-bottom: 1rem;
         }
 
         p {
             margin-bottom: 1rem;
-            color: #2d3748;
+            color: var(--text-sub);
             line-height: 1.8;
-            font-weight: 500;
         }
 
-        body.dark-mode p {
-            color: #ffffff;
-        }
-
-        /* Interests Grid */
-        .interests-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .interest-card {
-            background: var(--bg-light);
-            padding: 2rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-            transition: 0.3s;
-        }
-
-        body.dark-mode .interest-card {
-            background: var(--bg-light);
-            color: #ffffff;
-        }
-
-        .interest-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 255, 170, 0.2);
-        }
-
-        .interest-card h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .interest-card p {
-            margin-bottom: 0;
-        }
-
-        body.dark-mode .interest-card p {
-            color: #ffffff;
-        }
-
-        /* Games Section */
-        .games-list {
-            margin-top: 2rem;
-        }
-
-        .game-item {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        body.dark-mode .game-item {
-            background: var(--bg-light);
-            color: #ffffff;
-        }
-
-        .game-item h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .game-item p {
-            margin: 0;
-        }
-
-        body.dark-mode .game-item p {
-            color: #ffffff;
-        }
-
-        .game-hours {
-            background: var(--primary);
-            color: #0d1117;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        /* Steam Analytics */
-        .steam-stats {
+        /* Grids */
+        .art-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .steam-card {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-
-        body.dark-mode .steam-card {
-            background: var(--bg-light);
-            color: #ffffff;
-        }
-
-        .steam-card h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .steam-card p {
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        body.dark-mode .steam-card p {
-            color: #ffffff;
-        }
-
-        /* Gallery */
-        .art-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
         }
 
         .art-item {
-            background: var(--bg-light);
-            border-radius: 10px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
-            border: 2px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
         }
 
         .art-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 255, 170, 0.3);
+        }
+
+        .art-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
         }
 
         .art-placeholder {
-            width: 100%;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            height: 180px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0d1117;
-            font-size: 3rem;
-            font-weight: bold;
+            font-size: 2.5rem;
         }
 
         .art-info {
@@ -558,66 +236,99 @@
 
         .art-info h4 {
             color: var(--primary);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .interest-card {
+            background: var(--bg-main);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .interest-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .interest-card h4 {
+            color: var(--primary);
             margin-bottom: 0.5rem;
+            font-size: 1.2rem;
         }
 
-        .art-info p {
-            font-size: 0.9rem;
-            margin: 0;
+        /* Embed Responsive Fix */
+        iframe {
+            max-width: 100% !important;
         }
 
-        body.dark-mode .art-info p {
-            color: #ffffff;
+        /* Games List */
+        .game-item {
+            background: var(--bg-main);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
         }
 
-        /* Contact Form */
+        .game-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .game-hours {
+            background: var(--primary);
+            color: #121824;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        /* 5. Contact Form */
         .contact-form {
-            background: var(--bg-light);
+            background: var(--bg-main);
             padding: 2rem;
             border-radius: 10px;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
-            color: var(--text-dark);
-        }
-
-        body.dark-mode .form-group label {
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-family: inherit;
-            font-size: 1rem;
-            background: var(--bg-white);
-            color: var(--text-dark);
-            transition: 0.3s;
-        }
-
-        body.dark-mode .form-group input,
-        body.dark-mode .form-group textarea {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            background: var(--card-bg);
+            color: var(--text-main);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
         }
 
         .form-group textarea {
@@ -626,11 +337,11 @@
         }
 
         .form-submit {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #0d1117;
-            padding: 1rem 2rem;
+            background: var(--primary);
+            color: #121824;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
@@ -639,96 +350,70 @@
         }
 
         .form-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 255, 170, 0.3);
+            opacity: 0.9;
         }
 
         /* Footer */
         footer {
             text-align: center;
             padding: 2rem;
-            color: var(--text-light);
+            color: var(--text-sub);
             font-size: 0.9rem;
-            margin-top: 2rem;
-            background: var(--bg-light);
-            position: relative;
-            z-index: 10;
         }
 
-        body.dark-mode footer {
-            background: rgba(0, 255, 170, 0.05);
-            color: #ffffff;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
+        /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
+            nav {
+                padding: 0.8rem 1rem;
             }
 
             nav .nav-links {
                 gap: 1rem;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            header {
+                padding: 6rem 1rem 3rem;
+            }
+
+            header h1 { 
+                font-size: 2.2rem; 
+            }
+
+            header p {
+                font-size: 1.1rem;
+            }
+
+            section { 
+                padding: 2rem 1rem; 
             }
 
             h2 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
-            .interests-grid {
-                grid-template-columns: 1fr;
+            .art-grid { 
+                grid-template-columns: 1fr; 
             }
 
-            .game-item {
-                flex-direction: column;
-                align-items: flex-start;
+            .game-item { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 0.5rem; 
             }
 
-            .game-hours {
-                margin-top: 1rem;
-            }
-
-            section {
-                padding: 2rem 1rem;
+            .contact-form {
+                padding: 1.25rem;
             }
         }
     </style>
 </head>
 <body>
+
     <!-- Navigation -->
     <nav>
         <a class="logo" href="#home">ZP</a>
@@ -738,7 +423,7 @@
             <li><a onclick="scrollToSection('art')">My Art</a></li>
             <li><a onclick="scrollToSection('interests')">Interests</a></li>
             <li><a onclick="scrollToSection('contact')">Contact</a></li>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            <li><button class="theme-toggle" onclick="toggleTheme()">🌙</button></li>
         </ul>
     </nav>
 
@@ -746,7 +431,7 @@
     <header id="home">
         <h1>Zee Prime</h1>
         <p>Artist • Web Designer • Gamer</p>
-        <p style="font-size: 1rem; margin-top: 0.5rem; color: #0d1117; font-weight: 600;">Creating, learning, and exploring digital worlds</p>
+        <p style="font-size: 1rem; margin-top: 0.5rem;">Creating, learning, and exploring digital worlds</p>
         <button class="cta-button" onclick="scrollToSection('contact')">Get in Touch</button>
     </header>
 
@@ -755,67 +440,68 @@
             <!-- About Section -->
             <section id="about">
                 <h2>About Me</h2>
-                <p>Hey! I'm Zaheer, I enjoy art, web design, and gaming. I'm constantly exploring new ways to express myself through art and technology.</p>
+                <p>Hey! I'm Zaheer. I enjoy art, web design, and gaming. I'm constantly exploring new ways to express myself through art and technology.</p>
                 <p>I'm passionate about improving my web design skills and creating beautiful, interactive experiences. When I'm not designing or coding, you can usually find me diving into the universe of Warframe or working on my latest digital art project.</p>
-                <p>I believe in continuous learning and pushing creative boundaries. My journey combines technical skills with artistic vision to create something meaningful.</p>
             </section>
 
             <!-- Steam Analytics Section -->
             <section id="steam">
                 <h2>🎮 Gaming Stats (Steam)</h2>
                 <p>Here's what I've been playing lately on Steam. My main favorite game is Warframe, but now and then I explore other games.</p>
-                <div class="steam-stats" id="steam-stats-container">
-                    <div class="steam-card">
-                        <h4>Loading...</h4>
-                        <p>Fetching your Steam data...</p>
-                    </div>
+                <div style="margin-top: 1.5rem;">
+                    <iframe 
+                        src="https://steam-embed.vercel.app/card?steamid=76561199408721855&theme=dark" 
+                        width="100%" 
+                        height="220" 
+                        frameborder="0" 
+                        style="border-radius: 12px; max-width: 500px; margin: 0 auto; display: block;">
+                    </iframe>
                 </div>
-                <p style="margin-top: 2rem; font-size: 0.9rem; font-style: italic;">Steam stats powered by Steam Web API</p>
             </section>
 
             <!-- Art Section -->
             <section id="art">
-             <h2>My Art</h2>
-             <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
-    
-             <div class="art-grid"> 
-             <!-- Artwork 1 -->
-             <div class="art-item"> 
-            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
-            <div class="art-info"> 
-                <h4>Artwork 1</h4> 
-                <p>This is GrimZee my OC.</p> 
-            </div>
-        </div>
+                <h2>My Art</h2>
+                <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
 
-        <!-- Artwork 2 -->
-        <div class="art-item">
-            <img src="hand.jpg" alt="Battle" class="art-img">
-            <div class="art-info">
-                <h4>Artwork 2</h4>
-                <p>Drew this when i was bored at work!.</p>
-            </div>
-        </div>
+                <div class="art-grid"> 
+                    <!-- Artwork 1 -->
+                    <div class="art-item"> 
+                        <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
+                        <div class="art-info"> 
+                            <h4>Artwork 1</h4> 
+                            <p>This is GrimZee my OC.</p> 
+                        </div>
+                    </div>
 
-        <!-- Artwork 3 -->
-        <div class="art-item">
-            <div class="art-placeholder">🎨</div>
-            <div class="art-info">
-                <h4>Artwork 3</h4>
-                <p>Coming soon! Upload your art here.</p>
-            </div>
-        </div>
+                    <!-- Artwork 2 -->
+                    <div class="art-item">
+                        <img src="hand.jpg" alt="Battle" class="art-img">
+                        <div class="art-info">
+                            <h4>Artwork 2</h4>
+                            <p>Drew this when I was bored at work!</p>
+                        </div>
+                    </div>
 
-        <!-- Artwork 4 -->
-        <div class="art-item">
-            <div class="art-placeholder">🎨</div>
-            <div class="art-info">
-                <h4>Artwork 4</h4>
-                <p>Coming soon! Upload your art here.</p>
-            </div>
-        </div>
-    </div>
-</section>
+                    <!-- Artwork 3 -->
+                    <div class="art-item">
+                        <div class="art-placeholder">🎨</div>
+                        <div class="art-info">
+                            <h4>Artwork 3</h4>
+                            <p>Coming soon!</p>
+                        </div>
+                    </div>
+
+                    <!-- Artwork 4 -->
+                    <div class="art-item">
+                        <div class="art-placeholder">🎨</div>
+                        <div class="art-info">
+                            <h4>Artwork 4</h4>
+                            <p>Coming soon!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Interests Section -->
             <section id="interests">
@@ -824,51 +510,49 @@
                 <div class="interests-grid">
                     <div class="interest-card">
                         <h4>🎮 Gaming</h4>
-                        <p>Passionate gamer with a huge love for Warframe. I spend countless hours exploring different missions, building weapons, and enjoying the community.</p>
+                        <p>Passionate gamer with a huge love for Warframe. I spend countless hours exploring missions and building weapons.</p>
                     </div>
                     <div class="interest-card">
                         <h4>🎨 Digital Art</h4>
-                        <p>Creating digital artwork is my creative outlet. I love experimenting with different styles and mediums to express my imagination.</p>
+                        <p>Creating digital artwork is my creative outlet. I love experimenting with different styles to express my imagination.</p>
                     </div>
                     <div class="interest-card">
                         <h4>💻 Web Design</h4>
-                        <p>Currently learning web design and development. I'm excited about creating beautiful, interactive websites that provide great user experiences.</p>
+                        <p>Currently learning web design and development. I'm excited about creating clean, interactive web experiences.</p>
                     </div>
                 </div>
 
-                <h3 style="margin-top: 3rem;">⭐ Favorite Game</h3>
-                <div class="games-list">
-                    <div class="game-item">
-                        <div>
-                            <h4>Warframe</h4>
-                            <p>My absolute favorite! An epic sci-fi action game with endless possibilities, amazing community, and constant new content.</p>
-                        </div>
-                        <div class="game-hours">Most Played ⭐</div>
+                <h3 style="margin-top: 2.5rem;">⭐ Favorite Game</h3>
+                <div class="game-item">
+                    <div>
+                        <h4>Warframe</h4>
+                        <p>My absolute favorite! An epic sci-fi action game with endless possibilities and an amazing community.</p>
                     </div>
+                    <div class="game-hours">Most Played ⭐</div>
                 </div>
             </section>
 
             <!-- Contact Section -->
             <section id="contact">
                 <h2>Let's Connect</h2>
-                <p>Want to chat about art, games, web design, or anything else? Feel free to reach out! I'd love to hear from you.</p>
+                <p>Want to chat about art, games, web design, or anything else? Feel free to reach out!</p>
                 
                 <form class="contact-form" onsubmit="handleSubmit(event)">
                     <div class="form-group">
                         <label for="name">Your Name *</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" required>
                     </div>
                     <div class="form-group">
                         <label for="subject">Subject *</label>
-                        <input type="text" id="subject" name="subject" placeholder="What's on your mind?" required>
+                        <input type="text" id="subject" placeholder="What's on your mind?" required>
                     </div>
                     <div class="form-group">
                         <label for="message">Message *</label>
-                        <textarea id="message" name="message" placeholder="Tell me anything..." required></textarea>
+                        <textarea id="message" placeholder="Tell me anything..." required></textarea>
                     </div>
                     <button type="submit" class="form-submit">Send Message</button>
                     <div id="form-status"></div>
@@ -881,6 +565,7 @@
         <p>&copy; 2024 Zee Prime. All rights reserved. | Passionate about art, code, and gaming 🎨💻🎮</p>
     </footer>
 
+    <!-- JavaScript Functions -->
     <script>
         // Smooth Scrolling
         function scrollToSection(id) {
@@ -898,7 +583,7 @@
             document.querySelector('.theme-toggle').textContent = isDarkMode ? '☀️' : '🌙';
         }
 
-        // Load theme preference
+        // Load Theme Preference on Page Load
         window.addEventListener('load', () => {
             const isDarkMode = localStorage.getItem('darkMode') === 'true';
             if (isDarkMode) {
@@ -907,35 +592,10 @@
             }
         });
 
-     <section id="gaming-stats">
-        <h2>Gaming Stats</h2>
-        <div id="steam-stats-container">
-            <iframe 
-                src="https://steam-embed.vercel.app/card?steamid=76561199408721855&theme=dark" 
-                width="100%" 
-                height="220" 
-                frameborder="0" 
-                style="border-radius: 12px; max-width: 500px; margin: 0 auto; display: block;">
-            </iframe>
-        </div>
-    </section>
-
-    <!-- PASTE YOUR SCRIPT BLOCK RIGHT BELOW YOUR SECTIONS -->
-    <script>
-        // Contact Form Submission
+        // Contact Form Handler
         function handleSubmit(event) {
             event.preventDefault();
             
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-
-            if (!name || !email || !subject || !message) {
-                alert('Please fill out all fields.');
-                return;
-            }
-
             const formStatus = document.getElementById('form-status');
             formStatus.innerHTML = '<p style="color: var(--primary); margin-top: 1rem; font-weight: bold;">✓ Message sent! I\'ll get back to you soon!</p>';
             
@@ -944,28 +604,7 @@
             setTimeout(() => {
                 formStatus.innerHTML = '';
             }, 5000);
-
-            console.log('Form submitted:', { name, email, subject, message });
         }
-
-        // Intersection Observer for animations on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
     </script>
 </body>
 </html>
