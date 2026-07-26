@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        a, button, input, .art-item, .commission-badge, .channel-tab, .cmd-item { cursor: pointer; }
+        a, button, input, .art-item, .commission-badge, .nebula-tab, .cmd-item { cursor: pointer; }
 
         /* --- Celestial Backgrounds --- */
         .celestial-bg {
@@ -272,14 +272,15 @@
         .chat-top-row { display: flex; justify-content: space-between; align-items: center; }
         .nebula-chat-title { color: #00ffaa; font-weight: 700; font-size: 1rem; font-family: var(--font-heading); letter-spacing: 1px; }
         .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.3rem; }
-        .chat-channels-bar { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
-        .channel-tab { flex: 1; padding: 0.4rem; text-align: center; font-size: 0.82rem; background: rgba(255, 255, 255, 0.05); color: #ccc; border-radius: 8px; font-family: var(--font-heading); }
-        .channel-tab.active { background: rgba(0, 255, 170, 0.2); color: #00ffaa; border: 1px solid #00ffaa; font-weight: bold; }
+        .nebula-tabs { display: flex; gap: 0.5rem; margin-top: 0.8rem; overflow-x: auto; }
+        .nebula-tab { flex: 1; padding: 0.4rem; text-align: center; font-size: 0.82rem; background: rgba(255, 255, 255, 0.05); color: #ccc; border-radius: 8px; font-family: var(--font-heading); border: none; }
+        .nebula-tab.active { background: rgba(0, 255, 170, 0.2); color: #00ffaa; border: 1px solid #00ffaa; font-weight: bold; }
         
         .nebula-chat-messages { flex: 1; padding: 1.2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem; }
         .nebula-msg { padding: 0.7rem 1rem; border-radius: 12px; max-width: 85%; font-size: 0.9rem; word-wrap: break-word; }
         .nebula-msg.system { background: rgba(255, 255, 255, 0.05); color: #9ca3af; text-align: center; align-self: center; width: 90%; font-size: 0.8rem; border: 1px solid var(--border-color); }
         .nebula-msg.user { background: rgba(255, 255, 255, 0.1); color: #ffffff; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1); }
+        .nebula-msg.admin-reply { background: rgba(0, 255, 170, 0.15); color: #00ffaa; align-self: flex-end; border: 1px solid var(--primary); }
         
         .nebula-chat-input-bar { padding: 1rem; background: rgba(12, 14, 18, 0.9); border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.6rem; }
         .nebula-chat-input-bar input[type="text"] { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); color: #ffffff; padding: 0.6rem 0.9rem; border-radius: 8px; outline: none; font-size: 0.9rem; width: 100%; font-family: var(--font-body); }
@@ -457,9 +458,8 @@
                 <div class="nebula-chat-title" id="chatTitle">🌌 Nebula Live Chat</div>
                 <button class="close-chat-btn" onclick="toggleChat()">✕</button>
             </div>
-            <div class="chat-channels-bar">
-                <div class="channel-tab active" id="tabPublic" onclick="switchChannel('public')">🌐 Public Lobby</div>
-                <div class="channel-tab" id="tabPrivate" onclick="switchChannel('private')">🔒 DM Zee</div>
+            <div class="nebula-tabs" id="nebulaChatTabs">
+                <button class="nebula-tab active" onclick="switchChannel('public', this)">🌐 Public Lobby</button>
             </div>
         </div>
         <div class="nebula-chat-messages" id="nebulaMessages">
@@ -479,26 +479,27 @@
     <!-- Core Interactive & Advanced Logic -->
     <script>
         function openAdminModal() {
-    playSynthSFX(650, 0.04);
-    const modal = document.getElementById('adminModal');
-    if (modal) {
-        modal.style.display = 'flex';
-        document.getElementById('adminUser').focus();
-    }
-}
+            playSynthSFX(650, 0.04);
+            const modal = document.getElementById('adminModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.getElementById('adminUser').focus();
+            }
+        }
 
-function closeAdminModal() {
-    const modal = document.getElementById('adminModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-}
+        function closeAdminModal() {
+            const modal = document.getElementById('adminModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
 
-function closeAdminModalOnOutside(e) {
-    if (e.target.id === 'adminModal') {
-        closeAdminModal();
-    }
-}
+        function closeAdminModalOnOutside(e) {
+            if (e.target.id === 'adminModal') {
+                closeAdminModal();
+            }
+        }
+
         let bikeSpeed = 2;
         let sfxEnabled = true;
 
@@ -521,35 +522,6 @@ function closeAdminModalOnOutside(e) {
             sfxEnabled = !sfxEnabled;
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
         }
-
-        // --- Admin Login Controller ---
-       function handleAdminLogin(e) {
-    e.preventDefault();
-    const u = document.getElementById('adminUser').value;
-    const p = document.getElementById('adminPass').value;
-    
-    // Checks for username 'Zee' and password 'admin123' (or your updated password)
-    if (u === 'Zee' && p === 'GrimZee246') {
-        playSynthSFX(900, 0.1);
-        alert("Admin authentication successful. Welcome back, Zee.");
-        closeAdminModal();
-        
-        // Auto-open or switch to the private admin chat channel upon successful login
-        document.getElementById('nebulaChat').style.display = 'flex';
-        switchChannel('private');
-        
-        // Add a welcome system message to the chat
-        const container = document.getElementById('nebulaMessages');
-        const div = document.createElement('div');
-        div.className = 'nebula-msg system';
-        div.innerHTML = 'Admin session active: Welcome back, Zee.';
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-    } else {
-        playSynthSFX(200, 0.2);
-        alert("Access Denied: Invalid credentials.");
-    }
-}
 
         // --- Command Palette Controller ---
         function openCmdPalette() {
@@ -668,21 +640,143 @@ function closeAdminModalOnOutside(e) {
         function closeLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
         function toggleChat() { document.getElementById('nebulaChat').style.display = document.getElementById('nebulaChat').style.display === 'flex' ? 'none' : 'flex'; }
         function inquireCommission() { toggleChat(); }
-        function switchChannel(ch) {
-            document.getElementById('tabPublic').classList.toggle('active', ch === 'public');
-            document.getElementById('tabPrivate').classList.toggle('active', ch === 'private');
+
+        // --- Chat & Admin Multi-User System ---
+        let currentChannel = 'public';
+        const userChatThreads = {};
+        let publicMessages = [];
+        let chatNameLocked = false;
+        let isAdminUser = false;
+
+        function switchChannel(channelId, tabElement) {
+            currentChannel = channelId;
+            document.querySelectorAll('.nebula-tab').forEach(t => t.classList.remove('active'));
+            if (tabElement) {
+                tabElement.classList.add('active');
+            }
+            renderMessages();
         }
+
+        function renderMessages() {
+            const container = document.getElementById('nebulaMessages');
+            container.innerHTML = '';
+            
+            let messagesToDisplay = [];
+            if (currentChannel === 'public') {
+                messagesToDisplay = publicMessages;
+            } else {
+                messagesToDisplay = userChatThreads[currentChannel] || [];
+            }
+            
+            messagesToDisplay.forEach(m => {
+                const div = document.createElement('div');
+                div.className = `nebula-msg ${m.type || 'user'}`;
+                div.innerHTML = `<strong>${m.sender}:</strong> ${m.text}`;
+                container.appendChild(div);
+            });
+            
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function setAdminChatSession() {
+            isAdminUser = true;
+            const nameInput = document.getElementById('chatUserName');
+            if (nameInput) {
+                nameInput.value = "Zee (Admin)";
+                nameInput.disabled = true;
+            }
+            chatNameLocked = true;
+        }
+
         function sendNebulaMsg(e) {
             e.preventDefault();
             const msgInput = document.getElementById('chatUserMsg');
             const nameInput = document.getElementById('chatUserName');
-            const container = document.getElementById('nebulaMessages');
-            const div = document.createElement('div');
-            div.className = 'nebula-msg user';
-            div.innerHTML = `<strong>${nameInput.value}:</strong> ${msgInput.value}`;
-            container.appendChild(div);
+            let userName = nameInput.value.trim();
+
+            if (!userName) {
+                alert("Please enter a name first.");
+                return;
+            }
+
+            if (!isAdminUser && /admin/i.test(userName)) {
+                alert("Names containing 'Admin' are reserved.");
+                nameInput.value = "";
+                nameInput.focus();
+                return;
+            }
+
+            const messageText = msgInput.value.trim();
+            if (!messageText) return;
+
+            if (!chatNameLocked) {
+                nameInput.disabled = true;
+                chatNameLocked = true;
+            }
+
+            const newMsg = { sender: userName, text: messageText };
+
+            if (isAdminUser) {
+                if (currentChannel !== 'public') {
+                    if (!userChatThreads[currentChannel]) userChatThreads[currentChannel] = [];
+                    userChatThreads[currentChannel].push({ sender: "Zee (Admin)", text: messageText, type: 'admin-reply' });
+                }
+            } else {
+                if (currentChannel === 'public') {
+                    publicMessages.push(newMsg);
+                }
+                
+                if (!userChatThreads[userName]) {
+                    userChatThreads[userName] = [];
+                    
+                    const tabsContainer = document.getElementById('nebulaChatTabs');
+                    if (tabsContainer) {
+                        const newTab = document.createElement('button');
+                        newTab.className = 'nebula-tab';
+                        newTab.innerText = `💬 ${userName}`;
+                        newTab.onclick = () => switchChannel(userName, newTab);
+                        tabsContainer.appendChild(newTab);
+                    }
+                }
+                userChatThreads[userName].push(newMsg);
+            }
+
             msgInput.value = '';
-            container.scrollTop = container.scrollHeight;
+            renderMessages();
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('adminUser').value;
+            const p = document.getElementById('adminPass').value;
+            
+            const targetPasswordHash = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+            
+            const msgBuffer = new TextEncoder().encode(p);
+            crypto.subtle.digest('SHA-256', msgBuffer).then(hashBuffer => {
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const userInputHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                if (u === 'Zee' && userInputHash === targetPasswordHash) {
+                    playSynthSFX(900, 0.1);
+                    alert("Admin authentication successful. Welcome back, Zee.");
+                    closeAdminModal();
+                    
+                    setAdminChatSession();
+                    document.getElementById('nebulaChat').style.display = 'flex';
+                    switchChannel('public', document.querySelector('.nebula-tab'));
+                    
+                    const container = document.getElementById('nebulaMessages');
+                    const div = document.createElement('div');
+                    div.className = 'nebula-msg system';
+                    div.innerHTML = 'Admin session active: Welcome back, Zee.';
+                    container.appendChild(div);
+                    container.scrollTop = container.scrollHeight;
+                } else {
+                    playSynthSFX(200, 0.2);
+                    alert("Access Denied: Invalid credentials.");
+                }
+            });
         }
 
         window.addEventListener('load', () => { requestAnimationFrame(animateBike); });
