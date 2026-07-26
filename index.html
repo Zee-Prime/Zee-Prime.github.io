@@ -282,6 +282,76 @@
         iframe {
             max-width: 100% !important;
         }
+        /* Custom Native Steam Badge */
+.steam-card {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 480px;
+    margin: 1.5rem auto 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.steam-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.steam-avatar {
+    font-size: 2rem;
+    background: var(--card-bg);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+}
+
+.steam-info h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-main);
+}
+
+.steam-status {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.steam-details {
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+
+.steam-details p {
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+}
+
+.steam-btn {
+    display: block;
+    text-align: center;
+    background: var(--primary);
+    color: #121824;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.steam-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
 
         /* Games List */
         .game-item {
@@ -503,20 +573,28 @@
                 </section>
 
                 <!-- Steam Analytics Section -->
-                <section id="steam">
-                    <h2>🎮 Gaming Stats (Steam)</h2>
-                    <p>Here's what I've been playing lately on Steam. My main favorite game is Warframe, but now and then I explore other games.</p>
-                    <div style="margin-top: 1.5rem; text-align: center;">
-                        <iframe 
-                            src="https://steambadge.com/76561199408721855" 
-                            width="100%" 
-                            height="200" 
-                            frameborder="0" 
-                            scrolling="no"
-                            style="border-radius: 12px; max-width: 450px; margin: 0 auto; display: block; border: none;">
-                        </iframe>
-                    </div>
-                </section>
+                <!-- Steam Analytics Section -->
+<section id="steam">
+    <h2>🎮 Gaming Stats (Steam)</h2>
+    <p>Here's what I've been playing lately on Steam. My main favorite game is Warframe, but now and then I explore other games.</p>
+    
+    <div class="steam-card">
+        <div class="steam-header">
+            <div class="steam-avatar">🎮</div>
+            <div class="steam-info">
+                <h3>Zee Prime</h3>
+                <span class="steam-status">🟢 Online / Playing</span>
+            </div>
+        </div>
+        <div class="steam-details">
+            <p><strong>Main Game:</strong> Warframe</p>
+            <p><strong>Platform:</strong> PC / Steam</p>
+        </div>
+        <a href="https://steamcommunity.com/profiles/76561199408721855" target="_blank" rel="noopener noreferrer" class="steam-btn">
+            View Steam Profile ↗
+        </a>
+    </div>
+</section>
 
                 <!-- Art Section -->
                 <section id="art">
