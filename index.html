@@ -154,6 +154,20 @@
             padding: 0 1rem;
         }
 
+        /* Bike Border Tracker Container */
+        #bike-tracker-container {
+            position: relative;
+        }
+
+        .running-bike {
+            position: absolute;
+            z-index: 999;
+            pointer-events: none;
+            transform-origin: center center;
+            transition: transform 0.15s ease-out;
+            filter: drop-shadow(0 0 8px var(--primary));
+        }
+
         main {
             background: var(--card-bg);
             border-radius: 12px;
@@ -436,129 +450,176 @@
     </header>
 
     <div class="container">
-        <main>
-            <!-- About Section -->
-            <section id="about">
-                <h2>About Me</h2>
-                <p>Hey! I'm Zaheer. I enjoy art, web design, and gaming. I'm constantly exploring new ways to express myself through art and technology.</p>
-                <p>I'm passionate about improving my web design skills and creating beautiful, interactive experiences. When I'm not designing or coding, you can usually find me diving into the universe of Warframe or working on my latest digital art project.</p>
-            </section>
+        <!-- Wrapper for Bike Animation Positioning -->
+        <div id="bike-tracker-container">
 
-            <!-- Steam Analytics Section -->
-            <section id="steam">
-                <h2>🎮 Gaming Stats (Steam)</h2>
-                <p>Here's what I've been playing lately on Steam. My main favorite game is Warframe, but now and then I explore other games.</p>
-                <div style="margin-top: 1.5rem;">
-                    <iframe 
-                        src="https://steam-embed.vercel.app/card?steamid=76561199408721855&theme=dark" 
-                        width="100%" 
-                        height="220" 
-                        frameborder="0" 
-                        style="border-radius: 12px; max-width: 500px; margin: 0 auto; display: block;">
-                    </iframe>
-                </div>
-            </section>
+            <!-- Top-Down Kawasaki Ninja H2R SVG -->
+            <div id="border-bike" class="running-bike">
+                <svg width="48" height="26" viewBox="0 0 50 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Headlight / Intake Beam Glow -->
+                    <polygon points="34,13 50,2 50,24" fill="#00ffaa" opacity="0.3" />
 
-            <!-- Art Section -->
-            <section id="art">
-                <h2>My Art</h2>
-                <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
+                    <!-- Front Wheel & Disc Brake Assembly -->
+                    <rect x="33" y="10" width="9" height="6" rx="2" fill="#0d1117" stroke="#00ffaa" stroke-width="1.2"/>
+                    <line x1="37" y1="8" x2="37" y2="18" stroke="#718096" stroke-width="1"/>
 
-                <div class="art-grid"> 
-                    <!-- Artwork 1 -->
-                    <div class="art-item"> 
-                        <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
-                        <div class="art-info"> 
-                            <h4>Artwork 1</h4> 
-                            <p>This is GrimZee my OC.</p> 
+                    <!-- Rear Wheel & Chain Drive -->
+                    <rect x="6" y="9.5" width="10" height="7" rx="2" fill="#0d1117" stroke="#00ffaa" stroke-width="1.2"/>
+
+                    <!-- Kawasaki Green Trellis Frame Highlights -->
+                    <path d="M18 8 L24 6 L30 9 M18 18 L24 20 L30 17" stroke="#00ffaa" stroke-width="1.5" stroke-linecap="round"/>
+
+                    <!-- Main Aggressive Fairing Body -->
+                    <path d="M12 9 C16 7, 26 6, 35 11 L36 13 L35 15 C26 20, 16 19, 12 17 Z" fill="#1a202c" stroke="#2d3748" stroke-width="1"/>
+
+                    <!-- Ninja H2R Aerodynamic Front Winglets -->
+                    <path d="M30 7 L37 2 L33 9" fill="#00ffaa" opacity="0.9"/>
+                    <path d="M30 19 L37 24 L33 17" fill="#00ffaa" opacity="0.9"/>
+
+                    <!-- Fuel Tank Accent Lines -->
+                    <ellipse cx="23" cy="13" rx="5" ry="3.5" fill="#2d3748" stroke="#00ffaa" stroke-width="0.8"/>
+
+                    <!-- Clip-On Handlebars -->
+                    <line x1="30" y1="3" x2="30" y2="23" stroke="#e2e8f0" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="29" y="2" width="2" height="3" fill="#00ffaa"/>
+                    <rect x="29" y="21" width="2" height="3" fill="#00ffaa"/>
+
+                    <!-- Rider Helmet (Top View) -->
+                    <path d="M18 10 C20 10, 23 11, 23 13 C23 15, 20 16, 18 16 C16 16, 15 14.5, 15 13 C15 11.5, 16 10, 18 10 Z" fill="#0f172a" stroke="#00ffaa" stroke-width="1"/>
+                    <!-- Visor Accent -->
+                    <path d="M21 11.5 C22 12, 22 14, 21 14.5" stroke="#38bdf8" stroke-width="1.2" stroke-linecap="round"/>
+
+                    <!-- Sharp Tail Section -->
+                    <polygon points="6,13 12,10 12,16" fill="#1a202c" stroke="#00ffaa" stroke-width="0.8"/>
+                </svg>
+            </div>
+
+            <main>
+                <!-- About Section -->
+                <section id="about">
+                    <h2>About Me</h2>
+                    <p>Hey! I'm Zaheer. I enjoy art, web design, and gaming. I'm constantly exploring new ways to express myself through art and technology.</p>
+                    <p>I'm passionate about improving my web design skills and creating beautiful, interactive experiences. When I'm not designing or coding, you can usually find me diving into the universe of Warframe or working on my latest digital art project.</p>
+                </section>
+
+                <!-- Steam Analytics Section -->
+                <section id="steam">
+                    <h2>🎮 Gaming Stats (Steam)</h2>
+                    <p>Here's what I've been playing lately on Steam. My main favorite game is Warframe, but now and then I explore other games.</p>
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <iframe 
+                            src="https://steambadge.com/76561199408721855" 
+                            width="100%" 
+                            height="200" 
+                            frameborder="0" 
+                            scrolling="no"
+                            style="border-radius: 12px; max-width: 450px; margin: 0 auto; display: block; border: none;">
+                        </iframe>
+                    </div>
+                </section>
+
+                <!-- Art Section -->
+                <section id="art">
+                    <h2>My Art</h2>
+                    <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
+
+                    <div class="art-grid"> 
+                        <!-- Artwork 1 -->
+                        <div class="art-item"> 
+                            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
+                            <div class="art-info"> 
+                                <h4>Artwork 1</h4> 
+                                <p>This is GrimZee my OC.</p> 
+                            </div>
+                        </div>
+
+                        <!-- Artwork 2 -->
+                        <div class="art-item">
+                            <img src="hand.jpg" alt="Battle" class="art-img">
+                            <div class="art-info">
+                                <h4>Artwork 2</h4>
+                                <p>Drew this when I was bored at work!</p>
+                            </div>
+                        </div>
+
+                        <!-- Artwork 3 -->
+                        <div class="art-item">
+                            <div class="art-placeholder">🎨</div>
+                            <div class="art-info">
+                                <h4>Artwork 3</h4>
+                                <p>Coming soon!</p>
+                            </div>
+                        </div>
+
+                        <!-- Artwork 4 -->
+                        <div class="art-item">
+                            <div class="art-placeholder">🎨</div>
+                            <div class="art-info">
+                                <h4>Artwork 4</h4>
+                                <p>Coming soon!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interests Section -->
+                <section id="interests">
+                    <h2>My Interests</h2>
+                    
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <h4>🎮 Gaming</h4>
+                            <p>Passionate gamer with a huge love for Warframe. I spend countless hours exploring missions and building weapons.</p>
+                        </div>
+                        <div class="interest-card">
+                            <h4>🎨 Digital Art</h4>
+                            <p>Creating digital artwork is my creative outlet. I love experimenting with different styles to express my imagination.</p>
+                        </div>
+                        <div class="interest-card">
+                            <h4>💻 Web Design</h4>
+                            <p>Currently learning web design and development. I'm excited about creating clean, interactive web experiences.</p>
                         </div>
                     </div>
 
-                    <!-- Artwork 2 -->
-                    <div class="art-item">
-                        <img src="hand.jpg" alt="Battle" class="art-img">
-                        <div class="art-info">
-                            <h4>Artwork 2</h4>
-                            <p>Drew this when I was bored at work!</p>
+                    <h3 style="margin-top: 2.5rem;">⭐ Favorite Game</h3>
+                    <div class="game-item">
+                        <div>
+                            <h4>Warframe</h4>
+                            <p>My absolute favorite! An epic sci-fi action game with endless possibilities and an amazing community.</p>
                         </div>
+                        <div class="game-hours">Most Played ⭐</div>
                     </div>
+                </section>
 
-                    <!-- Artwork 3 -->
-                    <div class="art-item">
-                        <div class="art-placeholder">🎨</div>
-                        <div class="art-info">
-                            <h4>Artwork 3</h4>
-                            <p>Coming soon!</p>
+                <!-- Contact Section -->
+                <section id="contact">
+                    <h2>Let's Connect</h2>
+                    <p>Want to chat about art, games, web design, or anything else? Feel free to reach out!</p>
+                    
+                    <form class="contact-form" onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" required>
                         </div>
-                    </div>
-
-                    <!-- Artwork 4 -->
-                    <div class="art-item">
-                        <div class="art-placeholder">🎨</div>
-                        <div class="art-info">
-                            <h4>Artwork 4</h4>
-                            <p>Coming soon!</p>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" required>
                         </div>
-                    </div>
-                </div>
-            </section>
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" placeholder="What's on your mind?" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" placeholder="Tell me anything..." required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Send Message</button>
+                        <div id="form-status"></div>
+                    </form>
+                </section>
+            </main>
 
-            <!-- Interests Section -->
-            <section id="interests">
-                <h2>My Interests</h2>
-                
-                <div class="interests-grid">
-                    <div class="interest-card">
-                        <h4>🎮 Gaming</h4>
-                        <p>Passionate gamer with a huge love for Warframe. I spend countless hours exploring missions and building weapons.</p>
-                    </div>
-                    <div class="interest-card">
-                        <h4>🎨 Digital Art</h4>
-                        <p>Creating digital artwork is my creative outlet. I love experimenting with different styles to express my imagination.</p>
-                    </div>
-                    <div class="interest-card">
-                        <h4>💻 Web Design</h4>
-                        <p>Currently learning web design and development. I'm excited about creating clean, interactive web experiences.</p>
-                    </div>
-                </div>
-
-                <h3 style="margin-top: 2.5rem;">⭐ Favorite Game</h3>
-                <div class="game-item">
-                    <div>
-                        <h4>Warframe</h4>
-                        <p>My absolute favorite! An epic sci-fi action game with endless possibilities and an amazing community.</p>
-                    </div>
-                    <div class="game-hours">Most Played ⭐</div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact">
-                <h2>Let's Connect</h2>
-                <p>Want to chat about art, games, web design, or anything else? Feel free to reach out!</p>
-                
-                <form class="contact-form" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Your Name *</label>
-                        <input type="text" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject *</label>
-                        <input type="text" id="subject" placeholder="What's on your mind?" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" placeholder="Tell me anything..." required></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Send Message</button>
-                    <div id="form-status"></div>
-                </form>
-            </section>
-        </main>
+        </div>
     </div>
 
     <footer>
@@ -605,6 +666,63 @@
                 formStatus.innerHTML = '';
             }, 5000);
         }
+
+        // Kawasaki Ninja H2R Driving Animation
+        function animateH2RBike() {
+            const bike = document.getElementById('border-bike');
+            const box = document.getElementById('bike-tracker-container');
+            if (!bike || !box) return;
+
+            let distance = 0;
+            const speed = 3.5; // Speed of H2R
+
+            function move() {
+                const width = box.clientWidth;
+                const height = box.clientHeight;
+                const perimeter = 2 * (width + height);
+
+                distance = (distance + speed) % perimeter;
+
+                let x = 0;
+                let y = 0;
+                let angle = 0;
+
+                // 1. Top Edge: Moving Right (0 deg)
+                if (distance < width) {
+                    x = distance - 24;
+                    y = -13;
+                    angle = 0;
+                } 
+                // 2. Right Edge: Moving Down (90 deg)
+                else if (distance < width + height) {
+                    x = width - 24;
+                    y = (distance - width) - 13;
+                    angle = 90;
+                } 
+                // 3. Bottom Edge: Moving Left (180 deg)
+                else if (distance < 2 * width + height) {
+                    x = (width - (distance - (width + height))) - 24;
+                    y = height - 13;
+                    angle = 180;
+                } 
+                // 4. Left Edge: Moving Up (270 deg)
+                else {
+                    x = -24;
+                    y = (height - (distance - (2 * width + height))) - 13;
+                    angle = 270;
+                }
+
+                bike.style.left = `${x}px`;
+                bike.style.top = `${y}px`;
+                bike.style.transform = `rotate(${angle}deg)`;
+
+                requestAnimationFrame(move);
+            }
+
+            move();
+        }
+
+        window.addEventListener('load', animateH2RBike);
     </script>
 </body>
 </html>
