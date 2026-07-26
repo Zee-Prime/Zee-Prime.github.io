@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zee — Ultimate Gothic Hub</title>
+    <title>Zee — Ultimate Cyber Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=UnifrakturMaguntia&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* Global Reset & Performance Variables */
@@ -338,7 +338,7 @@
             <main>
                 <section id="about">
                     <h2>About Me</h2>
-                    <p>Welcome to my centralized digital domain. Built with peak performance, accessibility, and clean gothic-cyber architecture in mind.</p>
+                    <p>Welcome to my centralized digital domain. Built with peak performance, accessibility, and clean cyber architecture in mind.</p>
                 </section>
 
                 <section id="tools">
@@ -502,30 +502,33 @@
         }
 
         // --- Admin Login Controller ---
-        function openAdminModal() {
-            playSynthSFX(650, 0.04);
-            document.getElementById('adminModal').style.display = 'flex';
-            document.getElementById('adminUser').focus();
-        }
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-        }
-        function closeAdminModalOnOutside(e) {
-            if (e.target.id === 'adminModal') closeAdminModal();
-        }
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('adminUser').value;
-            const p = document.getElementById('adminPass').value;
-            if (u === 'Zee' && p === 'GrimZee246') {
-                playSynthSFX(900, 0.1);
-                alert("Admin authentication successful. Welcome back, Zee.");
-                closeAdminModal();
-            } else {
-                playSynthSFX(200, 0.2);
-                alert("Access Denied: Invalid credentials.");
-            }
-        }
+       function handleAdminLogin(e) {
+    e.preventDefault();
+    const u = document.getElementById('adminUser').value;
+    const p = document.getElementById('adminPass').value;
+    
+    // Checks for username 'Zee' and password 'admin123' (or your updated password)
+    if (u === 'Zee' && p === 'admin123') {
+        playSynthSFX(900, 0.1);
+        alert("Admin authentication successful. Welcome back, Zee.");
+        closeAdminModal();
+        
+        // Auto-open or switch to the private admin chat channel upon successful login
+        document.getElementById('nebulaChat').style.display = 'flex';
+        switchChannel('private');
+        
+        // Add a welcome system message to the chat
+        const container = document.getElementById('nebulaMessages');
+        const div = document.createElement('div');
+        div.className = 'nebula-msg system';
+        div.innerHTML = 'Admin session active: Welcome back, Zee.';
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    } else {
+        playSynthSFX(200, 0.2);
+        alert("Access Denied: Invalid credentials.");
+    }
+}
 
         // --- Command Palette Controller ---
         function openCmdPalette() {
