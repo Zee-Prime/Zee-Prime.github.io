@@ -41,6 +41,17 @@
             padding: 1rem;
             background-color: #232b38;
         }
+        @media (max-width: 768px) {
+            .art-grid {
+                grid-template-columns: 1fr; 
+                gap: 1.5rem;
+            }
+
+            .art-img, 
+            .art-placeholder {
+                height: 240px;
+            }
+        }
     </style>
 </head>
 <body>
