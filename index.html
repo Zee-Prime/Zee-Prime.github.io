@@ -6,33 +6,34 @@
     <title>Zee - About Me</title>
     <style>
         /* Global Reset & Variables */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
 
         :root {
             --primary: #00ffaa;
             --secondary: #00aa70;
             --bg-main: #f4f6f9;
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #1a202c;
             --text-sub: #4a5568;
             --nav-bg: rgba(255, 255, 255, 0.95);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --border-color: rgba(0, 0, 0, 0.1);
+            --hyperspeed-bike: #ffffff;
         }
 
         body.dark-mode {
             --primary: #00ffaa;
             --secondary: #00ff88;
-            --bg-main: #121824;
-            --card-bg: #1e2638;
+            --bg-main: #05070f;
+            --card-bg: rgba(30, 38, 56, 0.92);
             --text-main: #ffffff;
             --text-sub: #a0aec0;
             --nav-bg: rgba(30, 38, 56, 0.95);
             --shadow: 0 10px 40px rgba(0, 255, 170, 0.15);
             --border-color: rgba(255, 255, 255, 0.1);
+            --hyperspeed-bike: #ff0055;
         }
 
-        /* Custom Crosshair Cursor */
         body {
             background-color: var(--bg-main);
             color: var(--text-sub);
@@ -40,10 +41,51 @@
             line-height: 1.6;
             min-height: 100vh;
             transition: background-color 0.3s ease, color 0.3s ease;
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300ffaa' stroke-width='2'><circle cx='12' cy='12' r='4'/><line x1='12' y1='2' x2='12' y2='6'/><line x1='12' y1='18' x2='12' y2='22'/><line x1='2' y1='12' x2='6' y2='12'/><line x1='18' y1='12' x2='22' y2='12'/></svg>") 12 12, auto;
+            position: relative;
+            overflow-x: hidden;
         }
 
         body.chat-active-mobile { overflow: hidden; }
+
+        /* --- Celestial Backgrounds --- */
+        .celestial-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -10; pointer-events: none; opacity: 0;
+            transition: opacity 0.5s ease-in-out; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* LIGHT MODE: Animated Sun */
+        body:not(.dark-mode) #lightSun { opacity: 1; }
+        .sun-disk {
+            width: 150px; height: 150px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff7a1, #ffd700 60%);
+            box-shadow: 0 0 80px 30px rgba(255, 215, 0, 0.7);
+            animation: sunPulse 6s ease-in-out infinite alternate;
+        }
+        @keyframes sunPulse { 0% { transform: scale(1); box-shadow: 0 0 60px 15px rgba(255, 215, 0, 0.6); } 100% { transform: scale(1.1); box-shadow: 0 0 100px 45px rgba(255, 215, 0, 0.8); } }
+
+        /* DARK MODE: Animated Black Hole */
+        body.dark-mode #darkBlackHole { opacity: 1; }
+        .black-hole-disk {
+            width: 140px; height: 140px; border-radius: 50%; background: #000;
+            box-shadow: 0 0 0 15px rgba(0, 255, 170, 0.1), 0 0 25px 25px rgba(0, 255, 170, 0.05);
+            position: relative; animation: bhRotate 15s linear infinite;
+        }
+        .black-hole-disk::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 250px; height: 8px; border-radius: 50%;
+            background: linear-gradient(90deg, transparent, var(--hyperspeed-bike), transparent);
+            box-shadow: 0 0 30px 10px rgba(0, 255, 170, 0.4);
+        }
+        @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Custom Crosshair Cursor */
+        .custom-cursor {
+            width: 30px; height: 30px; position: fixed; pointer-events: none; z-index: 9999;
+            transition: opacity 0.2s; opacity: 0;
+        }
+        .custom-cursor svg { stroke: var(--primary); }
+        body:hover .custom-cursor { opacity: 1; }
 
         /* Nav & Header */
         nav {
@@ -64,7 +106,7 @@
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, rgba(0,255,170, 0.7) 0%, rgba(0,170,112, 0.7) 100%);
             color: #0d1117; padding: 8rem 2rem 4rem; text-align: center; margin-top: 60px; position: relative;
         }
 
@@ -89,16 +131,19 @@
         }
 
         /* Container & Cards */
-        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; position: relative; z-index: 1; }
         #bike-tracker-container { position: relative; }
 
         .running-bike {
-            position: absolute; z-index: 999; pointer-events: none;
-            filter: drop-shadow(0 0 8px var(--primary)); transition: filter 0.3s;
+            position: absolute; z-index: 999; pointer-events: none; opacity: 1;
+            filter: drop-shadow(0 0 8px var(--primary)); transition: filter 0.3s, opacity 0.3s;
         }
-        .running-bike.hyperspeed { filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 30px #00ffaa); }
+        .running-bike.hyperspeed {
+            filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 30px #00ffaa);
+            opacity: 0.8;
+        }
 
-        main { background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+        main { background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(5px); }
         section { padding: 3rem 2rem; border-bottom: 1px solid var(--border-color); }
         h2 { color: var(--primary); font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--primary); }
 
@@ -109,27 +154,6 @@
         .art-img { width: 100%; height: 180px; object-fit: cover; }
         .art-info { padding: 1rem; }
 
-        /* Before/After Image Comparison Slider */
-        .art-slider-card {
-            margin-top: 2rem; background: var(--bg-main); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 1.5rem;
-        }
-        .comparison-slider {
-            position: relative; width: 100%; height: 320px; overflow: hidden; border-radius: 8px; border: 1px solid var(--border-color);
-        }
-        .comparison-slider img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        .img-before { z-index: 2; width: 50%; overflow: hidden; }
-        .img-before img { width: 100%; max-width: none; }
-        .slider-handle {
-            position: absolute; top: 0; left: 50%; width: 4px; height: 100%; background: #00ffaa;
-            z-index: 3; cursor: ew-resize; box-shadow: 0 0 10px #00ffaa;
-        }
-        .slider-handle::after {
-            content: '↔'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 28px; height: 28px; background: #00ffaa; color: #121824; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem;
-        }
-
         /* Lightbox Modal */
         .lightbox-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -138,9 +162,24 @@
         .lightbox-modal img { max-width: 90%; max-height: 80vh; border-radius: 8px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(0, 255, 170, 0.3); }
         .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; }
 
-        /* Interests */
+        /* Interests & Steam Card */
         .interests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
         .interest-card { background: var(--bg-main); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary); }
+        
+        .steam-card {
+            background: linear-gradient(135deg, #171a21 0%, #1b2838 100%);
+            border: 1px solid #2a475e; border-radius: 12px; padding: 1.5rem; color: #c6d4df;
+            margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+        }
+        .steam-info h4 { color: #ffffff; font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .steam-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #66c0f4; }
+        .steam-dot { width: 8px; height: 8px; background: #66c0f4; border-radius: 50%; box-shadow: 0 0 8px #66c0f4; }
+        .steam-btn {
+            background: #2a475e; color: #ffffff; text-decoration: none; padding: 0.6rem 1.2rem;
+            border-radius: 6px; font-weight: bold; font-size: 0.85rem; border: 1px solid #66c0f4;
+            transition: background 0.2s;
+        }
+        .steam-btn:hover { background: #66c0f4; color: #171a21; }
 
         /* Full Screen Overlay for Mobile */
         .chat-backdrop-overlay {
@@ -159,7 +198,7 @@
 
         .nebula-chat-window {
             position: fixed; bottom: 80px; left: 20px;
-            width: 380px; height: 540px; border-radius: 16px;
+            width: 380px; height: 560px; border-radius: 16px;
             z-index: 2001; display: none; flex-direction: column; overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 170, 0.3);
             background: radial-gradient(circle at 20% 20%, rgba(121, 40, 202, 0.8), transparent 50%),
@@ -200,11 +239,13 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; gap: 0.5rem;
         }
         .inputs-wrapper { display: flex; gap: 0.4rem; }
-        .nebula-chat-input-bar input {
+        .nebula-chat-input-bar input[type="text"] {
             background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff; padding: 0.5rem 0.8rem; border-radius: 8px; outline: none; font-size: 0.85rem;
         }
-        .nebula-chat-input-bar input[readonly] { opacity: 0.7; background: rgba(255, 255, 255, 0.05); cursor: not-allowed; }
+        .remember-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #a0aec0; }
+        .remember-row input[type="checkbox"] { accent-color: #00ffaa; cursor: pointer; }
+
         .action-buttons-row { display: flex; gap: 0.4rem; }
         .action-buttons-row button { padding: 0.5rem; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 0.85rem; }
         .btn-send { flex: 2; background: #00ffaa; color: #05070f; }
@@ -230,7 +271,18 @@
         footer { text-align: center; padding: 2rem; color: var(--text-sub); font-size: 0.9rem; }
     </style>
 </head>
-<body>
+<body id="pageBody">
+
+    <!-- Celestial Backgrounds -->
+    <div class="celestial-bg" id="lightSun"><div class="sun-disk"></div></div>
+    <div class="celestial-bg" id="darkBlackHole"><div class="black-hole-disk"></div></div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor">
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='2'>
+            <circle cx='12' cy='12' r='4'/><line x1='12' y1='2' x2='12' y2='6'/><line x1='12' y1='18' x2='12' y2='22'/><line x1='2' y1='12' x2='6' y2='12'/><line x1='18' y1='12' x2='22' y2='12'/>
+        </svg>
+    </div>
 
     <div class="chat-backdrop-overlay" id="chatOverlay" onclick="toggleChat()"></div>
 
@@ -275,7 +327,7 @@
 
                 <section id="art">
                     <h2>My Art</h2>
-                    <p style="font-size: 0.85rem; color: var(--primary);">💡 Click any artwork to view full-res in Lightbox mode!</p>
+                    <p style="font-size: 0.85rem; color: var(--primary); margin-bottom: 0.5rem;">💡 Click any artwork to view full-res in Lightbox mode!</p>
                     <div class="art-grid"> 
                         <div class="art-item" onclick="openLightbox('GrimZee.jpeg', 'GrimZee OC')"> 
                             <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
@@ -286,19 +338,6 @@
                             <div class="art-info"><h4>Artwork 2</h4><p>Break sketch</p></div>
                         </div>
                     </div>
-
-                    <!-- Interactive Before / After Sketch Slider -->
-                    <div class="art-slider-card">
-                        <h3 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 0.5rem;">🎨 Sketch vs. Rendered Comparison</h3>
-                        <p style="font-size: 0.85rem; margin-bottom: 1rem;">Drag the slider back and forth to see the art progression!</p>
-                        <div class="comparison-slider" id="comparisonSlider">
-                            <img src="GrimZee.jpeg" alt="Rendered Art">
-                            <div class="img-before" id="sliderBefore">
-                                <img src="hand.jpg" alt="Sketch Art">
-                            </div>
-                            <div class="slider-handle" id="sliderHandle"></div>
-                        </div>
-                    </div>
                 </section>
 
                 <section id="interests">
@@ -306,6 +345,18 @@
                     <div class="interests-grid">
                         <div class="interest-card"><h4>🎮 Gaming</h4><p>Warframe fan!</p></div>
                         <div class="interest-card"><h4>🎨 Digital Art</h4><p>Character illustrations.</p></div>
+                    </div>
+
+                    <!-- Steam Integration Card -->
+                    <div class="steam-card">
+                        <div class="steam-info">
+                            <h4>Steam Profile</h4>
+                            <div class="steam-status">
+                                <div class="steam-dot"></div>
+                                <span>Currently Online / Ready to Game</span>
+                            </div>
+                        </div>
+                        <a href="https://steamcommunity.com" target="_blank" class="steam-btn">🎮 View Steam Profile</a>
                     </div>
                 </section>
             </main>
@@ -343,8 +394,14 @@
 
         <form class="nebula-chat-input-bar" onsubmit="sendNebulaMsg(event)">
             <div class="inputs-wrapper">
-                <input type="text" id="chatUserName" placeholder="Your Name" style="width: 35%;" required>
-                <input type="text" id="chatUserMsg" placeholder="Type message..." style="width: 65%;" required>
+                <input type="text" id="chatUserName" placeholder="Your Name" style="width: 100%;" required>
+            </div>
+            <div class="remember-row">
+                <input type="checkbox" id="rememberMe" checked>
+                <label for="rememberMe">Remember my name on this device</label>
+            </div>
+            <div class="inputs-wrapper">
+                <input type="text" id="chatUserMsg" placeholder="Type message..." style="width: 100%;" required>
             </div>
             <div class="action-buttons-row">
                 <button type="submit" class="btn-send">Send Message 🚀</button>
@@ -389,11 +446,17 @@
 
         let currentChannel = 'public';
         let isAdmin = false;
-        let isNameLocked = false;
         let activeDMUser = "";
         const ADMIN_PASS = "GrimZee246";
 
-        // Auto-scroll on focus for mobile keyboard handling
+        // Remember Me LocalStorage Logic
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('zee_chat_username');
+            if (savedName) {
+                document.getElementById('chatUserName').value = savedName;
+            }
+        });
+
         const scrollToBottom = () => {
             const container = document.getElementById('nebulaMessages');
             if (container) {
@@ -440,12 +503,15 @@
             playSynthSFX(800, 0.05);
             const nameInput = document.getElementById('chatUserName');
             const msgInput = document.getElementById('chatUserMsg');
+            const rememberCheckbox = document.getElementById('rememberMe');
             
             if (!nameInput.value.trim() || !msgInput.value.trim()) return;
 
-            if (!isAdmin && !isNameLocked) {
-                isNameLocked = true;
-                nameInput.readOnly = true;
+            // Handle Remember Me feature
+            if (rememberCheckbox.checked) {
+                localStorage.setItem('zee_chat_username', nameInput.value.trim());
+            } else {
+                localStorage.removeItem('zee_chat_username');
             }
 
             const messagesRef = ref(db, `messages/${currentChannel}`);
@@ -476,7 +542,6 @@
                 
                 const nameField = document.getElementById('chatUserName');
                 nameField.value = 'Zee (Admin)';
-                nameField.readOnly = true;
                 
                 updateTabLabels();
                 closeAdminModal();
@@ -540,6 +605,28 @@
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX: ON" : "🔇 SFX: OFF";
         }
 
+        // --- Custom Cursor & Hyperspeed Animation Trails ---
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.transform = `translate(${e.clientX - 15}px, ${e.clientY - 15}px)`;
+
+            // Hyperspeed trail effect
+            if (bikeSpeed > 2 && e.clientX % 3 === 0) {
+                createTrailNode(e.clientX, e.clientY);
+            }
+        });
+
+        function createTrailNode(x, y) {
+            const node = document.createElement('div');
+            node.style.cssText = `position:fixed; top:${y}px; left:${x}px; width:6px; height:6px; border-radius:50%; pointer-events:none; z-index:9998; opacity:0.8; transition:all 0.5s ease;`;
+            const randomColor = Math.random() > 0.5 ? '#ff0055' : '#00ffaa';
+            node.style.background = randomColor;
+            node.style.boxShadow = `0 0 8px 1px ${randomColor}`;
+            document.body.appendChild(node);
+            setTimeout(() => { node.style.transform = 'scale(0) translateY(15px)'; node.style.opacity = '0'; }, 50);
+            setTimeout(() => { node.remove(); }, 500);
+        }
+
         // Animate Border Bike
         function animateBike() {
             const bike = document.getElementById('border-bike');
@@ -565,7 +652,14 @@
             requestAnimationFrame(animateBike);
         }
 
-        // Konami Code Easter Egg
+        function activateHyperspeed() {
+            bikeSpeed = 8;
+            document.getElementById('border-bike').classList.add('hyperspeed');
+            playSynthSFX(1200, 0.4);
+            alert("🚀 HYPERSPEED ACTIVATED! Easter Egg Unlocked.");
+        }
+
+        // Konami Code Easter Egg (Desktop)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
 
@@ -573,14 +667,33 @@
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
                 if (konamiIndex === konamiCode.length) {
-                    bikeSpeed = 8; // Hyper speed!
-                    document.getElementById('border-bike').classList.add('hyperspeed');
-                    playSynthSFX(1200, 0.4);
-                    alert("🚀 HYPERSPEED ACTIVATED! Konami Code Unlocked.");
+                    activateHyperspeed();
                     konamiIndex = 0;
                 }
             } else { konamiIndex = 0; }
         });
+
+        // Triple Tap Easter Egg (Mobile)
+        let lastTapTime = 0;
+        let tapCount = 0;
+        const tapThreshold = 400; // ms between taps
+
+        window.addEventListener('touchend', (e) => {
+            // Filter taps on inputs/buttons
+            const isClickable = e.target.closest('button, a, input');
+            if (isClickable || bikeSpeed > 2) return;
+
+            const currentTime = new Date().getTime();
+            const tapGap = currentTime - lastTapTime;
+
+            if (tapGap < tapThreshold) { tapCount++; } else { tapCount = 1; }
+            lastTapTime = currentTime;
+
+            if (tapCount === 3) {
+                activateHyperspeed();
+                tapCount = 0;
+            }
+        }, false);
 
         // Lightbox Functions
         function openLightbox(src, title) {
@@ -590,30 +703,6 @@
             document.getElementById('lightboxModal').style.display = 'flex';
         }
         function closeLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
-
-        // Before/After Slider Drag Logic
-        const slider = document.getElementById('comparisonSlider');
-        const sliderBefore = document.getElementById('sliderBefore');
-        const sliderHandle = document.getElementById('sliderHandle');
-
-        if (slider) {
-            let isDragging = false;
-            const updateSlider = (x) => {
-                const rect = slider.getBoundingClientRect();
-                let position = x - rect.left;
-                if (position < 0) position = 0;
-                if (position > rect.width) position = rect.width;
-                const percentage = (position / rect.width) * 100;
-                sliderBefore.style.width = percentage + '%';
-                sliderHandle.style.left = percentage + '%';
-            };
-
-            sliderHandle.addEventListener('mousedown', () => isDragging = true);
-            window.addEventListener('mouseup', () => isDragging = false);
-            window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
-            slider.addEventListener('touchstart', (e) => updateSlider(e.touches[0].clientX));
-            slider.addEventListener('touchmove', (e) => updateSlider(e.touches[0].clientX));
-        }
 
         function scrollToSection(id) {
             playSynthSFX(400, 0.03);
