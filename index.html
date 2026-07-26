@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zee Prime - Portfolio</title>
+    <title>Zee Prime - Digital Artist & Game Developer</title>
     <style>
         * {
             margin: 0;
@@ -11,50 +11,177 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #7c3aed;
+            --secondary: #ec4899;
+            --text-dark: #1f2937;
+            --text-light: #4b5563;
+            --bg-light: #f3f4f6;
+            --bg-white: #ffffff;
+            --accent: #fbbf24;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode {
+            --primary: #a78bfa;
+            --secondary: #f472b6;
+            --text-dark: #f3f4f6;
+            --text-light: #d1d5db;
+            --bg-light: #374151;
+            --bg-white: #1f2937;
+            --accent: #fcd34d;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-dark);
+            background: var(--bg-white);
             min-height: 100vh;
+            transition: background 0.3s ease;
         }
 
-        header {
-            background: rgba(0, 0, 0, 0);
-            color: black;
-            padding: 2rem 0;
-            text-align: center;
-            border-bottom: 3px solid #667eea;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
+        body.dark-mode nav {
+            background: rgba(31, 41, 55, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        body.dark-mode nav a {
+            color: var(--text-light);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: var(--bg-light);
+            border: 2px solid var(--primary);
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            margin-top: 60px;
+            animation: fadeInDown 0.8s ease;
+        }
+
         header h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0.5, 0.2, 0.3);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 0.8s ease 0.2s both;
         }
 
         header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            opacity: 0.95;
+            animation: slideInUp 0.8s ease 0.4s both;
         }
 
+        .cta-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Container */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
         main {
-            background: green;
+            background: var(--bg-white);
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0.01, 0.3, 0.1, 0.2);
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
 
         section {
-            padding: 2rem;
-            border-bottom: 1px solid #eee;
+            padding: 3rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease;
+            background: var(--bg-white);
+        }
+
+        body.dark-mode section {
+            background: var(--bg-white);
+            border-bottom-color: rgba(255, 255, 255, 0.1);
         }
 
         section:last-child {
@@ -62,141 +189,677 @@
         }
 
         h2 {
-            color: #667eea;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #667eea;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary);
         }
 
         h3 {
-            color: #764ba2;
+            color: var(--secondary);
             font-size: 1.3rem;
             margin-bottom: 1rem;
         }
 
         p {
             margin-bottom: 1rem;
-            color: #555;
+            color: var(--text-light);
             line-height: 1.8;
         }
 
-        ul {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            padding: 0.7rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: #555;
-        }
-
-        li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .contact {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .contact a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom: 2px solid white;
-            transition: opacity 0.3s;
-        }
-
-        .contact a:hover {
-            opacity: 0.8;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            color: white;
-            font-size: 0.9rem;
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
 
-        @media (max-width: 600px) {
+        .project-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.2);
+        }
+
+        .project-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Skills */
+        .skills-container {
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .skill-name {
+            color: var(--text-light);
+        }
+
+        .skill-bar {
+            background: var(--bg-light);
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            border-radius: 10px;
+            animation: fillBar 1s ease-out;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .form-group label {
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--bg-white);
+            color: var(--text-dark);
+            transition: 0.3s;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Testimonials */
+        .testimonials-container {
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .testimonial {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+            animation: slideInTestimonial 0.5s ease;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-top: 1rem;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            background: var(--bg-light);
+        }
+
+        body.dark-mode footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+        }
+
+        @keyframes slideInTestimonial {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
             header h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+
+            nav .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
 
             h2 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
 
-            .container {
-                margin: 1rem auto;
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
 
             section {
-                padding: 1.5rem;
+                padding: 2rem 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navigation -->
+    <nav>
+        <a class="logo" href="#home">🎨 ZP</a>
+        <ul class="nav-links">
+            <li><a onclick="scrollToSection('about')">About</a></li>
+            <li><a onclick="scrollToSection('projects')">Projects</a></li>
+            <li><a onclick="scrollToSection('skills')">Skills</a></li>
+            <li><a onclick="scrollToSection('contact')">Contact</a></li>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="home">
         <h1>Zee Prime</h1>
-        <p>Web Developer & Designer</p>
+        <p>Digital Artist & Game Developer</p>
+        <p style="font-size: 1rem; margin-top: 0.5rem;">Where pixels meet imagination</p>
+        <button class="cta-button" onclick="scrollToSection('contact')">Let's Create</button>
     </header>
 
     <div class="container">
         <main>
-            <section class="intro">
-                <h2>Welcome!</h2>
-                <img src="images/GrimZee.jpg" alt="Zee Prime" 
-     style="width: 500px; height: 500px; border-radius: 50%; object-fit: cover;">
-                <p>I'm passionate about creating beautiful, responsive websites and crafting great user experiences. This is my personal portfolio showcasing my skills and projects.</p>
-            </section>
-
-            <section class="about">
+            <!-- About Section -->
+            <section id="about">
                 <h2>About Me</h2>
-                <p>I'm a dedicated web developer with a love for clean code and elegant design. I enjoy turning ideas into interactive experiences that users love.</p>
+                <p>I'm a passionate digital artist and game developer who believes that great art and engaging gameplay go hand in hand. With a deep love for both visual storytelling and immersive gaming experiences, I've dedicated myself to creating worlds that captivate and inspire.</p>
+                <p>My journey spans from concept art and digital illustrations to full-fledged game development, with expertise in multiple engines and artistic styles. Every project is a canvas for creativity—whether I'm designing characters, crafting environments, or building interactive experiences.</p>
+                <p>I'm constantly exploring the intersection of art and technology, pushing the boundaries of what's possible in digital media. From pixel art to 3D rendering, from indie games to experimental interactive art, I'm always up for the next creative challenge.</p>
             </section>
 
-            <section class="skills">
+            <!-- Projects Section -->
+            <section id="projects">
+                <h2>Featured Creations</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h4>🎮 Neon Dreamscape</h4>
+                        <p>A surreal puzzle-platformer with hand-drawn art style. Explore vibrant worlds and solve mind-bending challenges in this indie darling.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">Pixel Art</span>
+                            <span class="tag">2D</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h4>🎨 Character Design Showcase</h4>
+                        <p>A comprehensive digital art portfolio featuring character concepts, animations, and creature designs for fantasy and sci-fi universes.</p>
+                        <div class="project-tags">
+                            <span class="tag">Digital Art</span>
+                            <span class="tag">Character Design</span>
+                            <span class="tag">Concept</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h4>🌌 Cosmic Adventures</h4>
+                        <p>An action-adventure space game with stunning 3D environments, original soundtrack, and engaging narrative-driven gameplay.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">3D</span>
+                            <span class="tag">AAA</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h4>🖼️ Digital Illustration Series</h4>
+                        <p>A collection of high-resolution digital paintings exploring themes of fantasy, science fiction, and surrealism with dynamic lighting and composition.</p>
+                        <div class="project-tags">
+                            <span class="tag">Painting</span>
+                            <span class="tag">Illustration</span>
+                            <span class="tag">Fine Art</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h4>👾 Retro Arcade Revival</h4>
+                        <p>A modern take on classic arcade games with enhanced graphics, new mechanics, and nostalgic gameplay that appeals to both veterans and newcomers.</p>
+                        <div class="project-tags">
+                            <span class="tag">Godot</span>
+                            <span class="tag">Retro</span>
+                            <span class="tag">Arcade</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h4>🌿 Environmental Art</h4>
+                        <p>Meticulously crafted 3D environments and landscapes for games, featuring realistic flora, dynamic lighting, and immersive atmospheres.</p>
+                        <div class="project-tags">
+                            <span class="tag">3D Modeling</span>
+                            <span class="tag">Environment</span>
+                            <span class="tag">Unreal</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills">
                 <h2>My Skills</h2>
-                <h3>Frontend Development</h3>
-                <ul>
-                    <li>HTML5 & Semantic Markup</li>
-                    <li>CSS3 & Responsive Design</li>
-                    <li>JavaScript & Modern Frameworks</li>
-                </ul>
-                <h3>Design</h3>
-                <ul>
-                    <li>Web Design & UI/UX</li>
-                    <li>Responsive Layouts</li>
-                    <li>Accessibility & Performance</li>
-                </ul>
+                
+                <h3>🎨 Digital Art</h3>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Digital Painting & Illustration</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Character Design & Concept Art</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>3D Modeling & Rendering</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🎮 Game Development</h3>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Unity Engine</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Unreal Engine</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Game Design & Mechanics</span>
+                            <span>87%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 87%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>💻 Technical Skills</h3>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>C# & C++</span>
+                            <span>89%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 89%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>VFX & Shader Design</span>
+                            <span>83%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 83%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>UI/UX Design</span>
+                            <span>91%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 91%"></div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <section class="contact">
-                <h3>Get In Touch</h3>
-                <h3>+27 81 668 2806</h3>
-                <p>Have a project in mind? Let's talk!</p>
-                <p><a href="mailto:example@email.com">m.zaheer.mk@gmail.com</a></p>
+            <!-- Testimonials Section -->
+            <section id="testimonials">
+                <h2>What Others Say</h2>
+                <div class="testimonials-container">
+                    <div class="testimonial" id="testimonial-display">
+                        <p id="testimonial-text">"Zee Prime's artwork is absolutely phenomenal. The character designs brought our game to life in ways we never imagined. Highly recommend!"</p>
+                        <div class="testimonial-author" id="testimonial-author">- Alex Chen, Game Studio Director</div>
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="prevTestimonial()">← Prev</button>
+                        <button class="carousel-btn" onclick="nextTestimonial()">Next →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact">
+                <h2>Let's Collaborate</h2>
+                <p>Have an exciting project in mind? Whether it's game development, digital art, or something completely unique, I'd love to hear about it. Let's bring your vision to life!</p>
+                
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Project Type *</label>
+                        <input type="text" id="subject" name="subject" placeholder="e.g., Game Development, Digital Art Commission, etc." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Tell Me About Your Project *</label>
+                        <textarea id="message" name="message" placeholder="Describe your vision, budget, timeline, and any specific ideas you have in mind..." required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Send Project Inquiry</button>
+                    <div id="form-status"></div>
+                </form>
             </section>
         </main>
     </div>
 
     <footer>
-        <p>&copy; 2026 Zee Prime. All rights reserved.</p>
+        <p>&copy; 2024 Zee Prime. All rights reserved. | Created with passion for art and gaming 🎨🎮</p>
     </footer>
+
+    <script>
+        // Smooth Scrolling
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            document.querySelector('.theme-toggle').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // Load theme preference
+        window.addEventListener('load', () => {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+        });
+
+        // Testimonials Carousel
+        const testimonials = [
+            {
+                text: '"Zee Prime\'s artwork is absolutely phenomenal. The character designs brought our game to life in ways we never imagined. Highly recommend!"',
+                author: '- Alex Chen, Game Studio Director'
+            },
+            {
+                text: '"The level design and environmental art elevated our game to a whole new level. Professional, creative, and incredibly talented!"',
+                author: '- Jordan Lee, Indie Developer'
+            },
+            {
+                text: '"Working with Zee Prime on our digital illustration series was a dream come true. Every piece exceeded expectations!"',
+                author: '- Emma Rodriguez, Art Director'
+            },
+            {
+                text: '"The VFX work and shader design added so much depth to our project. Zee Prime is a true artist with technical mastery!"',
+                author: '- Marcus Thompson, Lead Programmer'
+            }
+        ];
+
+        let currentTestimonial = 0;
+
+        function updateTestimonial() {
+            const testimonial = testimonials[currentTestimonial];
+            document.getElementById('testimonial-text').textContent = testimonial.text;
+            document.getElementById('testimonial-author').textContent = testimonial.author;
+        }
+
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            updateTestimonial();
+        }
+
+        function prevTestimonial() {
+            currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+            updateTestimonial();
+        }
+
+        // Contact Form Submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Validate form
+            if (!name || !email || !subject || !message) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Show success message
+            const formStatus = document.getElementById('form-status');
+            formStatus.innerHTML = '<p style="color: var(--primary); margin-top: 1rem; font-weight: bold;">✓ Message sent! I\'ll get back to you within 24 hours to discuss your exciting project!</p>';
+            
+            // Reset form
+            document.querySelector('.contact-form').reset();
+
+            // Clear message after 5 seconds
+            setTimeout(() => {
+                formStatus.innerHTML = '';
+            }, 5000);
+
+            console.log('Form submitted:', { name, email, subject, message });
+        }
+
+        // Intersection Observer for animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Scroll animation for skill bars
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fillBar 1s ease-out forwards';
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-progress').forEach(bar => {
+            skillObserver.observe(bar);
+        });
+    </script>
 </body>
 </html>
