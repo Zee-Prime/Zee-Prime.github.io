@@ -14,8 +14,8 @@
         :root {
             --primary: #00ff00;
             --secondary: #00ffaa;
-            --text-dark: #1f2937;
-            --text-light: #4b5563;
+            --text-dark: #0d1117;
+            --text-light: #1f2937;
             --bg-light: #f3f4f6;
             --bg-white: #ffffff;
             --shadow: 0 10px 40px rgba(0, 255, 170, 0.15);
@@ -24,11 +24,77 @@
         body.dark-mode {
             --primary: #00ff88;
             --secondary: #00ffcc;
-            --text-dark: #f3f4f6;
-            --text-light: #d1d5db;
+            --text-dark: #0d1117;
+            --text-light: #1a1a2e;
             --bg-light: #374151;
             --bg-white: #1f2937;
             --shadow: 0 10px 40px rgba(0, 255, 170, 0.25);
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #ffd700 0%, #ffed4e 20%, transparent 70%),
+                        linear-gradient(135deg, #fff9e6 0%, #fffacd 100%);
+            animation: sunPulse 4s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        body.dark-mode::before {
+            background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 60%),
+                        linear-gradient(135deg, #0a0015 0%, #1a0033 100%);
+            animation: blackholeSpin 8s linear infinite;
+        }
+
+        /* Sun animation for light mode */
+        @keyframes sunPulse {
+            0%, 100% {
+                filter: brightness(1) saturate(1);
+            }
+            50% {
+                filter: brightness(1.1) saturate(1.1);
+            }
+        }
+
+        /* Blackhole animation for dark mode */
+        @keyframes blackholeSpin {
+            from {
+                background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 60%),
+                            conic-gradient(from 0deg, #1a0033, #4d0099, #1a0033);
+            }
+            to {
+                background: radial-gradient(circle at 50% 50%, #1a0033 0%, #2d0052 25%, transparent 60%),
+                            conic-gradient(from 360deg, #1a0033, #4d0099, #1a0033);
+            }
+        }
+
+        /* Stars for blackhole effect */
+        body.dark-mode::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(2px 2px at 20px 30px, #00ff88, rgba(0, 255, 170, 0)) 0 0/200px 200px,
+                        radial-gradient(2px 2px at 60px 70px, #00ffcc, rgba(0, 255, 204, 0)) 50px 50px/200px 200px;
+            background-size: 200px 200px;
+            animation: starFlow 15s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes starFlow {
+            from {
+                background-position: 0 0, 50px 50px;
+            }
+            to {
+                background-position: 200px 200px, 250px 250px;
+            }
         }
 
         body {
@@ -116,31 +182,37 @@
         /* Header */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: #1f2937;
+            color: #0d1117;
             padding: 8rem 2rem 4rem;
             text-align: center;
             margin-top: 60px;
             animation: fadeInDown 0.8s ease;
+            position: relative;
+            z-index: 10;
         }
 
         header h1 {
             font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
             animation: slideInUp 0.8s ease 0.2s both;
+            color: #0d1117;
+            font-weight: 900;
         }
 
         header p {
             font-size: 1.3rem;
-            opacity: 0.95;
+            opacity: 0.9;
             animation: slideInUp 0.8s ease 0.4s both;
+            color: #0d1117;
+            font-weight: 600;
         }
 
         .cta-button {
             display: inline-block;
             margin-top: 2rem;
             padding: 0.8rem 2rem;
-            background: #1f2937;
+            background: #0d1117;
             color: var(--primary);
             border: 2px solid var(--primary);
             border-radius: 30px;
@@ -155,7 +227,7 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 255, 170, 0.3);
             background: var(--primary);
-            color: #1f2937;
+            color: #0d1117;
         }
 
         /* Container */
@@ -163,6 +235,8 @@
             max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1rem;
+            position: relative;
+            z-index: 10;
         }
 
         main {
@@ -204,8 +278,9 @@
 
         p {
             margin-bottom: 1rem;
-            color: var(--text-light);
+            color: #2d3748;
             line-height: 1.8;
+            font-weight: 500;
         }
 
         /* Interests Grid */
@@ -297,7 +372,7 @@
 
         .game-hours {
             background: var(--primary);
-            color: #1f2937;
+            color: #0d1117;
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: bold;
@@ -333,7 +408,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #1f2937;
+            color: #0d1117;
             font-size: 3rem;
             font-weight: bold;
         }
@@ -409,7 +484,7 @@
 
         .form-submit {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #1f2937;
+            color: #0d1117;
             padding: 1rem 2rem;
             border: none;
             border-radius: 5px;
@@ -433,6 +508,8 @@
             font-size: 0.9rem;
             margin-top: 2rem;
             background: var(--bg-light);
+            position: relative;
+            z-index: 10;
         }
 
         body.dark-mode footer {
@@ -532,7 +609,7 @@
     <header id="home">
         <h1>Zee Prime</h1>
         <p>Artist • Web Designer • Gamer</p>
-        <p style="font-size: 1rem; margin-top: 0.5rem;">Creating, learning, and exploring digital worlds</p>
+        <p style="font-size: 1rem; margin-top: 0.5rem; color: #0d1117; font-weight: 600;">Creating, learning, and exploring digital worlds</p>
         <button class="cta-button" onclick="scrollToSection('contact')">Get in Touch</button>
     </header>
 
