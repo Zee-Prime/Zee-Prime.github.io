@@ -3,370 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zee - About Me</title>
+    <title>Zee — Ultimate Gothic Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=UnifrakturMaguntia&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Global Reset & Variables */
+        /* Global Reset & Performance Variables */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #00ffaa;
             --secondary: #00aa70;
-            --bg-main: #f4f6f9;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --text-main: #1a202c;
-            --text-sub: #4a5568;
-            --nav-bg: rgba(255, 255, 255, 0.95);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --hyperspeed-bike: #ffffff;
-        }
-
-        body.dark-mode {
-            --primary: #00ffaa;
-            --secondary: #00ff88;
-            --bg-main: #05070f;
-            --card-bg: rgba(30, 38, 56, 0.92);
-            --text-main: #ffffff;
-            --text-sub: #a0aec0;
-            --nav-bg: rgba(30, 38, 56, 0.95);
-            --shadow: 0 10px 40px rgba(0, 255, 170, 0.15);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg-main: #0c0e12;
+            --card-bg: rgba(16, 20, 30, 0.9);
+            --text-main: #f3f4f6;
+            --text-sub: #9ca3af;
+            --nav-bg: rgba(12, 14, 18, 0.85);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 255, 170, 0.15);
             --hyperspeed-bike: #ff0055;
+            --font-gothic: 'UnifrakturMaguntia', cursive;
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Inter', system-ui, sans-serif;
         }
 
         body {
             background-color: var(--bg-main);
             color: var(--text-sub);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
+            font-family: var(--font-body);
+            line-height: 1.7;
             min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
             position: relative;
             overflow-x: hidden;
-            cursor: default;
         }
 
-        a, button, input, label, .art-item, .commission-badge, .channel-tab, .lightbox-close {
-            cursor: pointer;
-        }
-        input[type="text"], input[type="password"] {
-            cursor: text;
-        }
-
-        body.chat-active-mobile { overflow: hidden; }
+        a, button, input, .art-item, .commission-badge, .channel-tab, .cmd-item { cursor: pointer; }
 
         /* --- Celestial Backgrounds --- */
         .celestial-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -10; pointer-events: none; opacity: 0;
-            transition: opacity 0.5s ease-in-out; display: flex; align-items: center; justify-content: center;
+            z-index: -10; pointer-events: none; opacity: 1; display: flex; align-items: center; justify-content: center;
         }
-
-        /* LIGHT MODE: Animated Sun */
-        body:not(.dark-mode) #lightSun { opacity: 1; }
-        .sun-disk {
-            width: 150px; height: 150px; border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #fff7a1, #ffd700 60%);
-            box-shadow: 0 0 80px 30px rgba(255, 215, 0, 0.7);
-            animation: sunPulse 6s ease-in-out infinite alternate;
-        }
-        @keyframes sunPulse { 0% { transform: scale(1); box-shadow: 0 0 60px 15px rgba(255, 215, 0, 0.6); } 100% { transform: scale(1.1); box-shadow: 0 0 100px 45px rgba(255, 215, 0, 0.8); } }
-
-        /* DARK MODE: Animated Black Hole */
-        body.dark-mode #darkBlackHole { opacity: 1; }
         .black-hole-disk {
-            width: 140px; height: 140px; border-radius: 50%; background: #000;
-            box-shadow: 0 0 0 15px rgba(0, 255, 170, 0.1), 0 0 25px 25px rgba(0, 255, 170, 0.05);
-            position: relative; animation: bhRotate 15s linear infinite;
+            width: 220px; height: 220px; border-radius: 50%; background: #000;
+            box-shadow: 0 0 0 25px rgba(0, 255, 170, 0.05), 0 0 50px 50px rgba(0, 255, 170, 0.02);
+            position: relative; animation: bhRotate 25s linear infinite;
         }
         .black-hole-disk::after {
             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 250px; height: 8px; border-radius: 50%;
+            width: 360px; height: 10px; border-radius: 50%;
             background: linear-gradient(90deg, transparent, var(--hyperspeed-bike), transparent);
-            box-shadow: 0 0 30px 10px rgba(0, 255, 170, 0.4);
+            box-shadow: 0 0 40px 15px rgba(0, 255, 170, 0.25);
         }
         @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Fixed Custom Cursor Element */
-        .custom-cursor {
-            width: 24px; height: 24px; position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 9999; display: none;
-        }
-        .custom-cursor svg { stroke: var(--primary); width: 100%; height: 100%; }
-
-        /* Nav & Header */
+        /* --- Navigation Bar --- */
         nav {
             position: fixed; top: 0; width: 100%;
-            background: var(--nav-bg); backdrop-filter: blur(10px);
-            padding: 1rem 2rem; display: flex; justify-content: space-between;
-            align-items: center; z-index: 1000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: var(--nav-bg); backdrop-filter: blur(16px);
+            padding: 0.9rem 2.5rem; display: flex; justify-content: space-between;
+            align-items: center; z-index: 1000; border-bottom: 1px solid var(--border-color);
         }
-
-        nav .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        nav .logo { font-family: var(--font-gothic); font-size: 2.2rem; color: var(--primary); text-decoration: none; letter-spacing: 2px; }
         nav .nav-links { display: flex; gap: 1.2rem; list-style: none; align-items: center; }
-        nav a { color: var(--text-main); text-decoration: none; font-weight: 500; }
+        nav a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 0.95rem; font-family: var(--font-heading); letter-spacing: 1px; transition: color 0.2s; }
+        nav a:hover { color: var(--primary); }
         
         .nav-btn {
-            background: transparent; border: 1px solid var(--primary);
-            color: var(--text-main); padding: 0.3rem 0.7rem; border-radius: 20px;
-            font-size: 0.85rem;
+            background: transparent; border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 0.35rem 0.8rem; border-radius: 8px;
+            font-size: 0.85rem; font-weight: 600; font-family: var(--font-heading);
+        }
+        .cmd-trigger-btn {
+            background: rgba(0, 255, 170, 0.1); border: 1px solid var(--primary);
+            color: var(--primary); padding: 0.35rem 0.7rem; border-radius: 8px; font-size: 0.8rem; font-weight: bold;
         }
 
+        /* --- Header Section --- */
         header {
-            background: linear-gradient(135deg, rgba(0,255,170, 0.7) 0%, rgba(0,170,112, 0.7) 100%);
-            color: #0d1117; padding: 8rem 2rem 4rem; text-align: center; margin-top: 60px; position: relative;
+            background: linear-gradient(135deg, rgba(0,255,170, 0.08) 0%, rgba(121,40,202, 0.1) 100%);
+            padding: 8rem 2rem 4rem; text-align: center; margin-top: 60px; position: relative;
+            border-bottom: 1px solid var(--border-color);
         }
+        header h1 { font-family: var(--font-gothic); font-size: 6rem; color: var(--primary); font-weight: normal; margin-bottom: 0.2rem; text-shadow: 0 0 30px rgba(0,255,170,0.3); }
+        header p { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--text-main); letter-spacing: 3px; text-transform: uppercase; opacity: 0.9; }
 
-        header h1 { font-size: 3.5rem; color: #0d1117; font-weight: 900; }
-
-        /* Commission Badge */
         .commission-badge {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: #0d1117; color: var(--primary); padding: 0.4rem 1rem;
-            border-radius: 20px; font-weight: bold; font-size: 0.85rem;
-            border: 1px solid var(--primary); margin-bottom: 1rem;
-            box-shadow: 0 0 15px rgba(0, 255, 170, 0.3); transition: transform 0.2s;
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: rgba(16, 20, 30, 0.9); color: var(--primary); padding: 0.5rem 1.2rem;
+            border-radius: 30px; font-weight: 600; font-size: 0.85rem; font-family: var(--font-heading);
+            border: 1px solid var(--primary); margin-bottom: 1.5rem; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.15); transition: transform 0.2s;
         }
-        .commission-badge:hover { transform: scale(1.05); }
-        .pulse-dot { width: 8px; height: 8px; background: #00ffaa; border-radius: 50%; box-shadow: 0 0 8px #00ffaa; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
+        .commission-badge:hover { transform: scale(1.03); }
+        .pulse-dot { width: 8px; height: 8px; background: #00ffaa; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.4); } }
 
         .cta-button {
-            margin-top: 1rem; padding: 0.8rem 2rem; background: #0d1117;
-            color: var(--primary); border: 2px solid #0d1117; border-radius: 30px;
-            font-weight: bold;
+            margin-top: 1.5rem; padding: 0.8rem 2rem; background: var(--primary);
+            color: #0c0e12; border: none; border-radius: 30px;
+            font-weight: 800; font-size: 0.9rem; font-family: var(--font-heading); letter-spacing: 1px;
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.3); transition: all 0.2s;
         }
+        .cta-button:hover { background: #fff; box-shadow: 0 0 35px rgba(255,255,255,0.5); }
 
-        /* Container & Cards */
-        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; position: relative; z-index: 1; }
+        /* --- Main Layout & Cyber Bike Tracker --- */
+        .container { max-width: 1000px; margin: 3rem auto; padding: 0 1rem; position: relative; z-index: 1; }
         #bike-tracker-container { position: relative; }
 
         .running-bike {
-            position: absolute; z-index: 999; pointer-events: none; opacity: 1;
-            filter: drop-shadow(0 0 8px var(--primary)); transition: filter 0.3s, opacity 0.3s;
+            position: absolute; z-index: 99; pointer-events: none; opacity: 0.9;
+            filter: drop-shadow(0 0 10px var(--primary)); transition: filter 0.3s;
         }
         .running-bike.hyperspeed {
-            filter: drop-shadow(0 0 20px #ff0055) drop-shadow(0 0 30px #00ffaa);
-            opacity: 0.8;
+            filter: drop-shadow(0 0 25px #ff0055) drop-shadow(0 0 40px #00ffaa);
         }
 
-        main { background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(5px); }
-        section { padding: 3rem 2rem; border-bottom: 1px solid var(--border-color); }
-        h2 { color: var(--primary); font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--primary); }
+        main { background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(12px); border: 1px solid var(--border-color); }
+        section { padding: 3rem 2.5rem; border-bottom: 1px solid var(--border-color); }
+        h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2rem; margin-bottom: 1.5rem; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 1rem; }
+        h2::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
 
-        /* Art Showcase Grid & Lightbox */
-        .art-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
-        .art-item { background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s; }
-        .art-item:hover { transform: translateY(-4px); }
-        .art-img { width: 100%; height: 180px; object-fit: cover; }
-        .art-info { padding: 1rem; }
+        /* --- Productivity Widget: Pomodoro Timer --- */
+        .widget-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        .productivity-card {
+            background: rgba(12, 14, 18, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.8rem; text-align: center;
+        }
+        .productivity-card h4 { font-family: var(--font-heading); color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.1rem; letter-spacing: 1px; }
+        .pomodoro-display { font-size: 2.8rem; font-weight: 900; color: var(--primary); font-family: monospace; margin: 0.5rem 0; text-shadow: 0 0 15px rgba(0,255,170,0.2); }
+        .pomodoro-btns { display: flex; justify-content: center; gap: 0.6rem; margin-top: 1rem; }
+        .pomodoro-btns button {
+            padding: 0.45rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; font-family: var(--font-heading);
+            border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-main); transition: all 0.2s;
+        }
+        .pomodoro-btns button.active-timer { background: var(--primary); color: #0c0e12; border-color: var(--primary); font-weight: bold; }
 
-        /* Lightbox Modal */
+        /* --- Steam Profile Card --- */
+        .steam-card {
+            background: linear-gradient(135deg, #121620 0%, #1b2838 100%);
+            border: 1px solid #2a475e; border-radius: 14px; padding: 1.8rem; color: #c6d4df;
+            margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .steam-profile-left { display: flex; align-items: center; gap: 1.2rem; }
+        .steam-avatar-wrapper { position: relative; width: 68px; height: 68px; }
+        .steam-avatar { width: 100%; height: 100%; border-radius: 10px; border: 2px solid #66c0f4; object-fit: cover; }
+        .steam-info h4 { color: #ffffff; font-size: 1.25rem; font-weight: 700; font-family: var(--font-heading); letter-spacing: 1px; }
+        .steam-id-sub { font-size: 0.78rem; color: #8f98a0; font-family: monospace; margin-bottom: 0.3rem; }
+        .steam-status-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #66c0f4; }
+        .steam-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+        .steam-btn {
+            background: #2a475e; color: #ffffff; text-decoration: none; padding: 0.6rem 1.2rem;
+            border-radius: 8px; font-weight: bold; font-size: 0.85rem; font-family: var(--font-heading); border: 1px solid #66c0f4; transition: all 0.2s; letter-spacing: 1px;
+        }
+        .steam-btn:hover { background: #66c0f4; color: #171a21; box-shadow: 0 0 20px rgba(102, 192, 244, 0.4); }
+
+        /* --- Art Showcase Grid & Mobile Horizontal Scroll --- */
+        .art-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 1.5rem; 
+        }
+        .art-item { 
+            background-color: rgba(12, 14, 18, 0.7); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            transition: transform 0.2s, border-color 0.2s; 
+            flex: 0 0 260px;
+        }
+        .art-item:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .art-img { width: 100%; height: 190px; object-fit: cover; }
+        .art-info { padding: 1.1rem; }
+        .art-info h4 { color: var(--text-main); font-size: 1.05rem; font-family: var(--font-heading); letter-spacing: 1px; }
+        .art-info p { font-size: 0.85rem; color: var(--text-sub); margin-top: 0.2rem; }
+        
+        .art-item.coming-soon {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 275px; border: 2px dashed var(--border-color); background: rgba(12, 14, 18, 0.4);
+            text-align: center; color: var(--text-sub); font-family: var(--font-heading); letter-spacing: 1px;
+        }
+        .art-item.coming-soon span { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; }
+
+        @media (max-width: 768px) {
+            .art-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 1rem;
+                padding-bottom: 1rem;
+                scrollbar-width: thin;
+                scrollbar-color: var(--primary) var(--border-color);
+            }
+            .art-grid::-webkit-scrollbar { height: 6px; }
+            .art-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+            .art-item { scroll-snap-align: center; }
+        }
+
         .lightbox-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.9); z-index: 4000; align-items: center; justify-content: center; flex-direction: column;
+            background: rgba(0, 0, 0, 0.92); z-index: 4000; align-items: center; justify-content: center; flex-direction: column;
         }
-        .lightbox-modal img { max-width: 90%; max-height: 80vh; border-radius: 8px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(0, 255, 170, 0.3); }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; }
+        .lightbox-modal img { max-width: 90%; max-height: 80vh; border-radius: 10px; border: 2px solid var(--primary); box-shadow: 0 0 50px rgba(0,255,170,0.3); }
+        .lightbox-close { position: absolute; top: 25px; right: 35px; color: #fff; font-size: 2.5rem; font-family: monospace; }
 
-        /* Interests & Detailed Steam Card */
-        .interests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .interest-card { background: var(--bg-main); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary); }
-        
-        .steam-card {
-            background: linear-gradient(135deg, #171a21 0%, #1b2838 100%);
-            border: 1px solid #2a475e; border-radius: 12px; padding: 1.5rem; color: #c6d4df;
-            margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-        .steam-profile-left { display: flex; align-items: center; gap: 1rem; }
-        .steam-avatar-wrapper { position: relative; width: 64px; height: 64px; }
-        .steam-avatar { width: 100%; height: 100%; border-radius: 8px; border: 2px solid #66c0f4; object-fit: cover; }
-        .steam-avatar.ingame { border-color: #a3e035; }
-        .steam-avatar.offline { border-color: #8f98a0; }
-        
-        .steam-info h4 { color: #ffffff; font-size: 1.25rem; font-weight: bold; margin-bottom: 0.1rem; }
-        .steam-id-sub { font-size: 0.75rem; color: #8f98a0; margin-bottom: 0.3rem; font-family: monospace; }
-        .steam-status-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #66c0f4; }
-        .steam-status-badge.ingame { color: #a3e035; }
-        .steam-status-badge.offline { color: #8f98a0; }
-        .steam-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
-        
-        .steam-game-details { margin-top: 0.3rem; font-size: 0.82rem; color: #acb2b8; }
-        .steam-btn {
-            background: #2a475e; color: #ffffff; text-decoration: none; padding: 0.65rem 1.2rem;
-            border-radius: 6px; font-weight: bold; font-size: 0.85rem; border: 1px solid #66c0f4;
-            transition: all 0.2s;
-        }
-        .steam-btn:hover { background: #66c0f4; color: #171a21; box-shadow: 0 0 12px rgba(102, 192, 244, 0.5); }
-
-        /* Full Screen Overlay for Mobile */
-        .chat-backdrop-overlay {
+        /* --- Command Palette Modal (Ctrl + K) --- */
+        .cmd-palette-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 1999;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 5000; align-items: flex-start; justify-content: center; padding-top: 15vh;
         }
+        .cmd-palette-box {
+            background: var(--card-bg); border: 1px solid var(--primary); border-radius: 14px;
+            width: 90%; max-width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); overflow: hidden;
+        }
+        .cmd-input {
+            width: 100%; padding: 1.2rem; background: transparent; border: none; border-bottom: 1px solid var(--border-color);
+            color: var(--text-main); font-size: 1.05rem; outline: none; font-family: var(--font-body);
+        }
+        .cmd-list { max-height: 280px; overflow-y: auto; padding: 0.6rem; }
+        .cmd-item {
+            padding: 0.8rem 1rem; border-radius: 8px; color: var(--text-main); font-size: 0.95rem;
+            display: flex; justify-content: space-between; align-items: center; transition: background 0.15s;
+        }
+        .cmd-item:hover { background: rgba(0, 255, 170, 0.12); color: var(--primary); }
+        .cmd-shortcut { font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); }
 
-        /* FLOATING NEBULA CHAT WIDGET */
+        /* --- Floating Chat Widget --- */
         .chat-toggle-btn {
-            position: fixed; bottom: 20px; left: 20px;
+            position: fixed; bottom: 25px; left: 25px;
             background: linear-gradient(135deg, #00ffaa, #7928ca);
-            color: #121824; border: none; padding: 0.8rem 1.4rem; border-radius: 30px;
-            font-weight: bold; box-shadow: 0 4px 20px rgba(0, 255, 170, 0.4);
-            z-index: 2000;
+            color: #0c0e12; border: none; padding: 0.9rem 1.6rem; border-radius: 30px;
+            font-weight: 800; font-family: var(--font-heading); letter-spacing: 1px;
+            box-shadow: 0 6px 25px rgba(0, 255, 170, 0.4); z-index: 2000; transition: transform 0.2s;
         }
+        .chat-toggle-btn:hover { transform: scale(1.05); }
 
         .nebula-chat-window {
-            position: fixed; bottom: 80px; left: 20px;
-            width: 380px; height: 560px; border-radius: 16px;
+            position: fixed; bottom: 90px; left: 25px; width: 390px; height: 560px; border-radius: 18px;
             z-index: 2001; display: none; flex-direction: column; overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 170, 0.3);
-            background: radial-gradient(circle at 20% 20%, rgba(121, 40, 202, 0.8), transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(0, 255, 170, 0.6), transparent 50%),
-                        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95), #05070f);
-            background-size: 150% 150%; animation: nebulaShift 12s ease infinite alternate;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.85); border: 1px solid rgba(0, 255, 170, 0.3);
+            background: radial-gradient(circle at 20% 20%, rgba(121, 40, 202, 0.7), transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 170, 0.4), transparent 60%),
+                        #0c0e12;
         }
-
-        @keyframes nebulaShift { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-
-        .nebula-chat-header {
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
-            padding: 0.8rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        .nebula-chat-header { background: rgba(12, 14, 18, 0.9); padding: 1rem; border-bottom: 1px solid var(--border-color); }
         .chat-top-row { display: flex; justify-content: space-between; align-items: center; }
-        .nebula-chat-title { color: #00ffaa; font-weight: bold; font-size: 0.95rem; }
-        .admin-badge-btn { background: rgba(0, 255, 170, 0.15); border: 1px solid #00ffaa; color: #00ffaa; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; }
-        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; padding: 0 4px; }
+        .nebula-chat-title { color: #00ffaa; font-weight: 700; font-size: 1rem; font-family: var(--font-heading); letter-spacing: 1px; }
+        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.3rem; }
+        .chat-channels-bar { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+        .channel-tab { flex: 1; padding: 0.4rem; text-align: center; font-size: 0.82rem; background: rgba(255, 255, 255, 0.05); color: #ccc; border-radius: 8px; font-family: var(--font-heading); }
+        .channel-tab.active { background: rgba(0, 255, 170, 0.2); color: #00ffaa; border: 1px solid #00ffaa; font-weight: bold; }
+        
+        .nebula-chat-messages { flex: 1; padding: 1.2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem; }
+        .nebula-msg { padding: 0.7rem 1rem; border-radius: 12px; max-width: 85%; font-size: 0.9rem; word-wrap: break-word; }
+        .nebula-msg.system { background: rgba(255, 255, 255, 0.05); color: #9ca3af; text-align: center; align-self: center; width: 90%; font-size: 0.8rem; border: 1px solid var(--border-color); }
+        .nebula-msg.user { background: rgba(255, 255, 255, 0.1); color: #ffffff; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .nebula-chat-input-bar { padding: 1rem; background: rgba(12, 14, 18, 0.9); border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.6rem; }
+        .nebula-chat-input-bar input[type="text"] { background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border-color); color: #ffffff; padding: 0.6rem 0.9rem; border-radius: 8px; outline: none; font-size: 0.9rem; width: 100%; font-family: var(--font-body); }
+        .nebula-chat-input-bar input[type="text"]:focus { border-color: var(--primary); }
 
-        .chat-channels-bar { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-        .channel-tab {
-            flex: 1; padding: 0.35rem 0.5rem; text-align: center; font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.1); color: #ccc; border-radius: 6px;
-            border: 1px solid transparent; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-        }
-        .channel-tab.active { background: rgba(0, 255, 170, 0.25); color: #00ffaa; border-color: #00ffaa; font-weight: bold; }
-
-        .nebula-chat-messages { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; overscroll-behavior: contain; }
-
-        .nebula-msg { padding: 0.6rem 0.9rem; border-radius: 12px; max-width: 82%; font-size: 0.88rem; backdrop-filter: blur(5px); word-wrap: break-word; }
-        .nebula-msg.system { background: rgba(255, 255, 255, 0.08); color: #d1d5db; text-align: center; align-self: center; width: 90%; font-size: 0.78rem; }
-        .nebula-msg.user { background: rgba(255, 255, 255, 0.15); color: #ffffff; align-self: flex-start; text-align: left; }
-        .nebula-msg.admin { background: rgba(0, 255, 170, 0.25); color: #ffffff; align-self: flex-end; text-align: left; }
-
-        .nebula-chat-input-bar {
-            padding: 0.8rem; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; gap: 0.5rem;
-        }
-        .inputs-wrapper { display: flex; gap: 0.4rem; }
-        .nebula-chat-input-bar input[type="text"] {
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff; padding: 0.5rem 0.8rem; border-radius: 8px; outline: none; font-size: 0.85rem;
-        }
-        .remember-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #a0aec0; }
-        .remember-row input[type="checkbox"] { accent-color: #00ffaa; }
-
-        .action-buttons-row { display: flex; gap: 0.4rem; }
-        .action-buttons-row button { padding: 0.5rem; border-radius: 8px; font-weight: bold; border: none; font-size: 0.85rem; }
-        .btn-send { flex: 2; background: #00ffaa; color: #05070f; }
-        .btn-close-chat { flex: 1; background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2) !important; }
-
-        /* Modal Overlay */
-        .admin-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 3000; align-items: center; justify-content: center;
-        }
-        .admin-modal-box {
-            background: #1e2638; padding: 1.5rem; border-radius: 12px; max-width: 320px; width: 90%;
-            border: 1px solid #00ffaa; text-align: center; color: white;
-        }
-        .admin-modal-box input { width: 100%; padding: 0.6rem; margin: 1rem 0; background: #121824; border: 1px solid var(--border-color); color: white; border-radius: 6px; }
-
-        /* Mobile WhatsApp Optimization */
         @media (max-width: 768px) {
-            .nebula-chat-window { position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; border-radius: 0; border: none; z-index: 2001; }
-            .nebula-chat-input-bar { position: sticky; bottom: 0; }
+            .nebula-chat-window { position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; border-radius: 0; border: none; }
+            header h1 { font-size: 4rem; }
         }
 
-        footer { text-align: center; padding: 2rem; color: var(--text-sub); font-size: 0.9rem; }
+        footer { text-align: center; padding: 2.5rem; color: var(--text-sub); font-size: 0.85rem; font-family: var(--font-heading); letter-spacing: 1px; }
     </style>
 </head>
 <body id="pageBody">
 
     <!-- Celestial Backgrounds -->
-    <div class="celestial-bg" id="lightSun"><div class="sun-disk"></div></div>
     <div class="celestial-bg" id="darkBlackHole"><div class="black-hole-disk"></div></div>
 
-    <!-- Custom Fixed Crosshair Cursor -->
-    <div class="custom-cursor" id="customCursor">
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='2'>
-            <circle cx='12' cy='12' r='4'/><line x1='12' y1='2' x2='12' y2='6'/><line x1='12' y1='18' x2='12' y2='22'/><line x1='2' y1='12' x2='6' y2='12'/><line x1='18' y1='12' x2='22' y2='12'/>
-        </svg>
-    </div>
-
-    <div class="chat-backdrop-overlay" id="chatOverlay" onclick="toggleChat()"></div>
-
+    <!-- Navigation Bar -->
     <nav>
-        <a class="logo" href="#home">ZP</a>
+        <a class="logo" href="#home">Zee</a>
         <ul class="nav-links">
             <li><a onclick="scrollToSection('about')">About</a></li>
-            <li><a onclick="scrollToSection('art')">My Art</a></li>
-            <li><a onclick="scrollToSection('interests')">Interests</a></li>
-            <li><button class="nav-btn" onclick="toggleSFX()" id="sfxToggleBtn">🔊 SFX: ON</button></li>
-            <li><button class="nav-btn" onclick="toggleTheme()">🌙</button></li>
+            <li><a onclick="scrollToSection('interests')">Gaming</a></li>
+            <li><a onclick="scrollToSection('art')">Art</a></li>
+            <li><a onclick="scrollToSection('tools')">Tools</a></li>
+            <li><button class="cmd-trigger-btn" onclick="openCmdPalette()">⌘ K</button></li>
+            <li><button class="nav-btn" onclick="toggleSFX()" id="sfxToggleBtn">🔊 SFX</button></li>
         </ul>
     </nav>
 
+    <!-- Header -->
     <header id="home">
         <div class="commission-badge" onclick="inquireCommission()">
             <div class="pulse-dot"></div>
-            <span>Commissions Open — Inquire via Live DM</span>
+            <span>Commissions Open — Direct Inquiry</span>
         </div>
         <h1>Zee</h1>
-        <p>Artist • Web Designer • Gamer</p>
-        <button class="cta-button" onclick="toggleChat()">💬 Open Live Chat</button>
+        <p>Artist • Full-Stack Creator • Gamer</p>
+        <button class="cta-button" onclick="toggleChat()">Open Live Chat</button>
     </header>
 
     <div class="container">
         <div id="bike-tracker-container">
+            <!-- Perimeter Running Bike Animation Element -->
             <div id="border-bike" class="running-bike">
-                <svg width="48" height="26" viewBox="0 0 50 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="44" height="24" viewBox="0 0 50 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="34,13 50,2 50,24" fill="#00ffaa" opacity="0.3" />
-                    <rect x="33" y="10" width="9" height="6" rx="2" fill="#0d1117" stroke="#00ffaa" stroke-width="1.2"/>
-                    <rect x="6" y="9.5" width="10" height="7" rx="2" fill="#0d1117" stroke="#00ffaa" stroke-width="1.2"/>
-                    <path d="M12 9 C16 7, 26 6, 35 11 L36 13 L35 15 C26 20, 16 19, 12 17 Z" fill="#1a202c" stroke="#2d3748"/>
-                    <path d="M18 10 C20 10, 23 11, 23 13 C23 15, 20 16, 18 16 Z" fill="#0f172a" stroke="#00ffaa"/>
+                    <rect x="33" y="10" width="9" height="6" rx="2" fill="#0c0e12" stroke="#00ffaa" stroke-width="1.2"/>
+                    <rect x="6" y="9.5" width="10" height="7" rx="2" fill="#0c0e12" stroke="#00ffaa" stroke-width="1.2"/>
+                    <path d="M12 9 C16 7, 26 6, 35 11 L36 13 L35 15 C26 20, 16 19, 12 17 Z" fill="#161b22" stroke="#2d3748"/>
                 </svg>
             </div>
 
             <main>
                 <section id="about">
                     <h2>About Me</h2>
-                    <p>Hey! I'm Zaheer. I enjoy art, web design, and gaming.</p>
+                    <p>Welcome to my centralized digital domain. Built with peak performance, accessibility, and clean gothic-cyber architecture in mind.</p>
                 </section>
 
-                <section id="art">
-                    <h2>My Art</h2>
-                    <p style="font-size: 0.85rem; color: var(--primary); margin-bottom: 0.5rem;">💡 Click any artwork to view full-res in Lightbox mode!</p>
-                    <div class="art-grid"> 
-                        <div class="art-item" onclick="openLightbox('GrimZee.jpeg', 'GrimZee OC')"> 
-                            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
-                            <div class="art-info"><h4>Artwork 1</h4><p>GrimZee OC</p></div>
+                <section id="tools">
+                    <h2>Productivity & Utilities</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-sub);">Interactive mini-tools engineered directly into your digital workspace experience.</p>
+                    <div class="widget-grid">
+                        <div class="productivity-card">
+                            <h4>Focus Pomodoro Timer</h4>
+                            <div class="pomodoro-display" id="pomodoroTimer">25:00</div>
+                            <div class="pomodoro-btns">
+                                <button onclick="startPomodoro()" id="pomoStartBtn">Start</button>
+                                <button onclick="resetPomodoro()">Reset</button>
+                            </div>
                         </div>
-                        <div class="art-item" onclick="openLightbox('hand.jpg', 'Hand Sketch')">
-                            <img src="hand.jpg" alt="Hand Sketch" class="art-img">
-                            <div class="art-info"><h4>Artwork 2</h4><p>Break sketch</p></div>
+                        <div class="productivity-card">
+                            <h4>Quick Command Teleport</h4>
+                            <p style="font-size: 0.85rem; margin: 0.6rem 0; color: var(--text-sub);">Press <code style="background:rgba(255,255,255,0.06); padding:0.2rem 0.4rem; border-radius:4px; border:1px solid var(--border-color);">Ctrl+K</code> anytime to bring up the command palette.</p>
+                            <button class="nav-btn" onclick="openCmdPalette()" style="margin-top: 0.5rem; width: 100%;">Launch Menu 🚀</button>
                         </div>
                     </div>
                 </section>
 
                 <section id="interests">
-                    <h2>My Interests</h2>
-                    <div class="interests-grid">
-                        <div class="interest-card"><h4>🎮 Gaming</h4><p>Warframe fan!</p></div>
-                        <div class="interest-card"><h4>🎨 Digital Art</h4><p>Character illustrations.</p></div>
-                    </div>
-
-                    <!-- Restored Steam Card with Name, ID64, and Live Status Simulation -->
+                    <h2>Gaming & Steam Profile</h2>
                     <div class="steam-card">
                         <div class="steam-profile-left">
                             <div class="steam-avatar-wrapper">
@@ -379,394 +351,251 @@
                                     <div class="steam-dot"></div>
                                     <span id="steamStatusText">Online</span>
                                 </div>
-                                <div class="steam-game-details" id="steamGameDetails">
-                                    Currently in-game: <strong style="color:#ffffff;" id="steamCurrentGame">Warframe</strong>
-                                </div>
                             </div>
                         </div>
-                        <a href="https://steamcommunity.com/profiles/76561199408721855" target="_blank" class="steam-btn">🎮 View Steam Profile</a>
+                        <a href="https://steamcommunity.com/profiles/76561199408721855" target="_blank" class="steam-btn">Steam Profile</a>
+                    </div>
+                </section>
+
+                <section id="art">
+                    <h2>Art Showcase</h2>
+                    <p style="font-size: 0.88rem; color: var(--primary); margin-bottom: 0.5rem; font-family: var(--font-heading); letter-spacing: 1px;">💡 Click any artwork to open high-resolution view (Swipe left/right on mobile).</p>
+                    <div class="art-grid">
+                        <div class="art-item" onclick="openLightbox('GrimZee.jpeg', 'GrimZee OC')">
+                            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
+                            <div class="art-info">
+                                <h4>GrimZee OC</h4>
+                                <p>Character Concept</p>
+                            </div>
+                        </div>
+                        <div class="art-item" onclick="openLightbox('hand.jpg', 'Hand Sketch')">
+                            <img src="hand.jpg" alt="Hand Sketch" class="art-img">
+                            <div class="art-info">
+                                <h4>Hand Sketch</h4>
+                                <p>Anatomy Practice</p>
+                            </div>
+                        </div>
+                        <div class="art-item coming-soon">
+                            <span>⏳</span>
+                            <h4>Coming Soon</h4>
+                            <p>Next Artwork Drop</p>
+                        </div>
+                        <div class="art-item coming-soon">
+                            <span>⏳</span>
+                            <h4>Coming Soon</h4>
+                            <p>Classified Concept</p>
+                        </div>
                     </div>
                 </section>
             </main>
         </div>
     </div>
 
-    <!-- Lightbox Zoom Modal -->
+    <!-- Lightbox Modal -->
     <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
         <span class="lightbox-close">&times;</span>
         <img id="lightboxImg" src="" alt="Zoomed Art">
-        <p id="lightboxCaption" style="color: white; margin-top: 1rem; font-weight: bold;"></p>
     </div>
 
-    <!-- FLOATING NEBULA CHAT WIDGET -->
-    <button class="chat-toggle-btn" onclick="toggleChat()">💬 Live Chat</button>
+    <!-- Command Palette Modal -->
+    <div class="cmd-palette-overlay" id="cmdPalette" onclick="closeCmdPaletteOnOutside(event)">
+        <div class="cmd-palette-box">
+            <input type="text" class="cmd-input" id="cmdInput" placeholder="Type a command or search sections..." oninput="filterCommands()">
+            <div class="cmd-list" id="cmdList">
+                <div class="cmd-item" onclick="execCmd('about')"><span>👤 Jump to About Me</span><span class="cmd-shortcut">Section</span></div>
+                <div class="cmd-item" onclick="execCmd('interests')"><span>🎮 View Steam Profile</span><span class="cmd-shortcut">Gaming</span></div>
+                <div class="cmd-item" onclick="execCmd('art')"><span>🎨 View Art Gallery</span><span class="cmd-shortcut">Section</span></div>
+                <div class="cmd-item" onclick="execCmd('chat')"><span>💬 Open Live Cloud Chat</span><span class="cmd-shortcut">Chat</span></div>
+                <div class="cmd-item" onclick="execCmd('hyperspeed')"><span>🚀 Trigger Hyperspeed Bike</span><span class="cmd-shortcut">Easter Egg</span></div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Floating Live Chat Widget -->
+    <button class="chat-toggle-btn" onclick="toggleChat()">💬 Live Chat</button>
     <div class="nebula-chat-window" id="nebulaChat">
         <div class="nebula-chat-header">
             <div class="chat-top-row">
                 <div class="nebula-chat-title" id="chatTitle">🌌 Nebula Live Chat</div>
-                <div>
-                    <button class="admin-badge-btn" onclick="openAdminModal()">🔐 Admin</button>
-                    <button class="close-chat-btn" onclick="toggleChat()">✕</button>
-                </div>
+                <button class="close-chat-btn" onclick="toggleChat()">✕</button>
             </div>
             <div class="chat-channels-bar">
                 <div class="channel-tab active" id="tabPublic" onclick="switchChannel('public')">🌐 Public Lobby</div>
-                <div class="channel-tab" id="tabPrivate" onclick="switchChannel('private')">🔒 DM with Zee</div>
+                <div class="channel-tab" id="tabPrivate" onclick="switchChannel('private')">🔒 DM Zee</div>
             </div>
         </div>
-
         <div class="nebula-chat-messages" id="nebulaMessages">
-            <div class="nebula-msg system">Connecting to live cloud network...</div>
+            <div class="nebula-msg system">System initialized successfully.</div>
         </div>
-
         <form class="nebula-chat-input-bar" onsubmit="sendNebulaMsg(event)">
-            <div class="inputs-wrapper">
-                <input type="text" id="chatUserName" placeholder="Your Name" style="width: 100%;" required>
-            </div>
-            <div class="remember-row">
-                <input type="checkbox" id="rememberMe" checked>
-                <label for="rememberMe">Remember my name on this device</label>
-            </div>
-            <div class="inputs-wrapper">
-                <input type="text" id="chatUserMsg" placeholder="Type message..." style="width: 100%;" required>
-            </div>
-            <div class="action-buttons-row">
-                <button type="submit" class="btn-send">Send Message 🚀</button>
-                <button type="button" class="btn-close-chat" onclick="toggleChat()">✕ Close Chat</button>
-            </div>
+            <input type="text" id="chatUserName" placeholder="Your Name" required>
+            <input type="text" id="chatUserMsg" placeholder="Type a message..." required>
+            <button type="submit" style="background:var(--primary); color:#0c0e12; border:none; padding:0.5rem; border-radius:8px; font-weight:bold; font-family:var(--font-heading); letter-spacing:1px;">Send Message</button>
         </form>
     </div>
 
-    <!-- Admin Modal -->
-    <div class="admin-modal-overlay" id="adminModal">
-        <div class="admin-modal-box">
-            <h3>🔐 Admin Login</h3>
-            <input type="password" id="adminPassInput" placeholder="Password">
-            <div style="display: flex; justify-content: space-between;">
-                <button onclick="loginAdmin()" style="background: #00ffaa; color: #121824;">Login</button>
-                <button onclick="closeAdminModal()" style="background: #4a5568; color: white;">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <footer>
-        <p>&copy; 2026 Zee. All rights reserved.</p>
+        <p>&copy; 2026 Zee. Designed with supreme precision and gothic architecture.</p>
     </footer>
 
-    <!-- Firebase SDK Modules -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBM8-MTyRRROhIq-OL8h2i_m5MhTmRFpIM",
-            authDomain: "zee-nebula-chat.firebaseapp.com",
-            databaseURL: "https://zee-nebula-chat-default-rtdb.firebaseio.com",
-            projectId: "zee-nebula-chat",
-            storageBucket: "zee-nebula-chat.firebasestorage.app",
-            messagingSenderId: "390213315982",
-            appId: "1:390213315982:web:97e28d8758455c1d9748df"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        let currentChannel = 'public';
-        let isAdmin = false;
-        let activeDMUser = "";
-        const ADMIN_PASS = "GrimZee246";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('zee_chat_username');
-            if (savedName) {
-                document.getElementById('chatUserName').value = savedName;
-            }
-        });
-
-        const scrollToBottom = () => {
-            const container = document.getElementById('nebulaMessages');
-            if (container) {
-                setTimeout(() => { container.scrollTop = container.scrollHeight; }, 100);
-            }
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('chatUserMsg')?.addEventListener('focus', scrollToBottom);
-            document.getElementById('chatUserName')?.addEventListener('focus', scrollToBottom);
-        });
-
-        function updateTabLabels() {
-            const privateTab = document.getElementById('tabPrivate');
-            if (isAdmin) {
-                privateTab.innerText = activeDMUser ? `💬 DM with ${activeDMUser}` : "💬 User DMs";
-            } else {
-                privateTab.innerText = "🔒 DM with Zee";
-            }
-        }
-
-        function listenToChannel(channel) {
-            const container = document.getElementById('nebulaMessages');
-            container.innerHTML = `<div class="nebula-msg system">✨ Switched to ${channel === 'public' ? 'Public Lobby' : (isAdmin && activeDMUser ? 'DM with ' + activeDMUser : 'Private Channel')}</div>`;
-            
-            const messagesRef = ref(db, `messages/${channel}`);
-            onChildAdded(messagesRef, (snapshot) => {
-                const data = snapshot.val();
-                if (isAdmin && channel === 'private' && !data.isAdmin && data.name) {
-                    activeDMUser = data.name;
-                    updateTabLabels();
-                }
-
-                const msgElement = document.createElement('div');
-                msgElement.className = `nebula-msg ${data.isAdmin ? 'admin' : 'user'}`;
-                msgElement.innerHTML = `<strong>${data.name}:</strong> ${data.text}`;
-                container.appendChild(msgElement);
-                container.scrollTop = container.scrollHeight;
-            });
-        }
-
-        window.sendNebulaMsg = function(e) {
-            e.preventDefault();
-            playSynthSFX(800, 0.05);
-            const nameInput = document.getElementById('chatUserName');
-            const msgInput = document.getElementById('chatUserMsg');
-            const rememberCheckbox = document.getElementById('rememberMe');
-            
-            if (!nameInput.value.trim() || !msgInput.value.trim()) return;
-
-            if (rememberCheckbox.checked) {
-                localStorage.setItem('zee_chat_username', nameInput.value.trim());
-            } else {
-                localStorage.removeItem('zee_chat_username');
-            }
-
-            const messagesRef = ref(db, `messages/${currentChannel}`);
-            push(messagesRef, {
-                name: nameInput.value.trim(),
-                text: msgInput.value.trim(),
-                isAdmin: isAdmin,
-                timestamp: Date.now()
-            });
-
-            msgInput.value = '';
-        };
-
-        window.switchChannel = function(channel) {
-            playSynthSFX(600, 0.03);
-            currentChannel = channel;
-            document.getElementById('tabPublic').classList.toggle('active', channel === 'public');
-            document.getElementById('tabPrivate').classList.toggle('active', channel === 'private');
-            listenToChannel(channel);
-        };
-
-        window.loginAdmin = function() {
-            const pass = document.getElementById('adminPassInput').value;
-            if (pass === ADMIN_PASS) {
-                isAdmin = true;
-                alert("👑 Admin Authorized! Welcome Zee.");
-                document.getElementById('chatTitle').innerHTML = '👑 Zee (Admin)';
-                
-                const nameField = document.getElementById('chatUserName');
-                nameField.value = 'Zee (Admin)';
-                
-                updateTabLabels();
-                closeAdminModal();
-            } else {
-                alert("❌ Incorrect Password");
-            }
-        };
-
-        window.toggleChat = function() {
-            playSynthSFX(500, 0.04);
-            const chatWin = document.getElementById('nebulaChat');
-            const overlay = document.getElementById('chatOverlay');
-            const isOpening = chatWin.style.display !== 'flex';
-
-            chatWin.style.display = isOpening ? 'flex' : 'none';
-            overlay.style.display = isOpening ? 'block' : 'none';
-
-            if (isOpening) {
-                document.body.classList.add('chat-active-mobile');
-                listenToChannel(currentChannel);
-            } else {
-                document.body.classList.remove('chat-active-mobile');
-            }
-        };
-
-        window.openAdminModal = () => document.getElementById('adminModal').style.display = 'flex';
-        window.closeAdminModal = () => document.getElementById('adminModal').style.display = 'none';
-
-        window.inquireCommission = function() {
-            toggleChat();
-            switchChannel('private');
-            document.getElementById('chatUserMsg').value = "Hey Zee! I'd like to inquire about an art commission.";
-        };
-    </script>
-
-    <!-- Interactive Features JavaScript -->
+    <!-- Core Interactive & Advanced Logic -->
     <script>
         let bikeSpeed = 2;
         let sfxEnabled = true;
 
+        // Web Audio API Synthesizer
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSynthSFX(freq, duration) {
             if (!sfxEnabled) return;
             try {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
             } catch (e) {}
         }
 
         function toggleSFX() {
             sfxEnabled = !sfxEnabled;
-            document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+            document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
         }
 
-        // --- Perfectly Aligned Custom Cursor ---
-        const cursor = document.getElementById('customCursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.display = 'block';
-            cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
+        // --- Command Palette Controller ---
+        function openCmdPalette() {
+            playSynthSFX(700, 0.04);
+            document.getElementById('cmdPalette').style.display = 'flex';
+            document.getElementById('cmdInput').focus();
+        }
+        function closeCmdPalette() {
+            document.getElementById('cmdPalette').style.display = 'none';
+        }
+        function closeCmdPaletteOnOutside(e) {
+            if (e.target.id === 'cmdPalette') closeCmdPalette();
+        }
 
-            if (bikeSpeed > 2 && e.clientX % 3 === 0) {
-                createTrailNode(e.clientX, e.clientY);
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                openCmdPalette();
+            }
+            if (e.key === 'Escape') {
+                closeCmdPalette();
             }
         });
 
-        document.addEventListener('mouseleave', () => { cursor.style.display = 'none'; });
-
-        function createTrailNode(x, y) {
-            const node = document.createElement('div');
-            node.style.cssText = `position:fixed; top:${y}px; left:${x}px; width:6px; height:6px; border-radius:50%; pointer-events:none; z-index:9998; opacity:0.8; transition:all 0.5s ease;`;
-            const randomColor = Math.random() > 0.5 ? '#ff0055' : '#00ffaa';
-            node.style.background = randomColor;
-            node.style.boxShadow = `0 0 8px 1px ${randomColor}`;
-            document.body.appendChild(node);
-            setTimeout(() => { node.style.transform = 'scale(0) translateY(15px)'; node.style.opacity = '0'; }, 50);
-            setTimeout(() => { node.remove(); }, 500);
+        function execCmd(action) {
+            closeCmdPalette();
+            if (action === 'about') scrollToSection('about');
+            if (action === 'interests') scrollToSection('interests');
+            if (action === 'art') scrollToSection('art');
+            if (action === 'chat') toggleChat();
+            if (action === 'hyperspeed') activateHyperspeed();
         }
 
-        // --- Live Dynamic Steam Status Simulation ---
-        const steamStates = [
-            { status: "In-Game", game: "Warframe", badgeClass: "ingame", avatarClass: "ingame", text: "Currently Playing" },
-            { status: "In-Game", game: "Cyberpunk 2077", badgeClass: "ingame", avatarClass: "ingame", text: "Currently Playing" },
-            { status: "Online", game: "", badgeClass: "", avatarClass: "", text: "Online / Looking to Play" },
-            { status: "Offline", game: "", badgeClass: "offline", avatarClass: "offline", text: "Last Online 2 hrs ago" }
-        ];
+        // --- Pomodoro Timer Utility ---
+        let pomoInterval = null;
+        let pomoSeconds = 25 * 60;
+        let pomoRunning = false;
 
-        function updateSteamStatus() {
-            const state = steamStates[Math.floor(Math.random() * steamStates.length)];
-            const badge = document.getElementById('steamStatusBadge');
-            const statusText = document.getElementById('steamStatusText');
-            const gameDetails = document.getElementById('steamGameDetails');
-            const avatar = document.getElementById('steamAvatar');
-
-            badge.className = `steam-status-badge ${state.badgeClass}`;
-            avatar.className = `steam-avatar ${state.avatarClass}`;
-            statusText.innerText = state.status === "In-Game" ? "In-Game" : state.text;
-
-            if (state.status === "In-Game") {
-                gameDetails.style.display = "block";
-                gameDetails.innerHTML = `Playing: <strong style="color:#ffffff;">${state.game}</strong>`;
+        function startPomodoro() {
+            playSynthSFX(600, 0.03);
+            const btn = document.getElementById('pomoStartBtn');
+            if (pomoRunning) {
+                clearInterval(pomoInterval);
+                pomoRunning = false;
+                btn.innerText = "Start";
+                btn.classList.remove('active-timer');
             } else {
-                gameDetails.style.display = "none";
+                pomoRunning = true;
+                btn.innerText = "Pause";
+                btn.classList.add('active-timer');
+                pomoInterval = setInterval(() => {
+                    if (pomoSeconds > 0) {
+                        pomoSeconds--;
+                        updatePomoDisplay();
+                    } else {
+                        clearInterval(pomoInterval);
+                        alert("Pomodoro session completed!");
+                        resetPomodoro();
+                    }
+                }, 1000);
             }
         }
 
-        setInterval(updateSteamStatus, 15000);
+        function resetPomodoro() {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            pomoSeconds = 25 * 60;
+            updatePomoDisplay();
+            const btn = document.getElementById('pomoStartBtn');
+            btn.innerText = "Start";
+            btn.classList.remove('active-timer');
+        }
 
+        function updatePomoDisplay() {
+            const m = Math.floor(pomoSeconds / 60).toString().padStart(2, '0');
+            const s = (pomoSeconds % 60).toString().padStart(2, '0');
+            document.getElementById('pomodoroTimer').innerText = `${m}:${s}`;
+        }
+
+        // --- Perimeter Bike Animation ---
         function animateBike() {
             const bike = document.getElementById('border-bike');
             const container = document.getElementById('bike-tracker-container');
             if (!bike || !container) return;
 
             const rect = container.getBoundingClientRect();
-            const w = rect.width;
-            const h = rect.height;
-            
             let distance = (parseFloat(bike.dataset.dist) || 0) + bikeSpeed;
-            const totalPerimeter = 2 * (w + h);
+            const totalPerimeter = 2 * (rect.width + rect.height);
             distance %= totalPerimeter;
             bike.dataset.dist = distance;
 
             let x = 0, y = 0, rot = 0;
-            if (distance < w) { x = distance; y = 0; rot = 0; }
-            else if (distance < w + h) { x = w; y = distance - w; rot = 90; }
-            else if (distance < 2 * w + h) { x = w - (distance - (w + h)); y = h; rot = 180; }
-            else { x = 0; y = h - (distance - (2 * w + h)); rot = 270; }
+            if (distance < rect.width) { x = distance; y = 0; rot = 0; }
+            else if (distance < rect.width + rect.height) { x = rect.width; y = distance - rect.width; rot = 90; }
+            else if (distance < 2 * rect.width + rect.height) { x = rect.width - (distance - (rect.width + rect.height)); y = rect.height; rot = 180; }
+            else { x = 0; y = rect.height - (distance - (2 * rect.width + rect.height)); rot = 270; }
 
             bike.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
             requestAnimationFrame(animateBike);
         }
 
         function activateHyperspeed() {
-            bikeSpeed = 8;
+            bikeSpeed = 9;
             document.getElementById('border-bike').classList.add('hyperspeed');
             playSynthSFX(1200, 0.4);
-            alert("🚀 HYPERSPEED ACTIVATED! Easter Egg Unlocked.");
         }
 
-        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0;
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === konamiCode[konamiIndex]) {
-                konamiIndex++;
-                if (konamiIndex === konamiCode.length) {
-                    activateHyperspeed();
-                    konamiIndex = 0;
-                }
-            } else { konamiIndex = 0; }
-        });
-
-        let lastTapTime = 0;
-        let tapCount = 0;
-
-        window.addEventListener('touchend', (e) => {
-            const isClickable = e.target.closest('button, a, input');
-            if (isClickable || bikeSpeed > 2) return;
-
-            const currentTime = new Date().getTime();
-            const tapGap = currentTime - lastTapTime;
-
-            if (tapGap < 400) { tapCount++; } else { tapCount = 1; }
-            lastTapTime = currentTime;
-
-            if (tapCount === 3) {
-                activateHyperspeed();
-                tapCount = 0;
-            }
-        }, false);
-
+        // --- Basic UI Helpers ---
+        function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
         function openLightbox(src, title) {
-            playSynthSFX(700, 0.05);
             document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightboxCaption').innerText = title;
             document.getElementById('lightboxModal').style.display = 'flex';
         }
         function closeLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
-
-        function scrollToSection(id) {
-            playSynthSFX(400, 0.03);
-            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        function toggleChat() { document.getElementById('nebulaChat').style.display = document.getElementById('nebulaChat').style.display === 'flex' ? 'none' : 'flex'; }
+        function inquireCommission() { toggleChat(); }
+        function switchChannel(ch) {
+            document.getElementById('tabPublic').classList.toggle('active', ch === 'public');
+            document.getElementById('tabPrivate').classList.toggle('active', ch === 'private');
         }
-        function toggleTheme() {
-            playSynthSFX(900, 0.04);
-            document.body.classList.toggle('dark-mode');
+        function sendNebulaMsg(e) {
+            e.preventDefault();
+            const msgInput = document.getElementById('chatUserMsg');
+            const nameInput = document.getElementById('chatUserName');
+            const container = document.getElementById('nebulaMessages');
+            const div = document.createElement('div');
+            div.className = 'nebula-msg user';
+            div.innerHTML = `<strong>${nameInput.value}:</strong> ${msgInput.value}`;
+            container.appendChild(div);
+            msgInput.value = '';
+            container.scrollTop = container.scrollHeight;
         }
 
-        window.addEventListener('load', () => {
-            requestAnimationFrame(animateBike);
-            updateSteamStatus();
-        });
+        window.addEventListener('load', () => { requestAnimationFrame(animateBike); });
     </script>
 </body>
 </html>
