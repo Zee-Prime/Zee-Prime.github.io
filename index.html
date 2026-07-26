@@ -6,7 +6,7 @@
     <title>Zee - About Me</title>
     <style>
         /* Global Reset & Variables */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #00ffaa;
@@ -43,6 +43,14 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             position: relative;
             overflow-x: hidden;
+            cursor: default;
+        }
+
+        a, button, input, label, .art-item, .commission-badge, .channel-tab, .lightbox-close {
+            cursor: pointer;
+        }
+        input[type="text"], input[type="password"] {
+            cursor: text;
         }
 
         body.chat-active-mobile { overflow: hidden; }
@@ -79,13 +87,12 @@
         }
         @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Custom Crosshair Cursor */
+        /* Fixed Custom Cursor Element */
         .custom-cursor {
-            width: 30px; height: 30px; position: fixed; pointer-events: none; z-index: 9999;
-            transition: opacity 0.2s; opacity: 0;
+            width: 24px; height: 24px; position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 9999; display: none;
         }
-        .custom-cursor svg { stroke: var(--primary); }
-        body:hover .custom-cursor { opacity: 1; }
+        .custom-cursor svg { stroke: var(--primary); width: 100%; height: 100%; }
 
         /* Nav & Header */
         nav {
@@ -97,11 +104,11 @@
 
         nav .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary); text-decoration: none; }
         nav .nav-links { display: flex; gap: 1.2rem; list-style: none; align-items: center; }
-        nav a { color: var(--text-main); text-decoration: none; font-weight: 500; cursor: pointer; }
+        nav a { color: var(--text-main); text-decoration: none; font-weight: 500; }
         
         .nav-btn {
             background: transparent; border: 1px solid var(--primary);
-            color: var(--text-main); padding: 0.3rem 0.7rem; border-radius: 20px; cursor: pointer;
+            color: var(--text-main); padding: 0.3rem 0.7rem; border-radius: 20px;
             font-size: 0.85rem;
         }
 
@@ -117,7 +124,7 @@
             display: inline-flex; align-items: center; gap: 0.5rem;
             background: #0d1117; color: var(--primary); padding: 0.4rem 1rem;
             border-radius: 20px; font-weight: bold; font-size: 0.85rem;
-            border: 1px solid var(--primary); cursor: pointer; margin-bottom: 1rem;
+            border: 1px solid var(--primary); margin-bottom: 1rem;
             box-shadow: 0 0 15px rgba(0, 255, 170, 0.3); transition: transform 0.2s;
         }
         .commission-badge:hover { transform: scale(1.05); }
@@ -127,7 +134,7 @@
         .cta-button {
             margin-top: 1rem; padding: 0.8rem 2rem; background: #0d1117;
             color: var(--primary); border: 2px solid #0d1117; border-radius: 30px;
-            font-weight: bold; cursor: pointer;
+            font-weight: bold;
         }
 
         /* Container & Cards */
@@ -149,7 +156,7 @@
 
         /* Art Showcase Grid & Lightbox */
         .art-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
-        .art-item { background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+        .art-item { background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: transform 0.2s; }
         .art-item:hover { transform: translateY(-4px); }
         .art-img { width: 100%; height: 180px; object-fit: cover; }
         .art-info { padding: 1rem; }
@@ -160,9 +167,9 @@
             background: rgba(0, 0, 0, 0.9); z-index: 4000; align-items: center; justify-content: center; flex-direction: column;
         }
         .lightbox-modal img { max-width: 90%; max-height: 80vh; border-radius: 8px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(0, 255, 170, 0.3); }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; }
 
-        /* Interests & Steam Card */
+        /* Interests & Detailed Steam Card */
         .interests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
         .interest-card { background: var(--bg-main); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary); }
         
@@ -170,16 +177,28 @@
             background: linear-gradient(135deg, #171a21 0%, #1b2838 100%);
             border: 1px solid #2a475e; border-radius: 12px; padding: 1.5rem; color: #c6d4df;
             margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
-        .steam-info h4 { color: #ffffff; font-size: 1.2rem; margin-bottom: 0.3rem; }
-        .steam-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #66c0f4; }
-        .steam-dot { width: 8px; height: 8px; background: #66c0f4; border-radius: 50%; box-shadow: 0 0 8px #66c0f4; }
+        .steam-profile-left { display: flex; align-items: center; gap: 1rem; }
+        .steam-avatar-wrapper { position: relative; width: 64px; height: 64px; }
+        .steam-avatar { width: 100%; height: 100%; border-radius: 8px; border: 2px solid #66c0f4; object-fit: cover; }
+        .steam-avatar.ingame { border-color: #a3e035; }
+        .steam-avatar.offline { border-color: #8f98a0; }
+        
+        .steam-info h4 { color: #ffffff; font-size: 1.25rem; font-weight: bold; margin-bottom: 0.1rem; }
+        .steam-id-sub { font-size: 0.75rem; color: #8f98a0; margin-bottom: 0.3rem; font-family: monospace; }
+        .steam-status-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #66c0f4; }
+        .steam-status-badge.ingame { color: #a3e035; }
+        .steam-status-badge.offline { color: #8f98a0; }
+        .steam-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+        
+        .steam-game-details { margin-top: 0.3rem; font-size: 0.82rem; color: #acb2b8; }
         .steam-btn {
-            background: #2a475e; color: #ffffff; text-decoration: none; padding: 0.6rem 1.2rem;
+            background: #2a475e; color: #ffffff; text-decoration: none; padding: 0.65rem 1.2rem;
             border-radius: 6px; font-weight: bold; font-size: 0.85rem; border: 1px solid #66c0f4;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
-        .steam-btn:hover { background: #66c0f4; color: #171a21; }
+        .steam-btn:hover { background: #66c0f4; color: #171a21; box-shadow: 0 0 12px rgba(102, 192, 244, 0.5); }
 
         /* Full Screen Overlay for Mobile */
         .chat-backdrop-overlay {
@@ -192,7 +211,7 @@
             position: fixed; bottom: 20px; left: 20px;
             background: linear-gradient(135deg, #00ffaa, #7928ca);
             color: #121824; border: none; padding: 0.8rem 1.4rem; border-radius: 30px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 255, 170, 0.4);
+            font-weight: bold; box-shadow: 0 4px 20px rgba(0, 255, 170, 0.4);
             z-index: 2000;
         }
 
@@ -216,13 +235,13 @@
 
         .chat-top-row { display: flex; justify-content: space-between; align-items: center; }
         .nebula-chat-title { color: #00ffaa; font-weight: bold; font-size: 0.95rem; }
-        .admin-badge-btn { background: rgba(0, 255, 170, 0.15); border: 1px solid #00ffaa; color: #00ffaa; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; cursor: pointer; }
-        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 0 4px; }
+        .admin-badge-btn { background: rgba(0, 255, 170, 0.15); border: 1px solid #00ffaa; color: #00ffaa; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; }
+        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; padding: 0 4px; }
 
         .chat-channels-bar { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
         .channel-tab {
             flex: 1; padding: 0.35rem 0.5rem; text-align: center; font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.1); color: #ccc; border-radius: 6px; cursor: pointer;
+            background: rgba(255, 255, 255, 0.1); color: #ccc; border-radius: 6px;
             border: 1px solid transparent; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         }
         .channel-tab.active { background: rgba(0, 255, 170, 0.25); color: #00ffaa; border-color: #00ffaa; font-weight: bold; }
@@ -244,10 +263,10 @@
             color: #ffffff; padding: 0.5rem 0.8rem; border-radius: 8px; outline: none; font-size: 0.85rem;
         }
         .remember-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #a0aec0; }
-        .remember-row input[type="checkbox"] { accent-color: #00ffaa; cursor: pointer; }
+        .remember-row input[type="checkbox"] { accent-color: #00ffaa; }
 
         .action-buttons-row { display: flex; gap: 0.4rem; }
-        .action-buttons-row button { padding: 0.5rem; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 0.85rem; }
+        .action-buttons-row button { padding: 0.5rem; border-radius: 8px; font-weight: bold; border: none; font-size: 0.85rem; }
         .btn-send { flex: 2; background: #00ffaa; color: #05070f; }
         .btn-close-chat { flex: 1; background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2) !important; }
 
@@ -277,7 +296,7 @@
     <div class="celestial-bg" id="lightSun"><div class="sun-disk"></div></div>
     <div class="celestial-bg" id="darkBlackHole"><div class="black-hole-disk"></div></div>
 
-    <!-- Custom Cursor -->
+    <!-- Custom Fixed Crosshair Cursor -->
     <div class="custom-cursor" id="customCursor">
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='2'>
             <circle cx='12' cy='12' r='4'/><line x1='12' y1='2' x2='12' y2='6'/><line x1='12' y1='18' x2='12' y2='22'/><line x1='2' y1='12' x2='6' y2='12'/><line x1='18' y1='12' x2='22' y2='12'/>
@@ -347,16 +366,25 @@
                         <div class="interest-card"><h4>🎨 Digital Art</h4><p>Character illustrations.</p></div>
                     </div>
 
-                    <!-- Steam Integration Card -->
+                    <!-- Restored Steam Card with Name, ID64, and Live Status Simulation -->
                     <div class="steam-card">
-                        <div class="steam-info">
-                            <h4>Steam Profile</h4>
-                            <div class="steam-status">
-                                <div class="steam-dot"></div>
-                                <span>Currently Online / Ready to Game</span>
+                        <div class="steam-profile-left">
+                            <div class="steam-avatar-wrapper">
+                                <img src="GrimZee.jpeg" alt="GrimZee Steam Avatar" class="steam-avatar" id="steamAvatar">
+                            </div>
+                            <div class="steam-info">
+                                <h4>GrimZee</h4>
+                                <div class="steam-id-sub">ID64: 76561199408721855</div>
+                                <div class="steam-status-badge" id="steamStatusBadge">
+                                    <div class="steam-dot"></div>
+                                    <span id="steamStatusText">Online</span>
+                                </div>
+                                <div class="steam-game-details" id="steamGameDetails">
+                                    Currently in-game: <strong style="color:#ffffff;" id="steamCurrentGame">Warframe</strong>
+                                </div>
                             </div>
                         </div>
-                        <a href="https://steamcommunity.com" target="_blank" class="steam-btn">🎮 View Steam Profile</a>
+                        <a href="https://steamcommunity.com/profiles/76561199408721855" target="_blank" class="steam-btn">🎮 View Steam Profile</a>
                     </div>
                 </section>
             </main>
@@ -449,7 +477,6 @@
         let activeDMUser = "";
         const ADMIN_PASS = "GrimZee246";
 
-        // Remember Me LocalStorage Logic
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('zee_chat_username');
             if (savedName) {
@@ -507,7 +534,6 @@
             
             if (!nameInput.value.trim() || !msgInput.value.trim()) return;
 
-            // Handle Remember Me feature
             if (rememberCheckbox.checked) {
                 localStorage.setItem('zee_chat_username', nameInput.value.trim());
             } else {
@@ -582,7 +608,6 @@
         let bikeSpeed = 2;
         let sfxEnabled = true;
 
-        // Web Audio API Retro SFX Generator
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSynthSFX(freq, duration) {
             if (!sfxEnabled) return;
@@ -605,16 +630,18 @@
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX: ON" : "🔇 SFX: OFF";
         }
 
-        // --- Custom Cursor & Hyperspeed Animation Trails ---
+        // --- Perfectly Aligned Custom Cursor ---
         const cursor = document.getElementById('customCursor');
         document.addEventListener('mousemove', e => {
-            cursor.style.transform = `translate(${e.clientX - 15}px, ${e.clientY - 15}px)`;
+            cursor.style.display = 'block';
+            cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
 
-            // Hyperspeed trail effect
             if (bikeSpeed > 2 && e.clientX % 3 === 0) {
                 createTrailNode(e.clientX, e.clientY);
             }
         });
+
+        document.addEventListener('mouseleave', () => { cursor.style.display = 'none'; });
 
         function createTrailNode(x, y) {
             const node = document.createElement('div');
@@ -627,7 +654,35 @@
             setTimeout(() => { node.remove(); }, 500);
         }
 
-        // Animate Border Bike
+        // --- Live Dynamic Steam Status Simulation ---
+        const steamStates = [
+            { status: "In-Game", game: "Warframe", badgeClass: "ingame", avatarClass: "ingame", text: "Currently Playing" },
+            { status: "In-Game", game: "Cyberpunk 2077", badgeClass: "ingame", avatarClass: "ingame", text: "Currently Playing" },
+            { status: "Online", game: "", badgeClass: "", avatarClass: "", text: "Online / Looking to Play" },
+            { status: "Offline", game: "", badgeClass: "offline", avatarClass: "offline", text: "Last Online 2 hrs ago" }
+        ];
+
+        function updateSteamStatus() {
+            const state = steamStates[Math.floor(Math.random() * steamStates.length)];
+            const badge = document.getElementById('steamStatusBadge');
+            const statusText = document.getElementById('steamStatusText');
+            const gameDetails = document.getElementById('steamGameDetails');
+            const avatar = document.getElementById('steamAvatar');
+
+            badge.className = `steam-status-badge ${state.badgeClass}`;
+            avatar.className = `steam-avatar ${state.avatarClass}`;
+            statusText.innerText = state.status === "In-Game" ? "In-Game" : state.text;
+
+            if (state.status === "In-Game") {
+                gameDetails.style.display = "block";
+                gameDetails.innerHTML = `Playing: <strong style="color:#ffffff;">${state.game}</strong>`;
+            } else {
+                gameDetails.style.display = "none";
+            }
+        }
+
+        setInterval(updateSteamStatus, 15000);
+
         function animateBike() {
             const bike = document.getElementById('border-bike');
             const container = document.getElementById('bike-tracker-container');
@@ -659,7 +714,6 @@
             alert("🚀 HYPERSPEED ACTIVATED! Easter Egg Unlocked.");
         }
 
-        // Konami Code Easter Egg (Desktop)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
 
@@ -673,20 +727,17 @@
             } else { konamiIndex = 0; }
         });
 
-        // Triple Tap Easter Egg (Mobile)
         let lastTapTime = 0;
         let tapCount = 0;
-        const tapThreshold = 400; // ms between taps
 
         window.addEventListener('touchend', (e) => {
-            // Filter taps on inputs/buttons
             const isClickable = e.target.closest('button, a, input');
             if (isClickable || bikeSpeed > 2) return;
 
             const currentTime = new Date().getTime();
             const tapGap = currentTime - lastTapTime;
 
-            if (tapGap < tapThreshold) { tapCount++; } else { tapCount = 1; }
+            if (tapGap < 400) { tapCount++; } else { tapCount = 1; }
             lastTapTime = currentTime;
 
             if (tapCount === 3) {
@@ -695,7 +746,6 @@
             }
         }, false);
 
-        // Lightbox Functions
         function openLightbox(src, title) {
             playSynthSFX(700, 0.05);
             document.getElementById('lightboxImg').src = src;
@@ -713,7 +763,10 @@
             document.body.classList.toggle('dark-mode');
         }
 
-        window.addEventListener('load', () => requestAnimationFrame(animateBike));
+        window.addEventListener('load', () => {
+            requestAnimationFrame(animateBike);
+            updateSteamStatus();
+        });
     </script>
 </body>
 </html>
