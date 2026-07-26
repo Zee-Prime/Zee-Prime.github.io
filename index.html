@@ -3,69 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zee Prime - About Me</title>
+    <title>Zee - About Me</title>
     <style>
-            /* Ensure Light/Dark Mode toggle stays accessible on mobile */
-@media (max-width: 768px) {
-    /* Target your theme toggle button class or ID */
-    .theme-toggle, 
-    #theme-toggle, 
-    .theme-toggle-btn {
-        display: inline-flex !important;
+    /* 1. Base Variables & Theme Defaults */
+    :root {
+        --bg-color: #121824;
+        --card-bg: #1e2638;
+        --text-primary: #ffffff;
+        --text-secondary: #a0aec0;
+        --accent-color: #00ffaa;
+    }
+
+    /* Light Theme Class (Toggled by JS) */
+    body.light-theme {
+        --bg-color: #f4f6f9;
+        --card-bg: #ffffff;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --accent-color: #00aa70;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-secondary);
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Typography Colors */
+    h1, h2, h3 {
+        color: var(--accent-color);
+    }
+
+    p {
+        color: var(--text-secondary);
+    }
+
+    /* 2. Desktop Art Grid (4 Columns) */
+    .art-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .art-item {
+        background-color: var(--card-bg);
+        border: 1px solid var(--accent-color);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .art-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .art-placeholder {
+        height: 180px;
+        background-color: var(--accent-color);
+        display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        z-index: 999; /* Keeps button clickable above mobile menu layers */
-        margin-left: auto;
-        padding: 0.5rem 0.75rem;
+        font-size: 2rem;
+    }
+
+    .art-info {
+        padding: 1rem;
+    }
+
+    .art-info h4 {
+        color: var(--accent-color);
+        margin: 0 0 0.5rem 0;
+    }
+
+    /* 3. Theme Toggle Button Styling */
+    .theme-toggle-btn, 
+    #theme-toggle {
+        background: transparent;
+        border: 1px solid var(--accent-color);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* 4. Mobile Responsiveness ONLY (max-width: 768px) */
+    @media (max-width: 768px) {
         .art-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
-            margin-top: 1.5rem;
+            grid-template-columns: 1fr; /* Switch to 1 column on phone screens */
+            gap: 1.5rem;
         }
 
-        .art-item {
-            background-color: #232b38;
-            border: 1px solid #00ffaa;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .art-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-
+        .art-img, 
         .art-placeholder {
-            height: 180px;
-            background-color: #00ffaa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
+            height: 240px;
         }
 
-        .art-info {
-            padding: 1rem;
-            background-color: #232b38;
+        .theme-toggle-btn, 
+        #theme-toggle {
+            display: inline-flex !important;
+            z-index: 999;
+            margin-left: auto;
         }
-        @media (max-width: 768px) {
-            .art-grid {
-                grid-template-columns: 1fr; 
-                gap: 1.5rem;
-            }
-
-            .art-img, 
-            .art-placeholder {
-                height: 240px;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <style>
