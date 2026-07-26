@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zee Prime - About Me</title>
     <style>
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .art-item {
+            background-color: #232b38;
+            border: 1px solid #00ffaa;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .art-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .art-placeholder {
+            height: 180px;
+            background-color: #00ffaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .art-info {
+            padding: 1rem;
+            background-color: #232b38;
+        }
+    </style>
+</head>
+<body>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -662,39 +702,47 @@
 
             <!-- Art Section -->
             <section id="art">
-                <h2>My Art</h2>
-                <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
-                <div class="art-item"> 
-                    <div class="art-placeholder">🎨</div> 
-                    <div class="art-info"> 
-                    <h4>Artwork 1</h4> 
-                    <p>Coming soon! Upload your art here.</p> 
-                    </div>
-                </div>
-            </section>
-                    <div class="art-item">
-                        <div class="art-placeholder">🎨</div>
-                        <div class="art-info">
-                            <h4>Artwork 2</h4>
-                            <p>Coming soon! Upload your art here.</p>
-                        </div>
-                    </div>
-                    <div class="art-item">
-                        <div class="art-placeholder">🎨</div>
-                        <div class="art-info">
-                            <h4>Artwork 3</h4>
-                            <p>Coming soon! Upload your art here.</p>
-                        </div>
-                    </div>
-                    <div class="art-item">
-                        <div class="art-placeholder">🎨</div>
-                        <div class="art-info">
-                            <h4>Artwork 4</h4>
-                            <p>Coming soon! Upload your art here.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+             <h2>My Art</h2>
+             <p>Here are some of my digital art pieces. I'm always working on improving my skills and exploring different styles.</p>
+    
+             <div class="art-grid"> 
+             <!-- Artwork 1 -->
+             <div class="art-item"> 
+            <img src="path/to/GrimZee.png" alt="GrimZee OC" class="art-img">
+            <div class="art-info"> 
+                <h4>Artwork 1</h4> 
+                <p>This is GrimZee my OC.</p> 
+            </div>
+        </div>
+
+        <!-- Artwork 2 -->
+        <div class="art-item">
+            <div class="art-placeholder">🎨</div>
+            <div class="art-info">
+                <h4>Artwork 2</h4>
+                <p>Coming soon! Upload your art here.</p>
+            </div>
+        </div>
+
+        <!-- Artwork 3 -->
+        <div class="art-item">
+            <div class="art-placeholder">🎨</div>
+            <div class="art-info">
+                <h4>Artwork 3</h4>
+                <p>Coming soon! Upload your art here.</p>
+            </div>
+        </div>
+
+        <!-- Artwork 4 -->
+        <div class="art-item">
+            <div class="art-placeholder">🎨</div>
+            <div class="art-info">
+                <h4>Artwork 4</h4>
+                <p>Coming soon! Upload your art here.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
             <!-- Interests Section -->
             <section id="interests">
