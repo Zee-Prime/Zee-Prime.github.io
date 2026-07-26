@@ -41,6 +41,10 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        body.chat-active-mobile {
+            overflow: hidden; /* Prevents background scrolling on mobile */
+        }
+
         /* Nav & Header */
         nav {
             position: fixed; top: 0; width: 100%;
@@ -98,13 +102,22 @@
         .art-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
         .art-item { background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
         .art-img { width: 100%; height: 180px; object-fit: cover; }
-        .art-placeholder { height: 180px; background-color: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
         .art-info { padding: 1rem; }
 
         .interests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
         .interest-card { background: var(--bg-main); padding: 1.5rem; border-radius: 10px; border-left: 4px solid var(--primary); }
 
-        /* NEBULA MULTI-CHANNEL LIVE CHAT */
+        /* FULL SCREEN OVERLAY FOR MOBILE BACKGROUND LOCK */
+        .chat-backdrop-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+        }
+
+        /* FLOATING NEBULA CHAT WIDGET */
         .chat-toggle-btn {
             position: fixed; bottom: 20px; left: 20px;
             background: linear-gradient(135deg, #00ffaa, #7928ca);
@@ -115,7 +128,7 @@
 
         .nebula-chat-window {
             position: fixed; bottom: 80px; left: 20px;
-            width: 380px; height: 520px; border-radius: 16px;
+            width: 380px; height: 540px; border-radius: 16px;
             z-index: 2001; display: none; flex-direction: column; overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 170, 0.3);
             background: radial-gradient(circle at 20% 20%, rgba(121, 40, 202, 0.8), transparent 50%),
@@ -134,16 +147,16 @@
         .chat-top-row { display: flex; justify-content: space-between; align-items: center; }
         .nebula-chat-title { color: #00ffaa; font-weight: bold; font-size: 0.95rem; }
         .admin-badge-btn { background: rgba(0, 255, 170, 0.15); border: 1px solid #00ffaa; color: #00ffaa; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; cursor: pointer; }
-        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+        .close-chat-btn { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 0 4px; }
 
         /* Channel Tabs */
         .chat-channels-bar {
             display: flex; gap: 0.5rem; margin-top: 0.5rem;
         }
         .channel-tab {
-            flex: 1; padding: 0.3rem 0.5rem; text-align: center; font-size: 0.8rem;
+            flex: 1; padding: 0.35rem 0.5rem; text-align: center; font-size: 0.8rem;
             background: rgba(255, 255, 255, 0.1); color: #ccc; border-radius: 6px; cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid transparent; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         }
         .channel-tab.active {
             background: rgba(0, 255, 170, 0.25); color: #00ffaa; border-color: #00ffaa; font-weight: bold;
@@ -169,9 +182,17 @@
             background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff; padding: 0.5rem 0.8rem; border-radius: 8px; outline: none; font-size: 0.85rem;
         }
-        .nebula-chat-input-bar button {
-            background: #00ffaa; color: #05070f; border: none; padding: 0.5rem; border-radius: 8px; font-weight: bold; cursor: pointer;
+        .nebula-chat-input-bar input[readonly] {
+            opacity: 0.7; background: rgba(255, 255, 255, 0.05); cursor: not-allowed;
         }
+        .action-buttons-row {
+            display: flex; gap: 0.4rem;
+        }
+        .action-buttons-row button {
+            padding: 0.5.rem; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 0.85rem;
+        }
+        .btn-send { flex: 2; background: #00ffaa; color: #05070f; }
+        .btn-close-chat { flex: 1; background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2) !important; }
 
         /* Modal Overlay */
         .admin-modal-overlay {
@@ -184,11 +205,11 @@
         }
         .admin-modal-box input { width: 100%; padding: 0.6rem; margin: 1rem 0; background: #121824; border: 1px solid var(--border-color); color: white; border-radius: 6px; }
 
-        /* Mobile Layout */
+        /* Mobile Responsive Override */
         @media (max-width: 768px) {
             .nebula-chat-window {
                 position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-                border-radius: 0; border: none; z-index: 9999;
+                border-radius: 0; border: none; z-index: 2001;
             }
         }
 
@@ -196,6 +217,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Backdrop overlay to lock mobile page interaction while chat is active -->
+    <div class="chat-backdrop-overlay" id="chatOverlay" onclick="toggleChat()"></div>
 
     <nav>
         <a class="logo" href="#home">ZP</a>
@@ -300,7 +324,10 @@
                 <input type="text" id="chatUserName" placeholder="Your Name" style="width: 35%;" required>
                 <input type="text" id="chatUserMsg" placeholder="Type message..." style="width: 65%;" required>
             </div>
-            <button type="submit">Send Message 🚀</button>
+            <div class="action-buttons-row">
+                <button type="submit" class="btn-send">Send Message 🚀</button>
+                <button type="button" class="btn-close-chat" onclick="toggleChat()">✕ Close Chat</button>
+            </div>
         </form>
     </div>
 
@@ -325,8 +352,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // ⚠️ REPLACE THIS WITH YOUR FIREBASE CONFIG FROM STEP 1:
-        // YOUR FIREBASE CONFIG:
         const firebaseConfig = {
             apiKey: "AIzaSyBM8-MTyRRROhIq-OL8h2i_m5MhTmRFpIM",
             authDomain: "zee-nebula-chat.firebaseapp.com",
@@ -336,23 +361,40 @@
             messagingSenderId: "390213315982",
             appId: "1:390213315982:web:97e28d8758455c1d9748df"
         };
-        
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
         let currentChannel = 'public';
         let isAdmin = false;
+        let isNameLocked = false;
+        let activeDMUser = "";
         const ADMIN_PASS = "GrimZee246";
+
+        function updateTabLabels() {
+            const privateTab = document.getElementById('tabPrivate');
+            if (isAdmin) {
+                privateTab.innerText = activeDMUser ? `💬 DM with ${activeDMUser}` : "💬 User DMs";
+            } else {
+                privateTab.innerText = "🔒 DM with Zee";
+            }
+        }
 
         // Listen for Realtime Cloud Messages
         function listenToChannel(channel) {
             const container = document.getElementById('nebulaMessages');
-            container.innerHTML = `<div class="nebula-msg system">✨ Switched to ${channel === 'public' ? 'Public Lobby' : 'Private DM with Zee'}</div>`;
+            container.innerHTML = `<div class="nebula-msg system">✨ Switched to ${channel === 'public' ? 'Public Lobby' : (isAdmin && activeDMUser ? 'DM with ' + activeDMUser : 'Private Channel')}</div>`;
             
             const messagesRef = ref(db, `messages/${channel}`);
             onChildAdded(messagesRef, (snapshot) => {
                 const data = snapshot.val();
+
+                // Track latest user DM sender for Admin
+                if (isAdmin && channel === 'private' && !data.isAdmin && data.name) {
+                    activeDMUser = data.name;
+                    updateTabLabels();
+                }
+
                 const msgElement = document.createElement('div');
                 msgElement.className = `nebula-msg ${data.isAdmin ? 'admin' : 'user'}`;
                 msgElement.innerHTML = `<strong>${data.name}:</strong> ${data.text}`;
@@ -367,12 +409,18 @@
             const nameInput = document.getElementById('chatUserName');
             const msgInput = document.getElementById('chatUserMsg');
             
-            if (!nameInput.value || !msgInput.value) return;
+            if (!nameInput.value.trim() || !msgInput.value.trim()) return;
+
+            // Lock username so they cannot change name mid-chat
+            if (!isAdmin && !isNameLocked) {
+                isNameLocked = true;
+                nameInput.readOnly = true;
+            }
 
             const messagesRef = ref(db, `messages/${currentChannel}`);
             push(messagesRef, {
-                name: nameInput.value,
-                text: msgInput.value,
+                name: nameInput.value.trim(),
+                text: msgInput.value.trim(),
                 isAdmin: isAdmin,
                 timestamp: Date.now()
             });
@@ -393,9 +441,12 @@
                 isAdmin = true;
                 alert("👑 Admin Authorized! Welcome Zee.");
                 document.getElementById('chatTitle').innerHTML = '👑 Zee (Admin)';
+                
                 const nameField = document.getElementById('chatUserName');
                 nameField.value = 'Zee (Admin)';
                 nameField.readOnly = true;
+                
+                updateTabLabels();
                 closeAdminModal();
             } else {
                 alert("❌ Incorrect Password");
@@ -403,10 +454,20 @@
         };
 
         window.toggleChat = function() {
-            const window = document.getElementById('nebulaChat');
-            const show = window.style.display !== 'flex';
-            window.style.display = show ? 'flex' : 'none';
-            if (show) listenToChannel(currentChannel);
+            const chatWin = document.getElementById('nebulaChat');
+            const overlay = document.getElementById('chatOverlay');
+            const isOpening = chatWin.style.display !== 'flex';
+
+            chatWin.style.display = isOpening ? 'flex' : 'none';
+            overlay.style.display = isOpening ? 'block' : 'none';
+
+            // Lock background scrolling on mobile while open
+            if (isOpening) {
+                document.body.classList.add('chat-active-mobile');
+                listenToChannel(currentChannel);
+            } else {
+                document.body.classList.remove('chat-active-mobile');
+            }
         };
 
         window.openAdminModal = () => document.getElementById('adminModal').style.display = 'flex';
