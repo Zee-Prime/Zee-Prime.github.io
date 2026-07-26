@@ -824,7 +824,9 @@
             const newMsg = { sender: userName, text: messageText };
 
             if (isAdminUser) {
-                if (currentChannel !== 'public') {
+                if (currentChannel === 'public') {
+                    push(publicRef, newMsg);
+                } else {
                     const adminMsg = { sender: "Zee (Admin)", text: messageText, type: 'admin-reply' };
                     if (!userChatThreads[currentChannel]) userChatThreads[currentChannel] = [];
                     userChatThreads[currentChannel].push(adminMsg);
