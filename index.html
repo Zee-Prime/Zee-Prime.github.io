@@ -374,7 +374,7 @@
                                 <div class="steam-id-sub">ID64: 76561198988837410</div>
                                 <div class="steam-status-badge" id="steamStatusBadge">
                                     <div class="steam-dot"></div>
-                                    <span id="steamStatusText">Online</span>
+                                    <span id="steamStatusText">Loading Live Status...</span>
                                 </div>
                             </div>
                         </div>
@@ -477,28 +477,48 @@
     </footer>
 
     <!-- Core Interactive & Advanced Logic -->
-    <script>
-        function openAdminModal() {
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBM8-MTyRRROhIq-OL8h2i_m5MhTmRFpIM",
+            authDomain: "zee-nebula-chat.firebaseapp.com",
+            databaseURL: "https://zee-nebula-chat-default-rtdb.firebaseio.com",
+            projectId: "zee-nebula-chat",
+            storageBucket: "zee-nebula-chat.firebasestorage.app",
+            messagingSenderId: "390213315982",
+            appId: "1:390213315982:web:97e28d8758455c1d9748df"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Global functions exposed to window for inline handlers
+        window.openAdminModal = function() {
             playSynthSFX(650, 0.04);
             const modal = document.getElementById('adminModal');
             if (modal) {
                 modal.style.display = 'flex';
                 document.getElementById('adminUser').focus();
             }
-        }
+        };
 
-        function closeAdminModal() {
+        window.closeAdminModal = function() {
             const modal = document.getElementById('adminModal');
             if (modal) {
                 modal.style.display = 'none';
             }
-        }
+        };
 
-        function closeAdminModalOnOutside(e) {
+        window.closeAdminModalOnOutside = function(e) {
             if (e.target.id === 'adminModal') {
                 closeAdminModal();
             }
-        }
+        };
 
         let bikeSpeed = 2;
         let sfxEnabled = true;
@@ -518,23 +538,23 @@
             } catch (e) {}
         }
 
-        function toggleSFX() {
+        window.toggleSFX = function() {
             sfxEnabled = !sfxEnabled;
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
-        }
+        };
 
         // --- Command Palette Controller ---
-        function openCmdPalette() {
+        window.openCmdPalette = function() {
             playSynthSFX(700, 0.04);
             document.getElementById('cmdPalette').style.display = 'flex';
             document.getElementById('cmdInput').focus();
-        }
-        function closeCmdPalette() {
+        };
+        window.closeCmdPalette = function() {
             document.getElementById('cmdPalette').style.display = 'none';
-        }
-        function closeCmdPaletteOnOutside(e) {
+        };
+        window.closeCmdPaletteOnOutside = function(e) {
             if (e.target.id === 'cmdPalette') closeCmdPalette();
-        }
+        };
 
         window.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -547,7 +567,7 @@
             }
         });
 
-        function execCmd(action) {
+        window.execCmd = function(action) {
             closeCmdPalette();
             if (action === 'about') scrollToSection('about');
             if (action === 'interests') scrollToSection('interests');
@@ -555,14 +575,14 @@
             if (action === 'chat') toggleChat();
             if (action === 'admin') openAdminModal();
             if (action === 'hyperspeed') activateHyperspeed();
-        }
+        };
 
         // --- Pomodoro Timer Utility ---
         let pomoInterval = null;
         let pomoSeconds = 25 * 60;
         let pomoRunning = false;
 
-        function startPomodoro() {
+        window.startPomodoro = function() {
             playSynthSFX(600, 0.03);
             const btn = document.getElementById('pomoStartBtn');
             if (pomoRunning) {
@@ -585,9 +605,9 @@
                     }
                 }, 1000);
             }
-        }
+        };
 
-        function resetPomodoro() {
+        window.resetPomodoro = function() {
             clearInterval(pomoInterval);
             pomoRunning = false;
             pomoSeconds = 25 * 60;
@@ -595,7 +615,7 @@
             const btn = document.getElementById('pomoStartBtn');
             btn.innerText = "Start";
             btn.classList.remove('active-timer');
-        }
+        };
 
         function updatePomoDisplay() {
             const m = Math.floor(pomoSeconds / 60).toString().padStart(2, '0');
@@ -631,31 +651,67 @@
             playSynthSFX(1200, 0.4);
         }
 
+        // --- Live Steam Status Integration ---
+        async function fetchSteamStatus() {
+            const steamId = '76561198988837410';
+            const statusText = document.getElementById('steamStatusText');
+            const statusBadge = document.getElementById('steamStatusBadge');
+            if (!statusText || !statusBadge) return;
+
+            try {
+                const proxyUrl = `https://api.allorigins.win/get?url=` + 
+                    encodeURIComponent(`https://steamcommunity.com/profiles/${steamId}/?xml=1`);
+                const response = await fetch(proxyUrl);
+                const json = await response.json();
+                if (json && json.contents) {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(json.contents, "text/xml");
+                    const stateMessage = xmlDoc.getElementsByTagName("stateMessage")[0]?.textContent || "";
+                    const onlineState = xmlDoc.getElementsByTagName("onlineState")[0]?.textContent || "offline";
+
+                    if (onlineState === 'online') {
+                        statusText.innerText = "Online";
+                        statusBadge.style.color = '#66c0f4';
+                    } else if (onlineState === 'in-game') {
+                        statusText.innerText = stateMessage || "In-Game";
+                        statusBadge.style.color = '#00ffaa';
+                    } else {
+                        statusText.innerText = "Offline";
+                        statusBadge.style.color = '#8f98a0';
+                    }
+                } else {
+                    statusText.innerText = "Online";
+                }
+            } catch (e) {
+                statusText.innerText = "Online";
+            }
+        }
+
         // --- Basic UI Helpers ---
-        function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
-        function openLightbox(src, title) {
+        window.scrollToSection = function(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
+        window.openLightbox = function(src, title) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightboxModal').style.display = 'flex';
-        }
-        function closeLightbox() { document.getElementById('lightboxModal').style.display = 'none'; }
-        function toggleChat() { document.getElementById('nebulaChat').style.display = document.getElementById('nebulaChat').style.display === 'flex' ? 'none' : 'flex'; }
-        function inquireCommission() { toggleChat(); }
+        };
+        window.closeLightbox = function() { document.getElementById('lightboxModal').style.display = 'none'; };
+        window.toggleChat = function() { document.getElementById('nebulaChat').style.display = document.getElementById('nebulaChat').style.display === 'flex' ? 'none' : 'flex'; };
+        window.inquireCommission = function() { toggleChat(); };
 
-        // --- Chat & Admin Multi-User System ---
+        // --- Chat & Admin Multi-User System with Firebase ---
         let currentChannel = 'public';
         const userChatThreads = {};
         let publicMessages = [];
         let chatNameLocked = false;
         let isAdminUser = false;
 
-        function switchChannel(channelId, tabElement) {
+        window.switchChannel = function(channelId, tabElement) {
             currentChannel = channelId;
             document.querySelectorAll('.nebula-tab').forEach(t => t.classList.remove('active'));
             if (tabElement) {
                 tabElement.classList.add('active');
             }
             renderMessages();
-        }
+        };
 
         function renderMessages() {
             const container = document.getElementById('nebulaMessages');
@@ -678,6 +734,52 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // Firebase Realtime Database Listener for Public Lobby Messages
+        const publicRef = ref(db, 'chats/public');
+        onValue(publicRef, (snapshot) => {
+            const data = snapshot.val();
+            publicMessages = [];
+            if (data) {
+                Object.values(data).forEach(msg => {
+                    publicMessages.push(msg);
+                });
+            }
+            if (currentChannel === 'public') {
+                renderMessages();
+            }
+        });
+
+        // Firebase Realtime Database Listener for Admin Threads & User Private Threads
+        const threadsRef = ref(db, 'chats/threads');
+        onValue(threadsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                Object.keys(data).forEach(username => {
+                    if (!userChatThreads[username]) {
+                        userChatThreads[username] = [];
+                        if (isAdminUser) {
+                            addChatTab(username);
+                        }
+                    }
+                    userChatThreads[username] = Object.values(data[username]);
+                });
+                if (currentChannel !== 'public') {
+                    renderMessages();
+                }
+            }
+        });
+
+        function addChatTab(username) {
+            const tabsContainer = document.getElementById('nebulaChatTabs');
+            if (document.getElementById(`tab-${username}`)) return;
+            const btn = document.createElement('button');
+            btn.className = 'nebula-tab';
+            btn.id = `tab-${username}`;
+            btn.innerText = username;
+            btn.onclick = function() { switchChannel(username, this); };
+            tabsContainer.appendChild(btn);
+        }
+
         function setAdminChatSession() {
             isAdminUser = true;
             const nameInput = document.getElementById('chatUserName');
@@ -686,9 +788,14 @@
                 nameInput.disabled = true;
             }
             chatNameLocked = true;
+            
+            // Populate tabs for all existing user threads
+            Object.keys(userChatThreads).forEach(username => {
+                addChatTab(username);
+            });
         }
 
-        function sendNebulaMsg(e) {
+        window.sendNebulaMsg = function(e) {
             e.preventDefault();
             const msgInput = document.getElementById('chatUserMsg');
             const nameInput = document.getElementById('chatUserName');
@@ -718,34 +825,27 @@
 
             if (isAdminUser) {
                 if (currentChannel !== 'public') {
+                    const adminMsg = { sender: "Zee (Admin)", text: messageText, type: 'admin-reply' };
                     if (!userChatThreads[currentChannel]) userChatThreads[currentChannel] = [];
-                    userChatThreads[currentChannel].push({ sender: "Zee (Admin)", text: messageText, type: 'admin-reply' });
+                    userChatThreads[currentChannel].push(adminMsg);
+                    
+                    const threadRef = ref(db, `chats/threads/${currentChannel}`);
+                    push(threadRef, adminMsg);
                 }
             } else {
                 if (currentChannel === 'public') {
-                    publicMessages.push(newMsg);
+                    push(publicRef, newMsg);
+                } else {
+                    const threadRef = ref(db, `chats/threads/${userName}`);
+                    push(threadRef, newMsg);
                 }
-                
-                if (!userChatThreads[userName]) {
-                    userChatThreads[userName] = [];
-                    
-                    const tabsContainer = document.getElementById('nebulaChatTabs');
-                    if (tabsContainer) {
-                        const newTab = document.createElement('button');
-                        newTab.className = 'nebula-tab';
-                        newTab.innerText = `💬 ${userName}`;
-                        newTab.onclick = () => switchChannel(userName, newTab);
-                        tabsContainer.appendChild(newTab);
-                    }
-                }
-                userChatThreads[userName].push(newMsg);
             }
 
             msgInput.value = '';
             renderMessages();
-        }
+        };
 
-        function handleAdminLogin(e) {
+        window.handleAdminLogin = function(e) {
             e.preventDefault();
             const u = document.getElementById('adminUser').value;
             const p = document.getElementById('adminPass').value;
@@ -777,9 +877,12 @@
                     alert("Access Denied: Invalid credentials.");
                 }
             });
-        }
+        };
 
-        window.addEventListener('load', () => { requestAnimationFrame(animateBike); });
+        window.addEventListener('load', () => { 
+            requestAnimationFrame(animateBike); 
+            fetchSteamStatus();
+        });
     </script>
 </body>
 </html>
