@@ -478,5 +478,47 @@
         function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
         function toggleTheme() { document.body.classList.toggle('dark-mode'); }
     </script>
+    <script>
+    // Border Bike Animation Loop
+    function animateBike() {
+        const bike = document.getElementById('border-bike');
+        const container = document.getElementById('bike-tracker-container');
+        if (!bike || !container) return;
+
+        const rect = container.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+        const speed = 2; // Speed of the bike
+        
+        let distance = (parseFloat(bike.dataset.dist) || 0) + speed;
+        const totalPerimeter = 2 * (w + h);
+        distance %= totalPerimeter;
+        bike.dataset.dist = distance;
+
+        let x = 0, y = 0, rot = 0;
+
+        if (distance < w) {
+            // Top border: moving Right
+            x = distance; y = 0; rot = 0;
+        } else if (distance < w + h) {
+            // Right border: moving Down
+            x = w; y = distance - w; rot = 90;
+        } else if (distance < 2 * w + h) {
+            // Bottom border: moving Left
+            x = w - (distance - (w + h)); y = h; rot = 180;
+        } else {
+            // Left border: moving Up
+            x = 0; y = h - (distance - (2 * w + h)); rot = 270;
+        }
+
+        bike.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+        requestAnimationFrame(animateBike);
+    }
+
+    // Start bike animation when page loads
+    window.addEventListener('load', () => {
+        requestAnimationFrame(animateBike);
+    });
+</script>
 </body>
 </html>
