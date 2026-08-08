@@ -73,31 +73,33 @@
         @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* Light Mode Celestial Transformation (Porsche 911 Mode) */
-        body.light-mode .celestial-bg {
-            background: radial-gradient(circle, rgba(0, 143, 93, 0.08) 0%, transparent 70%);
-        }
-        body.light-mode .black-hole-disk {
-            background: transparent;
-            box-shadow: none;
-            animation: none;
-            width: 320px;
-            height: 160px;
-            border-radius: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" fill="%23008f5d"><path d="M480,160l-32-32-64-16-48-32-80-16-64,16-48,32-48,32-32,32v16h384v-16l-32-32ZM128,128c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Zm256,0c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Z"/></svg>');
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center;
-            opacity: 0.85;
-            filter: drop-shadow(0 15px 25px rgba(0, 143, 93, 0.2));
-            animation: porscheFloat 4s ease-in-out infinite alternate;
-        }
-        body.light-mode .black-hole-disk::after {
-            display: none;
-        }
-        @keyframes porscheFloat {
-            from { transform: translateY(0px) scale(1); }
-            to { transform: translateY(-10px) scale(1.02); }
-        }
+        /* --- Light Mode Celestial Transformation (Sun Mode) --- */
+          /* --- Light Mode Celestial Transformation (Sun Mode) --- */
+          /* --- Light Mode Celestial Transformation (Sun Mode) --- */
+body.light-mode .celestial-bg {
+    background: radial-gradient(circle, rgba(255, 165, 0, 0.1) 0%, transparent 70%);
+}
+body.light-mode .black-hole-disk {
+    background: radial-gradient(circle, #ffcc00 0%, #ff6600 100%);
+    box-shadow: 0 0 60px 20px rgba(255, 165, 0, 0.4);
+    animation: sunPulse 4s ease-in-out infinite alternate;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-image: none;
+}
+body.light-mode .black-hole-disk::after {
+    display: none;
+}
+@keyframes sunPulse {
+    from { transform: scale(1); box-shadow: 0 0 40px 15px rgba(255, 165, 0, 0.3); }
+    to { transform: scale(1.05); box-shadow: 0 0 80px 30px rgba(255, 165, 0, 0.6); }
+}
+
+/* --- Light Mode Perimeter Porsche Override --- */
+body.light-mode #border-bike svg {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" fill="%23008f5d"><path d="M480,160l-32-32-64-16-48-32-80-16-64,16-48,32-48,32-32,32v16h384v-16l-32-32ZM128,128c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Zm256,0c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Z"/></svg>');
+}
 
         /* --- Navigation Bar --- */
         nav {
@@ -425,7 +427,7 @@
             <li><button class="cmd-trigger-btn" onclick="openCmdPalette()">⌘ K</button></li>
             <li><button class="nav-btn" onclick="openAdminModal()">Admin</button></li>
             <li><button class="nav-btn" onclick="toggleSFX()" id="sfxToggleBtn">🔊 SFX</button></li>
-            <li><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn">🌌 Black Hole</button></li>
+            <li><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn">☀️ Sun / 🌌 BH</button></li>
         </ul>
     </nav>
 
@@ -654,23 +656,23 @@
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
         };
 
-        window.toggleTheme = function() {
-            playSynthSFX(800, 0.05);
-            const body = document.getElementById('pageBody');
-            body.style.opacity = '0.4';
-            
-            setTimeout(() => {
-                body.classList.toggle('light-mode');
-                const isLight = body.classList.contains('light-mode');
-                
-                const btn = document.getElementById('themeToggleBtn');
-                if (btn) {
-                    btn.innerText = isLight ? "🏎️ Porsche" : "🌌 Black Hole";
-                }
-                
-                body.style.opacity = '1';
-            }, 200);
-        };
+window.toggleTheme = function() {
+playSynthSFX(800, 0.05);
+const body = document.getElementById('pageBody');
+body.style.opacity = '0.4';
+
+setTimeout(() => {
+body.classList.toggle('light-mode');
+const isLight = body.classList.contains('light-mode');
+
+const btn = document.getElementById('themeToggleBtn');
+if (btn) {
+btn.innerText = isLight ? "🌌 Black Hole" : "☀️ Sun / BH";
+}
+
+body.style.opacity = '1';
+}, 200);
+}; 
 
         window.openCmdPalette = function() {
             playSynthSFX(700, 0.04);
