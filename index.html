@@ -72,19 +72,31 @@
         }
         @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Light Mode Celestial Transformation (Sun Mode) */
+        /* Light Mode Celestial Transformation (Porsche 911 Mode) */
+        body.light-mode .celestial-bg {
+            background: radial-gradient(circle, rgba(0, 143, 93, 0.08) 0%, transparent 70%);
+        }
         body.light-mode .black-hole-disk {
-            background: radial-gradient(circle, #ffcc00 0%, #ff6600 100%);
-            box-shadow: 0 0 60px 20px rgba(255, 165, 0, 0.4), 0 0 120px 50px rgba(255, 204, 0, 0.2);
-            animation: sunPulse 6s ease-in-out infinite alternate;
+            background: transparent;
+            box-shadow: none;
+            animation: none;
+            width: 320px;
+            height: 160px;
+            border-radius: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" fill="%23008f5d"><path d="M480,160l-32-32-64-16-48-32-80-16-64,16-48,32-48,32-32,32v16h384v-16l-32-32ZM128,128c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Zm256,0c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Z"/></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            opacity: 0.85;
+            filter: drop-shadow(0 15px 25px rgba(0, 143, 93, 0.2));
+            animation: porscheFloat 4s ease-in-out infinite alternate;
         }
         body.light-mode .black-hole-disk::after {
-            opacity: 0.3;
-            box-shadow: 0 0 60px 30px rgba(255, 140, 0, 0.4);
+            display: none;
         }
-        @keyframes sunPulse {
-            from { transform: scale(0.95) rotate(0deg); box-shadow: 0 0 50px 20px rgba(255, 165, 0, 0.3); }
-            to { transform: scale(1.05) rotate(360deg); box-shadow: 0 0 80px 30px rgba(255, 204, 0, 0.5); }
+        @keyframes porscheFloat {
+            from { transform: translateY(0px) scale(1); }
+            to { transform: translateY(-10px) scale(1.02); }
         }
 
         /* --- Navigation Bar --- */
@@ -668,7 +680,7 @@
                 
                 const btn = document.getElementById('themeToggleBtn');
                 if (btn) {
-                    btn.innerText = isLight ? "☀️ Sun" : "🌌 Black Hole";
+                    btn.innerText = isLight ? "🏎️ Porsche" : "🌌 Black Hole";
                 }
                 
                 body.style.opacity = '1';
