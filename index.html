@@ -344,78 +344,69 @@
         }
 
         footer { text-align: center; padding: 2.5rem; color: var(--text-sub); font-size: 0.85rem; font-family: var(--font-heading); letter-spacing: 1px; }
+        
         /* --- Mobile Chat & Nav Fixes --- */
-@media (max-width: 768px) {
-    /* Prevent body scrolling when the chat is open on mobile */
-    body.chat-open {
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        height: 100vh;
-    }
-
-    /* Lock the chat window completely in place on mobile */
-    .nebula-chat-window {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        border-radius: 0 !important;
-        border: none !important;
-        overscroll-behavior: none; /* Stops rubber-band scrolling past borders */
-        touch-action: pan-y;
-    }
-
-    /* Keep the chat message list scrolling internally without moving the viewport */
-    .nebula-chat-messages {
-        overscroll-behavior: contain;
-    }
-
-    /* Fix nav bar scrolling/bouncing jitter on mobile */
-    nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        overscroll-behavior: none;
-    }
-}
-/* --- Mobile Nav Horizontal Scrolling Fix --- */
-@media (max-width: 768px) {
-    nav {
-        padding: 0.8rem 1rem;
-        justify-content: flex-start;
-        gap: 1rem;
-        overflow: hidden;
-    }
-
-    nav .logo {
-        font-size: 1.8rem;
-        flex-shrink: 0;
-    }
-
-    nav .nav-links {
-        display: flex;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        flex-wrap: nowrap;
-        gap: 0.8rem;
-        padding-bottom: 4px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Hides scrollbar on Firefox */
-    }
-
-    nav .nav-links::-webkit-scrollbar {
-        display: none; /* Hides scrollbar on Chrome/Safari/Edge */
-    }
-
-    nav .nav-links li {
-        flex-shrink: 0;
-    }
-}
+        @media (max-width: 768px) {
+            body.chat-open {
+                overflow: hidden;
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+            }
+            .nebula-chat-window {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
+                border-radius: 0 !important;
+                border: none !important;
+                overscroll-behavior: none;
+                touch-action: pan-y;
+            }
+            .nebula-chat-messages {
+                overscroll-behavior: contain;
+            }
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                overscroll-behavior: none;
+            }
+        }
+        
+        /* --- Mobile Nav Horizontal Scrolling Fix --- */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.8rem 1rem;
+                justify-content: flex-start;
+                gap: 1rem;
+                overflow: hidden;
+            }
+            nav .logo {
+                font-size: 1.8rem;
+                flex-shrink: 0;
+            }
+            nav .nav-links {
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+                gap: 0.8rem;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            nav .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+            nav .nav-links li {
+                flex-shrink: 0;
+            }
+        }
     </style>
 </head>
 <body id="pageBody">
@@ -492,7 +483,7 @@
                     <div class="steam-card">
                         <div class="steam-profile-left">
                             <div class="steam-avatar-wrapper">
-                                <img src="GrimZee.jpeg" alt="GrimZee Steam Avatar" class="steam-avatar" id="steamAvatar">
+                                <img src="GrimZee.jpeg" alt="GrimZee Steam Avatar" class="steam-avatar" id="steamAvatar" onerror="this.style.display='none'">
                             </div>
                             <div class="steam-info">
                                 <h4>GrimZee</h4>
@@ -512,14 +503,14 @@
                     <p style="font-size: 0.88rem; color: var(--primary); margin-bottom: 0.5rem; font-family: var(--font-heading); letter-spacing: 1px;">💡 Click any artwork to open high-resolution view (Swipe left/right on mobile).</p>
                     <div class="art-grid">
                         <div class="art-item" onclick="openLightbox('GrimZee.jpeg', 'GrimZee OC')">
-                            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img">
+                            <img src="GrimZee.jpeg" alt="GrimZee OC" class="art-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'%23121620\'/><text x=\'50%\' y=\'50%\' fill=\'%2300ffaa\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\'>GrimZee OC</text></svg>'">
                             <div class="art-info">
                                 <h4>GrimZee OC</h4>
                                 <p>Character Concept</p>
                             </div>
                         </div>
                         <div class="art-item" onclick="openLightbox('hand.jpg', 'Hand Sketch')">
-                            <img src="hand.jpg" alt="Hand Sketch" class="art-img">
+                            <img src="hand.jpg" alt="Hand Sketch" class="art-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><rect width=\'100%\' height=\'100%\' fill=\'%23121620\'/><text x=\'50%\' y=\'50%\' fill=\'%2300ffaa\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\'>Hand Sketch</text></svg>'">
                             <div class="art-info">
                                 <h4>Hand Sketch</h4>
                                 <p>Anatomy Practice</p>
@@ -603,11 +594,9 @@
 
     <!-- Core Interactive & Advanced Logic -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBM8-MTyRRROhIq-OL8h2i_m5MhTmRFpIM",
             authDomain: "zee-nebula-chat.firebaseapp.com",
@@ -618,11 +607,9 @@
             appId: "1:390213315982:web:97e28d8758455c1d9748df"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Global functions exposed to window for inline handlers
         window.openAdminModal = function() {
             playSynthSFX(650, 0.04);
             const modal = document.getElementById('adminModal');
@@ -648,7 +635,6 @@
         let bikeSpeed = 2;
         let sfxEnabled = true;
 
-        // Web Audio API Synthesizer
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSynthSFX(freq, duration) {
             if (!sfxEnabled) return;
@@ -668,7 +654,6 @@
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
         };
 
-        // --- Theme Toggle Controller ---
         window.toggleTheme = function() {
             playSynthSFX(800, 0.05);
             const body = document.getElementById('pageBody');
@@ -687,7 +672,6 @@
             }, 200);
         };
 
-        // --- Command Palette Controller ---
         window.openCmdPalette = function() {
             playSynthSFX(700, 0.04);
             document.getElementById('cmdPalette').style.display = 'flex';
@@ -721,7 +705,6 @@
             if (action === 'hyperspeed') activateHyperspeed();
         };
 
-        // --- Pomodoro Timer Utility ---
         let pomoInterval = null;
         let pomoSeconds = 25 * 60;
         let pomoRunning = false;
@@ -767,7 +750,6 @@
             document.getElementById('pomodoroTimer').innerText = `${m}:${s}`;
         }
 
-        // --- Perimeter Bike Animation ---
         function animateBike() {
             const bike = document.getElementById('border-bike');
             const container = document.getElementById('bike-tracker-container');
@@ -795,7 +777,6 @@
             playSynthSFX(1200, 0.4);
         }
 
-        // --- Live Steam Status Integration ---
         async function fetchSteamStatus() {
             const steamId = '76561198988837410';
             const statusText = document.getElementById('steamStatusText');
@@ -831,29 +812,31 @@
             }
         }
 
-        // --- Basic UI Helpers ---
         window.scrollToSection = function(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
         window.openLightbox = function(src, title) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightboxModal').style.display = 'flex';
         };
         window.closeLightbox = function() { document.getElementById('lightboxModal').style.display = 'none'; };
-       window.toggleChat = function() {
-    const chatWindow = document.getElementById('nebulaChat');
-    const isOpen = chatWindow.style.display === 'flex';
-    
-    chatWindow.style.display = isOpen ? 'none' : 'flex';
-    
-    // Toggle body lock class for mobile view
-    if (!isOpen) {
-        document.body.classList.add('chat-open');
-    } else {
-        document.body.classList.remove('chat-open');
-    }
-};
+        
+        window.toggleChat = function() {
+            const chatWindow = document.getElementById('nebulaChat');
+            const isOpen = chatWindow.style.display === 'flex';
+            
+            chatWindow.style.display = isOpen ? 'none' : 'flex';
+            
+            if (!isOpen) {
+                document.body.classList.add('chat-open');
+                setTimeout(() => {
+                    const container = document.getElementById('nebulaMessages');
+                    container.scrollTop = container.scrollHeight;
+                }, 50);
+            } else {
+                document.body.classList.remove('chat-open');
+            }
+        };
         window.inquireCommission = function() { toggleChat(); };
 
-        // --- Chat & Admin Multi-User System with Firebase ---
         let currentChannel = 'public';
         const userChatThreads = {};
         let publicMessages = [];
@@ -890,7 +873,6 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // Firebase Realtime Database Listener for Public Lobby Messages
         const publicRef = ref(db, 'chats/public');
         onValue(publicRef, (snapshot) => {
             const data = snapshot.val();
@@ -905,7 +887,6 @@
             }
         });
 
-        // Firebase Realtime Database Listener for Admin Threads & User Private Threads
         const threadsRef = ref(db, 'chats/threads');
         onValue(threadsRef, (snapshot) => {
             const data = snapshot.val();
@@ -945,7 +926,6 @@
             }
             chatNameLocked = true;
             
-            // Populate tabs for all existing user threads
             Object.keys(userChatThreads).forEach(username => {
                 addChatTab(username);
             });
@@ -972,7 +952,12 @@
             const messageText = msgInput.value.trim();
             if (!messageText) return;
 
-            if (!chatNameLocked) {
+            // Save Name to LocalStorage (Remember Me Feature)
+            if (!isAdminUser) {
+                localStorage.setItem('nebula_chat_username', userName);
+            }
+
+            if (!chatNameLocked && !isAdminUser) {
                 nameInput.disabled = true;
                 chatNameLocked = true;
             }
@@ -1036,6 +1021,28 @@
                 }
             });
         };
+
+        // Initialize LocalStorage Name persistence and Mobile input auto-scroll listeners
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('nebula_chat_username');
+            const nameInput = document.getElementById('chatUserName');
+            if (savedName && nameInput) {
+                nameInput.value = savedName;
+                nameInput.disabled = true;
+                chatNameLocked = true;
+            }
+
+            // Mobile keyboard viewport scrolling fixes for chat inputs
+            const chatInputs = document.querySelectorAll('#chatUserName, #chatUserMsg');
+            chatInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    setTimeout(() => {
+                        const container = document.getElementById('nebulaMessages');
+                        if (container) container.scrollTop = container.scrollHeight;
+                    }, 300);
+                });
+            });
+        });
 
         window.addEventListener('load', () => { 
             requestAnimationFrame(animateBike); 
