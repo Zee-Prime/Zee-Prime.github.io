@@ -27,16 +27,17 @@
 
         /* --- Light Mode Overrides --- */
         body.light-mode {
-            --primary: #008f5d;
-            --secondary: #00663f;
-            --bg-main: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #111827;
-            --text-sub: #4b5563;
-            --nav-bg: rgba(240, 242, 245, 0.85);
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            --border-color: rgba(0, 143, 93, 0.2);
+            --primary: #006b4d;
+            --secondary: #004e39;
+            --bg-main: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-main: #1f2937;
+            --text-sub: #475569;
+            --nav-bg: rgba(248, 250, 252, 0.9);
+            --shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+            --border-color: rgba(0, 107, 77, 0.18);
             --hyperspeed-bike: #d60046;
+            --font-body: Georgia, serif;
         }
 
         body {
@@ -114,14 +115,15 @@
         .bike-wrapper::after {
             content: '';
             position: absolute;
-                    right: -18px;
-                    top: 50%;
-                    width: 28px;
-                    height: 14px;
-                    transform: translateY(-50%);
-                    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 180, 0.95), transparent 70%);
-                    filter: blur(8px);
-                    opacity: 0.9;
+            right: -24px;
+            top: 50%;
+            width: 48px;
+            height: 20px;
+            transform: translateY(-50%);
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 210, 0.98), transparent 65%);
+            box-shadow: 0 0 24px 10px rgba(255, 255, 180, 0.35);
+            filter: blur(8px);
+            opacity: 0.95;
             pointer-events: none;
         }
 
@@ -130,27 +132,31 @@
             z-index: 2;
             opacity: 0;
         }
-
+ 
         .porsche-wrapper::after {
             content: '';
             position: absolute;
             left: 50%;
-            bottom: -12%;
-            width: 120%;
-            height: 24%;
+            bottom: -10%;
+            width: 115%;
+            height: 28%;
             transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35), transparent 70%);
-            filter: blur(6px);
-            opacity: 0.7;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
+            filter: blur(10px);
+            opacity: 0.65;
             pointer-events: none;
         }
-
+ 
         .bike-svg,
         .porsche-svg {
             width: 100%;
             height: auto;
             display: block;
             background: transparent;
+        }
+ 
+        .porsche-svg {
+            filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.25));
         }
 
         body.light-mode .bike-wrapper {
