@@ -97,8 +97,16 @@ body.light-mode .black-hole-disk::after {
 }
 
 /* --- Light Mode Perimeter Porsche Override --- */
-body.light-mode #border-bike svg {
-    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" fill="%23008f5d"><path d="M480,160l-32-32-64-16-48-32-80-16-64,16-48,32-48,32-32,32v16h384v-16l-32-32ZM128,128c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Zm256,0c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Z"/></svg>');
+body.light-mode #border-bike svg path,
+body.light-mode #perimeter-bike svg path {
+    fill: #ff6600; /* Changes the Porsche color in light mode */
+}
+
+/* --- Light Mode Perimeter Porsche Override --- */
+body.light-mode #border-bike svg,
+body.light-mode #perimeter-bike svg {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 256" fill="%23cc0000"><path d="M480,160l-32-32-64-16-48-32-80-16-64,16-48,32-48,32-32,32v16h384v-16l-32-32ZM128,128c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Zm256,0c17.67,0,32-14.33,32-32s-14.33-32-32-32-32,14.33-32,32,14.33,32,32,32Z"/></svg>');
+    display: block !important;
 }
 
         /* --- Navigation Bar --- */
