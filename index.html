@@ -25,6 +25,20 @@
             --font-body: 'Inter', system-ui, sans-serif;
         }
 
+        /* --- Light Mode Overrides --- */
+        body.light-mode {
+            --primary: #008f5d;
+            --secondary: #00663f;
+            --bg-main: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #111827;
+            --text-sub: #4b5563;
+            --nav-bg: rgba(240, 242, 245, 0.85);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            --border-color: rgba(0, 143, 93, 0.2);
+            --hyperspeed-bike: #d60046;
+        }
+
         body {
             background-color: var(--bg-main);
             color: var(--text-sub);
@@ -33,6 +47,7 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            transition: background-color 0.6s ease, color 0.6s ease, opacity 0.3s ease;
         }
 
         a, button, input, .art-item, .commission-badge, .nebula-tab, .cmd-item { cursor: pointer; }
@@ -46,14 +61,31 @@
             width: 220px; height: 220px; border-radius: 50%; background: #000;
             box-shadow: 0 0 0 25px rgba(0, 255, 170, 0.05), 0 0 50px 50px rgba(0, 255, 170, 0.02);
             position: relative; animation: bhRotate 25s linear infinite;
+            transition: all 0.6s ease;
         }
         .black-hole-disk::after {
             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 360px; height: 10px; border-radius: 50%;
             background: linear-gradient(90deg, transparent, var(--hyperspeed-bike), transparent);
             box-shadow: 0 0 40px 15px rgba(0, 255, 170, 0.25);
+            transition: all 0.6s ease;
         }
         @keyframes bhRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Light Mode Celestial Transformation (Sun Mode) */
+        body.light-mode .black-hole-disk {
+            background: radial-gradient(circle, #ffcc00 0%, #ff6600 100%);
+            box-shadow: 0 0 60px 20px rgba(255, 165, 0, 0.4), 0 0 120px 50px rgba(255, 204, 0, 0.2);
+            animation: sunPulse 6s ease-in-out infinite alternate;
+        }
+        body.light-mode .black-hole-disk::after {
+            opacity: 0.3;
+            box-shadow: 0 0 60px 30px rgba(255, 140, 0, 0.4);
+        }
+        @keyframes sunPulse {
+            from { transform: scale(0.95) rotate(0deg); box-shadow: 0 0 50px 20px rgba(255, 165, 0, 0.3); }
+            to { transform: scale(1.05) rotate(360deg); box-shadow: 0 0 80px 30px rgba(255, 204, 0, 0.5); }
+        }
 
         /* --- Navigation Bar --- */
         nav {
@@ -88,13 +120,13 @@
 
         .commission-badge {
             display: inline-flex; align-items: center; gap: 0.6rem;
-            background: rgba(16, 20, 30, 0.9); color: var(--primary); padding: 0.5rem 1.2rem;
+            background: var(--card-bg); color: var(--primary); padding: 0.5rem 1.2rem;
             border-radius: 30px; font-weight: 600; font-size: 0.85rem; font-family: var(--font-heading);
             border: 1px solid var(--primary); margin-bottom: 1.5rem; letter-spacing: 1px;
             box-shadow: 0 0 20px rgba(0, 255, 170, 0.15); transition: transform 0.2s;
         }
         .commission-badge:hover { transform: scale(1.03); }
-        .pulse-dot { width: 8px; height: 8px; background: #00ffaa; border-radius: 50%; animation: pulse 1.5s infinite; }
+        .pulse-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.4); } }
 
         .cta-button {
@@ -114,7 +146,7 @@
             filter: drop-shadow(0 0 10px var(--primary)); transition: filter 0.3s;
         }
         .running-bike.hyperspeed {
-            filter: drop-shadow(0 0 25px #ff0055) drop-shadow(0 0 40px #00ffaa);
+            filter: drop-shadow(0 0 25px #ff0055) drop-shadow(0 0 40px var(--primary));
         }
 
         main { background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; backdrop-filter: blur(12px); border: 1px solid var(--border-color); }
@@ -127,6 +159,7 @@
         .productivity-card {
             background: rgba(12, 14, 18, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.8rem; text-align: center;
         }
+        body.light-mode .productivity-card { background: rgba(0, 0, 0, 0.03); }
         .productivity-card h4 { font-family: var(--font-heading); color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.1rem; letter-spacing: 1px; }
         .pomodoro-display { font-size: 2.8rem; font-weight: 900; color: var(--primary); font-family: monospace; margin: 0.5rem 0; text-shadow: 0 0 15px rgba(0,255,170,0.2); }
         .pomodoro-btns { display: flex; justify-content: center; gap: 0.6rem; margin-top: 1rem; }
@@ -143,11 +176,14 @@
             margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
+        body.light-mode .steam-card { background: linear-gradient(135deg, #e1eaf5 0%, #c5d7ed 100%); color: #171a21; border-color: #93b5d0; }
         .steam-profile-left { display: flex; align-items: center; gap: 1.2rem; }
         .steam-avatar-wrapper { position: relative; width: 68px; height: 68px; }
         .steam-avatar { width: 100%; height: 100%; border-radius: 10px; border: 2px solid #66c0f4; object-fit: cover; }
         .steam-info h4 { color: #ffffff; font-size: 1.25rem; font-weight: 700; font-family: var(--font-heading); letter-spacing: 1px; }
+        body.light-mode .steam-info h4 { color: #171a21; }
         .steam-id-sub { font-size: 0.78rem; color: #8f98a0; font-family: monospace; margin-bottom: 0.3rem; }
+        body.light-mode .steam-id-sub { color: #55677d; }
         .steam-status-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #66c0f4; }
         .steam-dot { width: 8px; height: 8px; background: currentColor; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
         .steam-btn {
@@ -171,6 +207,7 @@
             transition: transform 0.2s, border-color 0.2s; 
             flex: 0 0 260px;
         }
+        body.light-mode .art-item { background-color: rgba(0, 0, 0, 0.03); }
         .art-item:hover { transform: translateY(-5px); border-color: var(--primary); }
         .art-img { width: 100%; height: 190px; object-fit: cover; }
         .art-info { padding: 1.1rem; }
@@ -182,6 +219,7 @@
             height: 275px; border: 2px dashed var(--border-color); background: rgba(12, 14, 18, 0.4);
             text-align: center; color: var(--text-sub); font-family: var(--font-heading); letter-spacing: 1px;
         }
+        body.light-mode .art-item.coming-soon { background: rgba(0, 0, 0, 0.02); }
         .art-item.coming-soon span { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; }
 
         @media (max-width: 768px) {
@@ -219,15 +257,16 @@
         .admin-modal-box h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 1.2rem; letter-spacing: 1px; }
         .admin-input {
             width: 100%; padding: 0.8rem 1rem; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color);
-            color: #fff; border-radius: 8px; margin-bottom: 1rem; font-size: 0.95rem; outline: none; font-family: var(--font-body);
+            color: var(--text-main); border-radius: 8px; margin-bottom: 1rem; font-size: 0.95rem; outline: none; font-family: var(--font-body);
         }
+        body.light-mode .admin-input { background: rgba(255,255,255,0.8); }
         .admin-input:focus { border-color: var(--primary); }
         .admin-submit-btn {
             width: 100%; padding: 0.8rem; background: var(--primary); color: #0c0e12; border: none;
             border-radius: 8px; font-weight: 800; font-family: var(--font-heading); letter-spacing: 1px; transition: background 0.2s;
         }
         .admin-submit-btn:hover { background: #fff; }
-        .admin-close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #fff; font-size: 1.2rem; }
+        .admin-close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-main); font-size: 1.2rem; }
 
         /* --- Command Palette Modal (Ctrl + K) --- */
         .cmd-palette-overlay {
@@ -249,6 +288,7 @@
         }
         .cmd-item:hover { background: rgba(0, 255, 170, 0.12); color: var(--primary); }
         .cmd-shortcut { font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 0.2rem 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); }
+        body.light-mode .cmd-shortcut { background: rgba(0,0,0,0.05); }
 
         /* --- Floating Chat Widget --- */
         .chat-toggle-btn {
@@ -292,6 +332,44 @@
         }
 
         footer { text-align: center; padding: 2.5rem; color: var(--text-sub); font-size: 0.85rem; font-family: var(--font-heading); letter-spacing: 1px; }
+        /* --- Mobile Chat & Nav Fixes --- */
+@media (max-width: 768px) {
+    /* Prevent body scrolling when the chat is open on mobile */
+    body.chat-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+    }
+
+    /* Lock the chat window completely in place on mobile */
+    .nebula-chat-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        overscroll-behavior: none; /* Stops rubber-band scrolling past borders */
+        touch-action: pan-y;
+    }
+
+    /* Keep the chat message list scrolling internally without moving the viewport */
+    .nebula-chat-messages {
+        overscroll-behavior: contain;
+    }
+
+    /* Fix nav bar scrolling/bouncing jitter on mobile */
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overscroll-behavior: none;
+    }
+}
     </style>
 </head>
 <body id="pageBody">
@@ -310,6 +388,7 @@
             <li><button class="cmd-trigger-btn" onclick="openCmdPalette()">⌘ K</button></li>
             <li><button class="nav-btn" onclick="openAdminModal()">Admin</button></li>
             <li><button class="nav-btn" onclick="toggleSFX()" id="sfxToggleBtn">🔊 SFX</button></li>
+            <li><button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn">🌌 Black Hole</button></li>
         </ul>
     </nav>
 
@@ -543,6 +622,25 @@
             document.getElementById('sfxToggleBtn').innerText = sfxEnabled ? "🔊 SFX" : "🔇 SFX";
         };
 
+        // --- Theme Toggle Controller ---
+        window.toggleTheme = function() {
+            playSynthSFX(800, 0.05);
+            const body = document.getElementById('pageBody');
+            body.style.opacity = '0.4';
+            
+            setTimeout(() => {
+                body.classList.toggle('light-mode');
+                const isLight = body.classList.contains('light-mode');
+                
+                const btn = document.getElementById('themeToggleBtn');
+                if (btn) {
+                    btn.innerText = isLight ? "☀️ Sun" : "🌌 Black Hole";
+                }
+                
+                body.style.opacity = '1';
+            }, 200);
+        };
+
         // --- Command Palette Controller ---
         window.openCmdPalette = function() {
             playSynthSFX(700, 0.04);
@@ -694,7 +792,19 @@
             document.getElementById('lightboxModal').style.display = 'flex';
         };
         window.closeLightbox = function() { document.getElementById('lightboxModal').style.display = 'none'; };
-        window.toggleChat = function() { document.getElementById('nebulaChat').style.display = document.getElementById('nebulaChat').style.display === 'flex' ? 'none' : 'flex'; };
+       window.toggleChat = function() {
+    const chatWindow = document.getElementById('nebulaChat');
+    const isOpen = chatWindow.style.display === 'flex';
+    
+    chatWindow.style.display = isOpen ? 'none' : 'flex';
+    
+    // Toggle body lock class for mobile view
+    if (!isOpen) {
+        document.body.classList.add('chat-open');
+    } else {
+        document.body.classList.remove('chat-open');
+    }
+};
         window.inquireCommission = function() { toggleChat(); };
 
         // --- Chat & Admin Multi-User System with Firebase ---
