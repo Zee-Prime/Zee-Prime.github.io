@@ -93,14 +93,43 @@
             to { transform: scale(1.05); box-shadow: 0 0 80px 30px rgba(255, 165, 0, 0.6); }
         }
 
-        /* --- Light Mode Perimeter Porsche Override --- */
-        .bike-svg { display: block; }
-        .porsche-svg { display: none; }
+        /* --- Bike / Porsche Perimeter Vehicle --- */
+        .bike-svg,
+        .porsche-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.45s ease, transform 0.45s ease;
+            will-change: opacity, transform;
+        }
 
-        body.light-mode .bike-svg { display: none !important; }
-        body.light-mode .porsche-svg { display: block !important; }
-        body.light-mode #border-bike .porsche-svg path {
-           fill: #ff6600;
+        .bike-svg {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        body.light-mode .bike-svg {
+            opacity: 0;
+        }
+
+        body.light-mode .porsche-svg {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        body.light-mode #border-bike .porsche-svg path,
+        body.light-mode #border-bike .porsche-svg rect,
+        body.light-mode #border-bike .porsche-svg circle {
+            fill: #ff6600;
+        }
+
+        #border-bike svg path,
+        #border-bike svg rect,
+        #border-bike svg circle {
+            transition: fill 0.45s ease;
         }
 
         /* --- Navigation Bar --- */
@@ -176,8 +205,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 46px;
-    height: 24px;
+    width: 56px;
+    height: 28px;
     pointer-events: none;
     transform-origin: center center;
 }
@@ -476,16 +505,25 @@ main {
         <div id="bike-tracker-container">
             <!-- Perimeter Running Bike Animation Element -->
             <div id="border-bike" class="running-bike">
-                <svg class="bike-svg" width="44" height="24" viewBox="0 0 50 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="34,13 50,2 50,24" fill="#00ffaa" opacity="0.3" />
-                    <rect x="33" y="10" width="9" height="6" rx="2" fill="#0c0e12" stroke="#00ffaa" stroke-width="1.2"/>
-                    <rect x="6" y="9.5" width="10" height="7" rx="2" fill="#0c0e12" stroke="#00ffaa" stroke-width="1.2"/>
-                    <path d="M12 9 C16 7, 26 6, 35 11 L36 13 L35 15 C26 20, 16 19, 12 17 Z" fill="#161b22" stroke="#2d3748"/>
+                <svg class="bike-svg" viewBox="0 0 56 28" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" stroke="#00ffaa" stroke-width="1.6">
+                        <path d="M8 20 C6 16 8 12 12 12 H44 C48 12 50 16 48 20" fill="#0c0e12" />
+                        <path d="M12 12 H44 L48 20 H8 Z" fill="#161b22" opacity="0.95" />
+                        <circle cx="14" cy="22" r="4" fill="#0c0e12" />
+                        <circle cx="42" cy="22" r="4" fill="#0c0e12" />
+                        <path d="M20 12 H36 M18 15 H38" stroke="#00ffaa" stroke-width="1" />
+                    </g>
                 </svg>
-                <svg class="porsche-svg" width="46" height="24" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M256 32C175.4 32 110 97.4 110 178c0 40 15.6 76.4 41 103.4L132 416c-3.5 22.4 14.3 41.6 36.9 41.6h174.1c22.6 0 40.4-19.2 36.9-41.6l-19-134.6c25.4-27 41-63.4 41-103.4 0-80.6-65.4-146-146-146zm0 40c58.5 0 106 47.5 106 106 0 29.8-12.1 56.8-31.8 76.3l-10.4 10.3 13.8 97.4H178.4l13.8-97.4-10.4-10.3C162.1 234.8 150 207.8 150 178c0-58.5 47.5-106 106-106zm-70 70c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm140 0c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20z"/>
-    </svg>
-</div>
+                <svg class="porsche-svg" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="#111111" stroke="#0c0e12" stroke-width="1.5">
+                        <path d="M10 22 C10 18 14 12 20 12 H40 C46 12 50 18 50 22 C50 26 46 28 40 28 H20 C14 28 10 26 10 22 Z" fill="#0c0e12" />
+                        <path d="M21 12 H39 C42 12 44 14 44 16 V20 C44 22 42 24 39 24 H21 C18 24 16 22 16 20 V16 C16 14 18 12 21 12 Z" fill="#0c0e12" />
+                        <circle cx="18" cy="24" r="3.2" fill="#111111" />
+                        <circle cx="42" cy="24" r="3.2" fill="#111111" />
+                        <path d="M26 12 L30 7 L34 7 L38 12" fill="#111111" />
+                    </g>
+                </svg>
+            </div>
             </div>
 
             <main>
