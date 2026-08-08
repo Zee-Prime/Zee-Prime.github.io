@@ -37,7 +37,11 @@
             --shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
             --border-color: rgba(0, 107, 77, 0.18);
             --hyperspeed-bike: #d60046;
-            --font-body: Georgia, serif;
+            /* typography overrides for light mode */
+            --font-body: 'Georgia', serif;
+            --font-heading: 'Georgia', serif;
+            --font-gothic: 'Georgia', serif;
+            --text-link: #064e3b;
         }
 
         body {
@@ -113,51 +117,59 @@
                 }
 
         .bike-wrapper::after {
-            content: '';
-            position: absolute;
-            right: -24px;
-            top: 50%;
-            width: 48px;
-            height: 20px;
-            transform: translateY(-50%);
-            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 210, 0.98), transparent 65%);
-            box-shadow: 0 0 24px 10px rgba(255, 255, 180, 0.35);
-            filter: blur(8px);
-            opacity: 0.95;
-            pointer-events: none;
-        }
+                    /* forward-facing headlight cone — positioned ahead of the bike so it lights the path */
+                    content: '';
+                    position: absolute;
+                    left: 100%; /* placed immediately ahead of the bike image */
+                    top: 50%;
+                    width: 120px;
+                    height: 48px;
+                    transform: translate(12px, -50%);
+                    background: radial-gradient(ellipse at 12% 50%, rgba(255, 255, 220, 0.98) 0%, rgba(255, 255, 200, 0.6) 30%, rgba(255,255,200,0.18) 45%, transparent 70%);
+                    box-shadow: 0 0 40px 18px rgba(255, 255, 200, 0.28);
+                    filter: blur(10px);
+                    opacity: 0.95;
+                    pointer-events: none;
+                    z-index: 9999;
+                    mix-blend-mode: screen;
+                }
 
         .porsche-wrapper {
                     width: 70%;
             z-index: 2;
             opacity: 0;
-        }
+                    overflow: hidden; /* visually crop the image to the wrapper bounds */
+                }
  
-        .porsche-wrapper::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: -10%;
-            width: 115%;
-            height: 28%;
-            transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
-            filter: blur(10px);
-            opacity: 0.65;
-            pointer-events: none;
-        }
+                .porsche-wrapper::after {
+                    content: '';
+                    position: absolute;
+                    left: 50%;
+                    bottom: -10%;
+                    width: 115%;
+                    height: 28%;
+                    transform: translateX(-50%);
+                    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
+                    filter: blur(10px);
+                    opacity: 0.65;
+                    pointer-events: none;
+                }
  
-        .bike-svg,
-        .porsche-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-            background: transparent;
-        }
+                .bike-svg,
+                .porsche-svg {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    background: transparent;
+                    transform-origin: center center;
+                }
  
-        .porsche-svg {
-            filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.25));
-        }
+                .porsche-svg {
+                    /* visually crop + scale the PNG to show the car only if the source image has padding */
+                    object-fit: none;
+                    transform: translate(-8%, -6%) scale(1.4);
+                    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
+                }
 
         body.light-mode .bike-wrapper {
             opacity: 0;
