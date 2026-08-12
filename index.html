@@ -413,7 +413,7 @@ main {
         }
         .admin-modal-box {
             background: var(--card-bg); border: 1px solid var(--primary); border-radius: 16px;
-            width: 90%; max-width: 400px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            width: 90%; max-width: 480px; padding: 2.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             position: relative; text-align: center;
         }
         .admin-modal-box h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 1.2rem; letter-spacing: 1px; }
@@ -429,6 +429,38 @@ main {
         }
         .admin-submit-btn:hover { background: #fff; }
         .admin-close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-main); font-size: 1.2rem; }
+
+        .admin-customizer {
+            display: none;
+            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .admin-customizer.visible { display: block; }
+        .admin-customizer h4 {
+            color: var(--primary); font-family: var(--font-heading); letter-spacing: 1px; margin-bottom: 1rem;
+        }
+        .admin-custom-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.9rem;
+        }
+        .admin-field {
+            display: flex; flex-direction: column; gap: 0.35rem;
+            color: var(--text-main); font-size: 0.8rem; font-family: var(--font-heading); letter-spacing: 0.04em;
+        }
+        .admin-field input[type="color"] {
+            width: 100%; height: 42px; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; padding: 0.2rem;
+        }
+        .admin-field input[type="text"] {
+            width: 100%; padding: 0.65rem 0.75rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px;
+        }
+        .admin-custom-actions {
+            display: flex; gap: 0.75rem; margin-top: 1rem;
+        }
+        .admin-custom-btn {
+            flex: 1; padding: 0.7rem 0.9rem; border-radius: 8px; border: 1px solid var(--border-color); background: transparent; color: var(--text-main); font-family: var(--font-heading); font-weight: 700; cursor: pointer;
+        }
+        .admin-custom-btn.primary {
+            background: var(--primary); color: #0c0e12; border-color: var(--primary);
+        }
 
         /* --- Command Palette Modal (Ctrl + K) --- */
         .cmd-palette-overlay {
@@ -701,6 +733,56 @@ main {
                 <input type="password" id="adminPass" class="admin-input" placeholder="Password" required>
                 <button type="submit" class="admin-submit-btn">Authenticate</button>
             </form>
+
+            <div class="admin-customizer" id="adminCustomizer">
+                <h4>Global Interface Customizer</h4>
+                <div class="admin-custom-grid">
+                    <label class="admin-field">
+                        <span>Primary Accent</span>
+                        <input type="color" id="customPrimaryColor" value="#00ffaa">
+                    </label>
+                    <label class="admin-field">
+                        <span>Secondary Accent</span>
+                        <input type="color" id="customSecondaryColor" value="#00aa70">
+                    </label>
+                    <label class="admin-field">
+                        <span>Dark BG</span>
+                        <input type="color" id="customDarkBg" value="#0c0e12">
+                    </label>
+                    <label class="admin-field">
+                        <span>Light BG</span>
+                        <input type="color" id="customLightBg" value="#f8fafc">
+                    </label>
+                    <label class="admin-field">
+                        <span>Dark Text</span>
+                        <input type="color" id="customDarkText" value="#f3f4f6">
+                    </label>
+                    <label class="admin-field">
+                        <span>Light Text</span>
+                        <input type="color" id="customLightText" value="#1f2937">
+                    </label>
+                    <label class="admin-field">
+                        <span>Dark Subtext</span>
+                        <input type="color" id="customDarkSub" value="#9ca3af">
+                    </label>
+                    <label class="admin-field">
+                        <span>Light Subtext</span>
+                        <input type="color" id="customLightSub" value="#475569">
+                    </label>
+                    <label class="admin-field" style="grid-column: 1 / -1;">
+                        <span>Heading Font</span>
+                        <input type="text" id="customHeadingFont" value="Cinzel">
+                    </label>
+                    <label class="admin-field" style="grid-column: 1 / -1;">
+                        <span>Body Font</span>
+                        <input type="text" id="customBodyFont" value="Inter">
+                    </label>
+                </div>
+                <div class="admin-custom-actions">
+                    <button type="button" class="admin-custom-btn primary" id="saveSiteSettingsBtn">Save Site</button>
+                    <button type="button" class="admin-custom-btn" id="resetSiteSettingsBtn">Reset</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -798,6 +880,7 @@ main {
             if (modal) {
                 modal.style.display = 'none';
             }
+            showAdminCustomizer(false);
         };
 
         window.closeAdminModalOnOutside = function(e) {
@@ -805,6 +888,115 @@ main {
                 closeAdminModal();
             }
         };
+
+        const defaultSiteSettings = {
+            primaryColor: '#00ffaa',
+            secondaryColor: '#00aa70',
+            darkBgColor: '#0c0e12',
+            lightBgColor: '#f8fafc',
+            darkTextColor: '#f3f4f6',
+            lightTextColor: '#1f2937',
+            darkSubTextColor: '#9ca3af',
+            lightSubTextColor: '#475569',
+            headingFont: 'Cinzel',
+            bodyFont: 'Inter'
+        };
+
+        let currentSiteSettings = { ...defaultSiteSettings };
+
+        function applySiteSettings(settings) {
+            const merged = { ...defaultSiteSettings, ...(settings || {}) };
+            currentSiteSettings = merged;
+
+            const body = document.getElementById('pageBody');
+            const isLight = body && body.classList.contains('light-mode');
+            const cssFont = (value) => {
+                const v = String(value || '').trim();
+                return /\s/.test(v) ? `"${v}"` : v;
+            };
+
+            const setVar = (name, value) => {
+                if (body) body.style.setProperty(name, value);
+            };
+
+            setVar('--primary', merged.primaryColor);
+            setVar('--secondary', merged.secondaryColor);
+            setVar('--bg-main', isLight ? merged.lightBgColor : merged.darkBgColor);
+            setVar('--text-main', isLight ? merged.lightTextColor : merged.darkTextColor);
+            setVar('--text-sub', isLight ? merged.lightSubTextColor : merged.darkSubTextColor);
+            setVar('--font-heading', cssFont(merged.headingFont));
+            setVar('--font-body', cssFont(merged.bodyFont));
+            setVar('--font-gothic', cssFont(merged.headingFont));
+        }
+
+        function populateAdminCustomizer() {
+            const fields = {
+                customPrimaryColor: currentSiteSettings.primaryColor,
+                customSecondaryColor: currentSiteSettings.secondaryColor,
+                customDarkBg: currentSiteSettings.darkBgColor,
+                customLightBg: currentSiteSettings.lightBgColor,
+                customDarkText: currentSiteSettings.darkTextColor,
+                customLightText: currentSiteSettings.lightTextColor,
+                customDarkSub: currentSiteSettings.darkSubTextColor,
+                customLightSub: currentSiteSettings.lightSubTextColor,
+                customHeadingFont: currentSiteSettings.headingFont,
+                customBodyFont: currentSiteSettings.bodyFont
+            };
+
+            Object.entries(fields).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.value = value;
+            });
+        }
+
+        function readAdminCustomizerValues() {
+            const getValue = (id) => document.getElementById(id)?.value || '';
+            return {
+                primaryColor: getValue('customPrimaryColor'),
+                secondaryColor: getValue('customSecondaryColor'),
+                darkBgColor: getValue('customDarkBg'),
+                lightBgColor: getValue('customLightBg'),
+                darkTextColor: getValue('customDarkText'),
+                lightTextColor: getValue('customLightText'),
+                darkSubTextColor: getValue('customDarkSub'),
+                lightSubTextColor: getValue('customLightSub'),
+                headingFont: getValue('customHeadingFont') || 'Cinzel',
+                bodyFont: getValue('customBodyFont') || 'Inter'
+            };
+        }
+
+        function showAdminCustomizer(show) {
+            const panel = document.getElementById('adminCustomizer');
+            if (panel) {
+                panel.classList.toggle('visible', !!show);
+            }
+        }
+
+        function saveSiteSettings() {
+            if (!isAdminUser) {
+                return;
+            }
+
+            const nextSettings = readAdminCustomizerValues();
+            currentSiteSettings = { ...defaultSiteSettings, ...nextSettings };
+            set(ref(db, 'siteSettings'), currentSiteSettings)
+                .then(() => {
+                    applySiteSettings(currentSiteSettings);
+                    alert('Site customizations saved for the admin view.');
+                })
+                .catch(() => {
+                    alert('Unable to save site settings right now.');
+                });
+        }
+
+        function resetSiteSettings() {
+            if (!isAdminUser) {
+                return;
+            }
+            currentSiteSettings = { ...defaultSiteSettings };
+            populateAdminCustomizer();
+            set(ref(db, 'siteSettings'), currentSiteSettings).then(() => applySiteSettings(currentSiteSettings));
+        }
 
         let bikeSpeed = 2;
         let sfxEnabled = true;
@@ -842,6 +1034,7 @@ main {
                     btn.innerText = isLight ? "🌌 Black Hole" : "☀️ Sun / BH";
                 }
 
+                applySiteSettings(currentSiteSettings);
                 body.style.opacity = '1';
             }, 200);
         }; 
@@ -1184,9 +1377,9 @@ main {
             e.preventDefault();
             const u = document.getElementById('adminUser').value;
             const p = document.getElementById('adminPass').value;
-            
+             
             const targetPasswordHash = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
-            
+             
             const msgBuffer = new TextEncoder().encode(p);
             crypto.subtle.digest('SHA-256', msgBuffer).then(hashBuffer => {
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -1194,13 +1387,14 @@ main {
 
                 if (u === 'Zee' && userInputHash === targetPasswordHash) {
                     playSynthSFX(900, 0.1);
+                    isAdminUser = true;
+                    showAdminCustomizer(true);
+                    populateAdminCustomizer();
                     alert("Admin authentication successful. Welcome back, Zee.");
-                    closeAdminModal();
-                    
                     setAdminChatSession();
                     document.getElementById('nebulaChat').style.display = 'flex';
                     switchChannel('public', document.querySelector('.nebula-tab'));
-                    
+                     
                     const container = document.getElementById('nebulaMessages');
                     const div = document.createElement('div');
                     div.className = 'nebula-msg system';
@@ -1213,6 +1407,17 @@ main {
                 }
             });
         };
+
+        const siteSettingsRef = ref(db, 'siteSettings');
+        onValue(siteSettingsRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            currentSiteSettings = { ...defaultSiteSettings, ...data };
+            populateAdminCustomizer();
+            applySiteSettings(currentSiteSettings);
+        });
+
+        document.getElementById('saveSiteSettingsBtn')?.addEventListener('click', saveSiteSettings);
+        document.getElementById('resetSiteSettingsBtn')?.addEventListener('click', resetSiteSettings);
 
         // Initialize LocalStorage Name persistence and Mobile input auto-scroll listeners
         window.addEventListener('DOMContentLoaded', () => {
@@ -1234,11 +1439,14 @@ main {
                     }, 300);
                 });
             });
+
+            showAdminCustomizer(false);
         });
 
         window.addEventListener('load', () => { 
             requestAnimationFrame(animateBike); 
             fetchSteamStatus();
+            applySiteSettings(currentSiteSettings);
         });
     </script>
 </body>
