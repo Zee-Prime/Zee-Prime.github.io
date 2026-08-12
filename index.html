@@ -66,7 +66,9 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -10; pointer-events: none; opacity: 1; display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            background: #000;
+            background-color: #000;
+            background-image: var(--theme-bg-image, none);
+            background-size: cover; background-position: center; background-repeat: no-repeat;
         }
         .celestial-video {
             position: absolute; inset: 0;
@@ -449,8 +451,12 @@ main {
         .admin-field input[type="color"] {
             width: 100%; height: 42px; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; padding: 0.2rem;
         }
-        .admin-field input[type="text"] {
+        .admin-field input[type="text"],
+        .admin-field input[type="file"] {
             width: 100%; padding: 0.65rem 0.75rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px;
+        }
+        .admin-field input[type="file"] {
+            padding: 0.5rem;
         }
         .admin-custom-actions {
             display: flex; gap: 0.75rem; margin-top: 1rem;
@@ -460,6 +466,12 @@ main {
         }
         .admin-custom-btn.primary {
             background: var(--primary); color: #0c0e12; border-color: var(--primary);
+        }
+        .admin-mode-section {
+            margin-bottom: 1.4rem; padding: 0.8rem 0.9rem; border: 1px solid var(--border-color); border-radius: 10px; background: rgba(255,255,255,0.02);
+        }
+        .admin-mode-section h5 {
+            margin-bottom: 0.8rem; color: var(--primary); font-family: var(--font-heading); letter-spacing: 1px; font-size: 0.95rem;
         }
 
         /* --- Command Palette Modal (Ctrl + K) --- */
@@ -736,48 +748,35 @@ main {
 
             <div class="admin-customizer" id="adminCustomizer">
                 <h4>Global Interface Customizer</h4>
-                <div class="admin-custom-grid">
-                    <label class="admin-field">
-                        <span>Primary Accent</span>
-                        <input type="color" id="customPrimaryColor" value="#00ffaa">
-                    </label>
-                    <label class="admin-field">
-                        <span>Secondary Accent</span>
-                        <input type="color" id="customSecondaryColor" value="#00aa70">
-                    </label>
-                    <label class="admin-field">
-                        <span>Dark BG</span>
-                        <input type="color" id="customDarkBg" value="#0c0e12">
-                    </label>
-                    <label class="admin-field">
-                        <span>Light BG</span>
-                        <input type="color" id="customLightBg" value="#f8fafc">
-                    </label>
-                    <label class="admin-field">
-                        <span>Dark Text</span>
-                        <input type="color" id="customDarkText" value="#f3f4f6">
-                    </label>
-                    <label class="admin-field">
-                        <span>Light Text</span>
-                        <input type="color" id="customLightText" value="#1f2937">
-                    </label>
-                    <label class="admin-field">
-                        <span>Dark Subtext</span>
-                        <input type="color" id="customDarkSub" value="#9ca3af">
-                    </label>
-                    <label class="admin-field">
-                        <span>Light Subtext</span>
-                        <input type="color" id="customLightSub" value="#475569">
-                    </label>
-                    <label class="admin-field" style="grid-column: 1 / -1;">
-                        <span>Heading Font</span>
-                        <input type="text" id="customHeadingFont" value="Cinzel">
-                    </label>
-                    <label class="admin-field" style="grid-column: 1 / -1;">
-                        <span>Body Font</span>
-                        <input type="text" id="customBodyFont" value="Inter">
-                    </label>
+
+                <div class="admin-mode-section">
+                    <h5>Dark Mode</h5>
+                    <div class="admin-custom-grid">
+                        <label class="admin-field"><span>Primary Accent</span><input type="color" id="darkPrimaryColor" value="#00ffaa"></label>
+                        <label class="admin-field"><span>Secondary Accent</span><input type="color" id="darkSecondaryColor" value="#00aa70"></label>
+                        <label class="admin-field"><span>Background</span><input type="color" id="darkBgColor" value="#0c0e12"></label>
+                        <label class="admin-field"><span>Text</span><input type="color" id="darkTextColor" value="#f3f4f6"></label>
+                        <label class="admin-field"><span>Subtext</span><input type="color" id="darkSubTextColor" value="#9ca3af"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Heading Font</span><input type="text" id="darkHeadingFont" value="Cinzel"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Body Font</span><input type="text" id="darkBodyFont" value="Inter"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Background Image</span><input type="file" id="darkBackgroundUpload" accept="image/*"></label>
+                    </div>
                 </div>
+
+                <div class="admin-mode-section">
+                    <h5>Light Mode</h5>
+                    <div class="admin-custom-grid">
+                        <label class="admin-field"><span>Primary Accent</span><input type="color" id="lightPrimaryColor" value="#006b4d"></label>
+                        <label class="admin-field"><span>Secondary Accent</span><input type="color" id="lightSecondaryColor" value="#004e39"></label>
+                        <label class="admin-field"><span>Background</span><input type="color" id="lightBgColor" value="#f8fafc"></label>
+                        <label class="admin-field"><span>Text</span><input type="color" id="lightTextColor" value="#1f2937"></label>
+                        <label class="admin-field"><span>Subtext</span><input type="color" id="lightSubTextColor" value="#475569"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Heading Font</span><input type="text" id="lightHeadingFont" value="Georgia"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Body Font</span><input type="text" id="lightBodyFont" value="Georgia"></label>
+                        <label class="admin-field" style="grid-column: 1 / -1;"><span>Background Image</span><input type="file" id="lightBackgroundUpload" accept="image/*"></label>
+                    </div>
+                </div>
+
                 <div class="admin-custom-actions">
                     <button type="button" class="admin-custom-btn primary" id="saveSiteSettingsBtn">Save Site</button>
                     <button type="button" class="admin-custom-btn" id="resetSiteSettingsBtn">Reset</button>
@@ -890,26 +889,70 @@ main {
         };
 
         const defaultSiteSettings = {
-            primaryColor: '#00ffaa',
-            secondaryColor: '#00aa70',
-            darkBgColor: '#0c0e12',
-            lightBgColor: '#f8fafc',
-            darkTextColor: '#f3f4f6',
-            lightTextColor: '#1f2937',
-            darkSubTextColor: '#9ca3af',
-            lightSubTextColor: '#475569',
-            headingFont: 'Cinzel',
-            bodyFont: 'Inter'
+            darkMode: {
+                primaryColor: '#00ffaa',
+                secondaryColor: '#00aa70',
+                bgColor: '#0c0e12',
+                textColor: '#f3f4f6',
+                subTextColor: '#9ca3af',
+                headingFont: 'Cinzel',
+                bodyFont: 'Inter',
+                backgroundImageUrl: ''
+            },
+            lightMode: {
+                primaryColor: '#006b4d',
+                secondaryColor: '#004e39',
+                bgColor: '#f8fafc',
+                textColor: '#1f2937',
+                subTextColor: '#475569',
+                headingFont: 'Georgia',
+                bodyFont: 'Georgia',
+                backgroundImageUrl: ''
+            }
         };
 
-        let currentSiteSettings = { ...defaultSiteSettings };
+        let currentSiteSettings = JSON.parse(JSON.stringify(defaultSiteSettings));
+
+        function getMergedSiteSettings(settings) {
+            return {
+                darkMode: { ...defaultSiteSettings.darkMode, ...(settings && settings.darkMode ? settings.darkMode : {}) },
+                lightMode: { ...defaultSiteSettings.lightMode, ...(settings && settings.lightMode ? settings.lightMode : {}) }
+            };
+        }
+
+        function applyBackgroundImage() {
+            const body = document.getElementById('pageBody');
+            const isLight = body && body.classList.contains('light-mode');
+            const activeMode = isLight ? 'lightMode' : 'darkMode';
+            const customImage = currentSiteSettings[activeMode]?.backgroundImageUrl || '';
+            const bgLayer = document.querySelector('.celestial-bg');
+            const darkVideo = document.querySelector('.celestial-video.dark');
+            const lightVideo = document.querySelector('.celestial-video.light');
+
+            if (bgLayer) {
+                bgLayer.style.backgroundImage = customImage ? `url("${customImage}")` : 'none';
+                bgLayer.style.backgroundSize = 'cover';
+                bgLayer.style.backgroundPosition = 'center';
+                bgLayer.style.backgroundRepeat = 'no-repeat';
+            }
+
+            if (customImage) {
+                if (darkVideo) darkVideo.style.opacity = '0';
+                if (lightVideo) lightVideo.style.opacity = '0';
+                return;
+            }
+
+            if (darkVideo) darkVideo.style.opacity = isLight ? '0' : '1';
+            if (lightVideo) lightVideo.style.opacity = isLight ? '1' : '0';
+        }
 
         function applySiteSettings(settings) {
-            const merged = { ...defaultSiteSettings, ...(settings || {}) };
+            const merged = getMergedSiteSettings(settings || currentSiteSettings);
             currentSiteSettings = merged;
 
             const body = document.getElementById('pageBody');
             const isLight = body && body.classList.contains('light-mode');
+            const active = isLight ? merged.lightMode : merged.darkMode;
             const cssFont = (value) => {
                 const v = String(value || '').trim();
                 return /\s/.test(v) ? `"${v}"` : v;
@@ -919,28 +962,36 @@ main {
                 if (body) body.style.setProperty(name, value);
             };
 
-            setVar('--primary', merged.primaryColor);
-            setVar('--secondary', merged.secondaryColor);
-            setVar('--bg-main', isLight ? merged.lightBgColor : merged.darkBgColor);
-            setVar('--text-main', isLight ? merged.lightTextColor : merged.darkTextColor);
-            setVar('--text-sub', isLight ? merged.lightSubTextColor : merged.darkSubTextColor);
-            setVar('--font-heading', cssFont(merged.headingFont));
-            setVar('--font-body', cssFont(merged.bodyFont));
-            setVar('--font-gothic', cssFont(merged.headingFont));
+            setVar('--primary', active.primaryColor);
+            setVar('--secondary', active.secondaryColor);
+            setVar('--bg-main', active.bgColor);
+            setVar('--text-main', active.textColor);
+            setVar('--text-sub', active.subTextColor);
+            setVar('--font-heading', cssFont(active.headingFont));
+            setVar('--font-body', cssFont(active.bodyFont));
+            setVar('--font-gothic', cssFont(active.headingFont));
+
+            applyBackgroundImage();
         }
 
         function populateAdminCustomizer() {
+            const dark = currentSiteSettings.darkMode || defaultSiteSettings.darkMode;
+            const light = currentSiteSettings.lightMode || defaultSiteSettings.lightMode;
             const fields = {
-                customPrimaryColor: currentSiteSettings.primaryColor,
-                customSecondaryColor: currentSiteSettings.secondaryColor,
-                customDarkBg: currentSiteSettings.darkBgColor,
-                customLightBg: currentSiteSettings.lightBgColor,
-                customDarkText: currentSiteSettings.darkTextColor,
-                customLightText: currentSiteSettings.lightTextColor,
-                customDarkSub: currentSiteSettings.darkSubTextColor,
-                customLightSub: currentSiteSettings.lightSubTextColor,
-                customHeadingFont: currentSiteSettings.headingFont,
-                customBodyFont: currentSiteSettings.bodyFont
+                darkPrimaryColor: dark.primaryColor,
+                darkSecondaryColor: dark.secondaryColor,
+                darkBgColor: dark.bgColor,
+                darkTextColor: dark.textColor,
+                darkSubTextColor: dark.subTextColor,
+                darkHeadingFont: dark.headingFont,
+                darkBodyFont: dark.bodyFont,
+                lightPrimaryColor: light.primaryColor,
+                lightSecondaryColor: light.secondaryColor,
+                lightBgColor: light.bgColor,
+                lightTextColor: light.textColor,
+                lightSubTextColor: light.subTextColor,
+                lightHeadingFont: light.headingFont,
+                lightBodyFont: light.bodyFont
             };
 
             Object.entries(fields).forEach(([id, value]) => {
@@ -952,16 +1003,26 @@ main {
         function readAdminCustomizerValues() {
             const getValue = (id) => document.getElementById(id)?.value || '';
             return {
-                primaryColor: getValue('customPrimaryColor'),
-                secondaryColor: getValue('customSecondaryColor'),
-                darkBgColor: getValue('customDarkBg'),
-                lightBgColor: getValue('customLightBg'),
-                darkTextColor: getValue('customDarkText'),
-                lightTextColor: getValue('customLightText'),
-                darkSubTextColor: getValue('customDarkSub'),
-                lightSubTextColor: getValue('customLightSub'),
-                headingFont: getValue('customHeadingFont') || 'Cinzel',
-                bodyFont: getValue('customBodyFont') || 'Inter'
+                darkMode: {
+                    primaryColor: getValue('darkPrimaryColor'),
+                    secondaryColor: getValue('darkSecondaryColor'),
+                    bgColor: getValue('darkBgColor'),
+                    textColor: getValue('darkTextColor'),
+                    subTextColor: getValue('darkSubTextColor'),
+                    headingFont: getValue('darkHeadingFont') || 'Cinzel',
+                    bodyFont: getValue('darkBodyFont') || 'Inter',
+                    backgroundImageUrl: currentSiteSettings.darkMode?.backgroundImageUrl || ''
+                },
+                lightMode: {
+                    primaryColor: getValue('lightPrimaryColor'),
+                    secondaryColor: getValue('lightSecondaryColor'),
+                    bgColor: getValue('lightBgColor'),
+                    textColor: getValue('lightTextColor'),
+                    subTextColor: getValue('lightSubTextColor'),
+                    headingFont: getValue('lightHeadingFont') || 'Georgia',
+                    bodyFont: getValue('lightBodyFont') || 'Georgia',
+                    backgroundImageUrl: currentSiteSettings.lightMode?.backgroundImageUrl || ''
+                }
             };
         }
 
@@ -972,13 +1033,34 @@ main {
             }
         }
 
+        function uploadBackgroundImage(modeKey, file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const modeSettings = currentSiteSettings[modeKey] || {};
+                const merged = {
+                    ...currentSiteSettings,
+                    [modeKey]: {
+                        ...modeSettings,
+                        backgroundImageUrl: reader.result
+                    }
+                };
+                currentSiteSettings = getMergedSiteSettings(merged);
+                applySiteSettings(currentSiteSettings);
+                if (isAdminUser) {
+                    set(ref(db, 'siteSettings'), currentSiteSettings).catch(() => {});
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
         function saveSiteSettings() {
             if (!isAdminUser) {
                 return;
             }
 
             const nextSettings = readAdminCustomizerValues();
-            currentSiteSettings = { ...defaultSiteSettings, ...nextSettings };
+            currentSiteSettings = getMergedSiteSettings(nextSettings);
             set(ref(db, 'siteSettings'), currentSiteSettings)
                 .then(() => {
                     applySiteSettings(currentSiteSettings);
@@ -993,7 +1075,7 @@ main {
             if (!isAdminUser) {
                 return;
             }
-            currentSiteSettings = { ...defaultSiteSettings };
+            currentSiteSettings = JSON.parse(JSON.stringify(defaultSiteSettings));
             populateAdminCustomizer();
             set(ref(db, 'siteSettings'), currentSiteSettings).then(() => applySiteSettings(currentSiteSettings));
         }
@@ -1411,13 +1493,21 @@ main {
         const siteSettingsRef = ref(db, 'siteSettings');
         onValue(siteSettingsRef, (snapshot) => {
             const data = snapshot.val() || {};
-            currentSiteSettings = { ...defaultSiteSettings, ...data };
+            currentSiteSettings = getMergedSiteSettings(data);
             populateAdminCustomizer();
             applySiteSettings(currentSiteSettings);
         });
 
         document.getElementById('saveSiteSettingsBtn')?.addEventListener('click', saveSiteSettings);
         document.getElementById('resetSiteSettingsBtn')?.addEventListener('click', resetSiteSettings);
+        document.getElementById('darkBackgroundUpload')?.addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            uploadBackgroundImage('darkMode', file);
+        });
+        document.getElementById('lightBackgroundUpload')?.addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            uploadBackgroundImage('lightMode', file);
+        });
 
         // Initialize LocalStorage Name persistence and Mobile input auto-scroll listeners
         window.addEventListener('DOMContentLoaded', () => {
